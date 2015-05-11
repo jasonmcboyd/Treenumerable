@@ -23,7 +23,7 @@
         public T Value { get; private set; }
 
         /// <summary>
-        /// Gets a value indicating whether or not the node has a value.
+        /// Gets a <see cref="System.Boolean"/> indicating whether or not the node has a value.
         /// </summary>
         public bool HasValue { get; private set; }
     }

@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.Linq;
 
 namespace Treenumerable
@@ -17,9 +18,15 @@ namespace Treenumerable
         /// <returns></returns>
         public static IEnumerable<T> PostOrderTraversal<T>(this ITreeWalker<T> walker, T node, bool includeNode)
         {
+            // Validate parameters.
+            if (walker == null)
+            {
+                throw new ArgumentNullException("walker");
+            }
+
             if (node == null)
             {
-                yield break;
+                throw new ArgumentNullException("node");
             }
 
             foreach (T descendant in walker.GetChildren(node).SelectMany(x => walker.PostOrderTraversal(x, true)))

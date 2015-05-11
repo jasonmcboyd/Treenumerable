@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.Linq;
 
 namespace Treenumerable
@@ -17,11 +18,18 @@ namespace Treenumerable
         /// <returns></returns>
         public static IEnumerable<T> LevelOrderTraversal<T>(this ITreeWalker<T> walker, T node, bool includeNode)
         {
-            if (node == null)
+            // Validate parameters.
+            if (walker == null)
             {
-                yield break;
+                throw new ArgumentNullException("walker");
             }
 
+            if (node == null)
+            {
+                throw new ArgumentNullException("node");
+            }
+
+            // If 'includeNode' is true then yield the root node.
             if (includeNode)
             {
                 yield return node;
@@ -34,7 +42,7 @@ namespace Treenumerable
                 foreach (T currentNode in currentLevel)
                 {
                     yield return currentNode;
-                    nextLevel.Concat(walker.GetChildren(currentNode));
+                    nextLevel = nextLevel.Concat(walker.GetChildren(currentNode));
                 }
 
                 currentLevel = nextLevel;
