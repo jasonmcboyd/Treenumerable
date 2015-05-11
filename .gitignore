@@ -1,0 +1,39 @@
+# Windows Thumbnails
+[Tt][Hh][Uu][Mm][Bb][Ss].[Dd][Bb]
+
+# Microsoft Office Temporary Files
+~$*
+~*.tmp
+
+# Visual Studio Build Folders
+[Bb][Ii][Nn]/
+[Oo][Bb][Jj]/
+
+# Visual Studio Test Results
+[Tt][Ee][Ss][Tt][Rr][Ee][Ss][Uu][Ll][Tt][Ss]/
+
+# Visual Studio User Configuration Files
+*.[Ss][Uu][Oo]
+*.[Uu][Ss][Ee][Rr]
+
+# Debugging Symbols
+*.[Pp][Dd][Bb]
+
+# Publish directory
+/[Pp][Uu][Bb][Ll][Ii][Ss][Hh]
+
+# Config files
+[Ww][Ee][Bb].[Cc][Oo][Nn][Ff][Ii][Gg]
+[Aa][Pp][Pp].[Cc][Oo][Nn][Ff][Ii][Gg]
+
+# Logs, Caches, Backups, etc....
+*.[Bb][Aa][Kk]
+*.[Cc][Aa][Cc][Hh][Ee]
+*.[Ll][Oo][Gg]
+
+# Nuget Packages
+**/[Pp][Aa][Cc][Kk][Aa][Gg][Ee][Ss]/*
+![Rr][Ee][Pp][Oo][Ss][Ii][Tt][Oo][Rr][Ii][Ee][Ss].[Cc][Oo][Nn][Ff][Ii][Gg]
+
+# StyleCop
+[Ss][Tt][Yy][Ll][Ee][Cc][Oo][Pp].[Cc][Aa][Cc][Hh][Ee]
