@@ -831,6 +831,149 @@ namespace Treenumerable.Tests
 
         #endregion
 
+        #region PostOrderTraversal
+
+        [Fact]
+        public void PostOrderTraversal_NullWalker_ArgumentNullExceptionThrown()
+        {
+            // Get a valid tree.
+            var tree = this.GetTree();
+
+            // Create a null ITreeWalker.
+            NodeWalker<int> walker = null;
+
+            // Assert that 'PostOrderTraversal' throws an 'ArgumentNullException' when the tree 
+            // walker is null.
+            Assert.Throws<ArgumentNullException>(
+                "walker",
+                () => walker.PostOrderTraversal(tree).ToArray());
+            Assert.Throws<ArgumentNullException>(
+                "walker",
+                () => walker.PostOrderTraversal(tree, true).ToArray());
+            Assert.Throws<ArgumentNullException>(
+                "walker",
+                () => walker.PostOrderTraversal(tree, false).ToArray());
+        }
+
+        [Fact]
+        public void PostOrderTraversal_NullNode_ArgumentNullExceptionThrown()
+        {
+            // Create a valid ITreeWalker.
+            NodeWalker<int> walker = new NodeWalker<int>();
+
+            // Assert that 'PostOrderTraversal' throws an 'ArgumentNullException' when the node is null.
+            Assert.Throws<ArgumentNullException>(
+                "node",
+                () => walker.PostOrderTraversal(null).ToArray());
+            Assert.Throws<ArgumentNullException>(
+                "node",
+                () => walker.PostOrderTraversal(null, true).ToArray());
+            Assert.Throws<ArgumentNullException>(
+                "node",
+                () => walker.PostOrderTraversal(null, false).ToArray());
+        }
+
+        [Fact]
+        public void PostOrderTraversal()
+        {
+            // Get a valid tree.
+            var tree = this.GetTree();
+
+            // Get a valid ITreeWalker.
+            NodeWalker<int> walker = new NodeWalker<int>();
+
+            // Create arrays of the results expected from each node.
+            int[] node0ExpectedResult = new int[] { 2, 3, 1, 6, 5, 4, 0 };
+            int[] node1ExpectedResult = new int[] { 2, 3, 1 };
+            int[] node2ExpectedResult = new int[] { 2 };
+            int[] node3ExpectedResult = new int[] { 3 };
+            int[] node4ExpectedResult = new int[] { 6, 5, 4 };
+            int[] node5ExpectedResult = new int[] { 6, 5 };
+            int[] node6ExpectedResult = new int[] { 6 };
+
+            // For each node in the tree assert that 'PostOrderTraversal' returns the correct 
+            // elements.
+
+            // Node 0:
+            Assert.Equal(
+                node0ExpectedResult,
+                walker.PostOrderTraversal(tree, true).Select(x => x.Value));
+            Assert.Equal(
+                node0ExpectedResult.SkipLast(1),
+                walker.PostOrderTraversal(tree, false).Select(x => x.Value));
+            Assert.Equal(
+                node0ExpectedResult.SkipLast(1),
+                walker.PostOrderTraversal(tree).Select(x => x.Value));
+
+            // Node 1:
+            Assert.Equal(
+                node1ExpectedResult,
+                walker.PostOrderTraversal(tree[0], true).Select(x => x.Value));
+            Assert.Equal(
+                node1ExpectedResult.SkipLast(1),
+                walker.PostOrderTraversal(tree[0], false).Select(x => x.Value));
+            Assert.Equal(
+                node1ExpectedResult.SkipLast(1),
+                walker.PostOrderTraversal(tree[0]).Select(x => x.Value));
+
+            // Node 2:
+            Assert.Equal(
+                node2ExpectedResult,
+                walker.PostOrderTraversal(tree[0][0], true).Select(x => x.Value));
+            Assert.Equal(
+                node2ExpectedResult.SkipLast(1),
+                walker.PostOrderTraversal(tree[0][0], false).Select(x => x.Value));
+            Assert.Equal(
+                node2ExpectedResult.SkipLast(1),
+                walker.PostOrderTraversal(tree[0][0]).Select(x => x.Value));
+
+            // Node 3:
+            Assert.Equal(
+                node3ExpectedResult,
+                walker.PostOrderTraversal(tree[0][1], true).Select(x => x.Value));
+            Assert.Equal(
+                node3ExpectedResult.SkipLast(1),
+                walker.PostOrderTraversal(tree[0][1], false).Select(x => x.Value));
+            Assert.Equal(
+                node3ExpectedResult.SkipLast(1),
+                walker.PostOrderTraversal(tree[0][1]).Select(x => x.Value));
+
+            // Node 4:
+            Assert.Equal(
+                node4ExpectedResult,
+                walker.PostOrderTraversal(tree[1], true).Select(x => x.Value));
+            Assert.Equal(
+                node4ExpectedResult.SkipLast(1),
+                walker.PostOrderTraversal(tree[1], false).Select(x => x.Value));
+            Assert.Equal(
+                node4ExpectedResult.SkipLast(1),
+                walker.PostOrderTraversal(tree[1]).Select(x => x.Value));
+
+            // Node 5:
+            Assert.Equal(
+                node5ExpectedResult,
+                walker.PostOrderTraversal(tree[1][0], true).Select(x => x.Value));
+            Assert.Equal(
+                node5ExpectedResult.SkipLast(1),
+                walker.PostOrderTraversal(tree[1][0], false).Select(x => x.Value));
+            Assert.Equal(
+                node5ExpectedResult.SkipLast(1),
+                walker.PostOrderTraversal(tree[1][0]).Select(x => x.Value));
+
+            // Node 6:
+            Assert.Equal(
+                node6ExpectedResult,
+                walker.PostOrderTraversal(tree[1][0][0], true).Select(x => x.Value));
+            Assert.Equal(
+                node6ExpectedResult.SkipLast(1),
+                walker.PostOrderTraversal(tree[1][0][0], false).Select(x => x.Value));
+            Assert.Equal(
+                node6ExpectedResult.SkipLast(1),
+                walker.PostOrderTraversal(tree[1][0][0]).Select(x => x.Value));
+        }
+
+        #endregion
+
         #region PreOrderTraversal
 
         [Fact]

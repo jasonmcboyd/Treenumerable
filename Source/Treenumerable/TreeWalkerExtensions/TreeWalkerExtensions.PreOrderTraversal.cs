@@ -20,7 +20,7 @@ namespace Treenumerable
         /// </param>
         /// <returns>
         /// An <see cref="System.Collections.Generic.IEnumerable<T>"/> that contains all the nodes
-        /// in the tree ordered based on a preord traversal.
+        /// in the tree ordered based on a preorder traversal.
         /// </returns>
         public static IEnumerable<T> PreOrderTraversal<T>(this ITreeWalker<T> walker, T node, bool includeNode)
         {

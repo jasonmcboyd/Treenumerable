@@ -29,11 +29,13 @@ namespace Treenumerable
                 throw new ArgumentNullException("node");
             }
 
+            // Loop over each child, calling PostOrderTraversal, and yield the results.
             foreach (T descendant in walker.GetChildren(node).SelectMany(x => walker.PostOrderTraversal(x, true)))
             {
                 yield return descendant;
             }
 
+            // If 'includeNode' is true then yield 'node'.
             if (includeNode)
             {
                 yield return node;

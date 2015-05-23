@@ -5,8 +5,22 @@ namespace Treenumerable
 {
     public class DelegateTreeWalker<T> : ITreeWalker<T>
     {
-        public DelegateTreeWalker()
+        public DelegateTreeWalker(
+            Func<T, ParentNode<T>> getParentFunc,
+            Func<T, IEnumerable<T>> getChildrenFunc)
         {
+            if (getParentFunc == null)
+            {
+                throw new ArgumentNullException("getParentFunc");
+            }
+
+            if (getChildrenFunc == null)
+            {
+                throw new ArgumentNullException("getChildrenFunc");
+            }
+
+            this._GetParentFunc = getParentFunc;
+            this._GetChildrenFunc = getChildrenFunc;
         }
 
         private readonly Func<T, ParentNode<T>> _GetParentFunc;

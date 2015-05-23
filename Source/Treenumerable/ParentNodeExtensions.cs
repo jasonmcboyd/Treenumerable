@@ -6,7 +6,7 @@
     public static class ParentNode
     {
         /// <summary>
-        /// Instantiates a new <see cref="ParentNode"/>.
+        /// Initializes a new instance of the <see cref="ParentNode<T>"/> struct.
         /// </summary>
         /// <typeparam name="T">The type of elements in the tree.</typeparam>
         /// <param name="value">The value of the node.</param>

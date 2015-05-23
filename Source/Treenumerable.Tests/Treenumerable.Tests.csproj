@@ -38,6 +38,9 @@
   </PropertyGroup>
   <ItemGroup>
     <Reference Include="System" />
+    <Reference Include="System.Interactive">
+      <HintPath>..\packages\Ix-Main.1.2.3\lib\net45\System.Interactive.dll</HintPath>
+    </Reference>
     <Reference Include="xunit.abstractions">
       <HintPath>..\packages\xunit.abstractions.2.0.0\lib\net35\xunit.abstractions.dll</HintPath>
     </Reference>
@@ -57,10 +60,11 @@
     <Otherwise />
   </Choose>
   <ItemGroup>
+    <Compile Include="DelegateTreeWalkerTests.cs" />
     <Compile Include="TreeBuilder\Node.cs" />
     <Compile Include="TreeBuilder\NodeExtensions.cs" />
     <Compile Include="TreeBuilder\NodeWalker.cs" />
-    <Compile Include="TreeWalkerExtensions\TreeWalkerExtensionsTests.cs" />
+    <Compile Include="TreeWalkerExtensionsTests.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
