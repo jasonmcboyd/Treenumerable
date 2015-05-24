@@ -5,7 +5,7 @@ namespace Treenumerable
     public static partial class TreeWalkerExtensions
     {
         /// <summary>
-        /// Returns a nodes parent.
+        /// Returns a node's parent or a default node if no parent exists.
         /// </summary>
         /// <typeparam name="T">The type of elements in the tree.</typeparam>
         /// <param name="walker">
@@ -15,8 +15,7 @@ namespace Treenumerable
         /// The node whose parent is to be returned.
         /// </param>
         /// <returns>
-        /// Returns a node''s parent.  This differs from <see cref="ITreeWalker<T>.GetParent"/> in
-        /// that it returns the parent directly rather than a <see cref="ParentNode<T>"/>.
+        /// Returns a node's parent or a default node if no parent exists.
         /// </returns>
         public static T GetParentOrDefault<T>(this ITreeWalker<T> walker, T node)
         {
@@ -30,20 +29,16 @@ namespace Treenumerable
             {
                 throw new ArgumentNullException("node");
             }
-
-            // Return the node's parent.
-            //ParentNode<T> parentNode = walker.GetParentNode(node);
-            T parent;
-            if (walker.TryGetParent(node, out parent))
+            
+            // Return the node's parent or a default node if the parent does not exist.
+            if (walker.TryGetParent(node, out node))
             {
-                return parent;
+                return node;
             }
             else
             {
                 return default(T);
             }
-            
-            //return parentNode.HasValue ? parentNode.Value : default(T);
         }
     }
 }

@@ -382,10 +382,10 @@ namespace Treenumerable.Tests
 
         #endregion
 
-        #region GetParent
+        #region GetParentOrDefault
 
         [Fact]
-        public void GetParent_NullWalker_ArgumentNullExceptionThrown()
+        public void GetParentOrDefault_NullWalker_ArgumentNullExceptionThrown()
         {
             // Get a valid tree.
             var tree = this.GetTree();
@@ -399,7 +399,7 @@ namespace Treenumerable.Tests
         }
 
         [Fact]
-        public void GetParent_NullNode_ArgumentNullExceptionThrown()
+        public void GetParentOrDefault_NullNode_ArgumentNullExceptionThrown()
         {
             // Create a valid ITreeWalker.
             NodeWalker<int> walker = new NodeWalker<int>();
@@ -409,7 +409,7 @@ namespace Treenumerable.Tests
         }
 
         [Fact]
-        public void GetParent_CorrectNodeReturned()
+        public void GetParentOrDefault_CorrectNodeReturned()
         {
             // Get a valid tree.
             var tree = this.GetTree();
@@ -417,11 +417,18 @@ namespace Treenumerable.Tests
             // Get a valid ITreeWalker.
             NodeWalker<int> walker = new NodeWalker<int>();
 
-            // For each node in the tree assert the 'GetParent' returns the node's parent.
+            // For each node in the tree assert the 'TryGetParent' returns the node's parent.
             foreach (Node<int> node in walker.PreOrderTraversal(tree, true))
             {
                 Node<int> parent;
-                Assert.True(walker.TryGetParent(node, out parent));
+                if (node == tree)
+                {
+                    Assert.False(walker.TryGetParent(node, out parent));
+                }
+                else
+                {
+                    Assert.True(walker.TryGetParent(node, out parent));
+                }
                 Assert.Equal(parent, walker.GetParentOrDefault(node));
             }
         }
