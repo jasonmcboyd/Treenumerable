@@ -11,7 +11,7 @@ namespace Treenumerable
         /// </summary>
         /// <typeparam name="T">The type of elements in the tree.</typeparam>
         /// <param name="walker">
-        /// The <see cref="ITreeWalker<T>"/> that knows how to find the parent and child nodes.
+        /// The <see cref="ITreeWalker&lt;T&gt;"/> that knows how to find the parent and child nodes.
         /// </param>
         /// <param name="node">
         /// The node whose height is to be returned.

@@ -11,7 +11,7 @@ namespace Treenumerable
         /// </summary>
         /// <typeparam name="T">The type of elements in the tree.</typeparam>
         /// <param name="walker">
-        /// The <see cref="ITreeWalker<T>"/> that knows how to find the parent and child nodes.
+        /// The <see cref="ITreeWalker&lt;T&gt;"/> that knows how to find the parent and child nodes.
         /// </param>
         /// <param name="node">
         /// The node relative to which the level is returned.
@@ -21,7 +21,7 @@ namespace Treenumerable
         /// be a nonnegative number.
         /// </param>
         /// <returns>
-        /// An <see cref="System.Collections.Generic.IEnumerable<T>"/> that contains all the nodes
+        /// An <see cref="System.Collections.Generic.IEnumerable&lt;T&gt;"/> that contains all the nodes
         /// nodes at a depth relative to the specified node.  A depth of 0 will return the node 
         /// itself, 1 all children of the node, etc...
         /// </returns>

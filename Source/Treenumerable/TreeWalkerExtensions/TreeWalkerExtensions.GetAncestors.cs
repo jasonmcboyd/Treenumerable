@@ -10,13 +10,13 @@ namespace Treenumerable
         /// </summary>
         /// <typeparam name="T">The type of elements in the tree.</typeparam>
         /// <param name="walker">
-        /// The <see cref="ITreeWalker<T>"/> that knows how to find the parent and child nodes.
+        /// The <see cref="ITreeWalker&lt;T&gt;"/> that knows how to find the parent and child nodes.
         /// </param>
         /// <param name="node">
         /// The node whose ancestors are to be returned.
         /// </param>
         /// <returns>
-        /// An <see cref="System.Collections.Generic.IEnumerable<T>"/> that contains all of the 
+        /// An <see cref="System.Collections.Generic.IEnumerable&lt;T&gt;"/> that contains all of the 
         /// node's ancestors, up to and including the root.
         /// </returns>
         public static IEnumerable<T> GetAncestors<T>(this ITreeWalker<T> walker, T node)
