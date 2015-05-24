@@ -7,7 +7,7 @@ namespace Treenumerable
     public static partial class TreeWalkerExtensions
     {
         /// <summary>
-        /// Gets a nodes leaves, i.e. all descendants that do not have children.  If the node has
+        /// Gets a node's leaves, i.e. all descendants that do not have children.  If the node has
         /// no children then the node is returned.
         /// </summary>
         /// <typeparam name="T">The type of elements in the tree.</typeparam>
