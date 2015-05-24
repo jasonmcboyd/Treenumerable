@@ -50,6 +50,9 @@
     <Compile Include="TreeWalkerExtensions\TreeWalkerExtensions.GetParentOrDefault.cs" />
     <Compile Include="TreeWalkerExtensions\TreeWalkerExtensions.GetRoot.cs" />
     <Compile Include="TreeWalkerExtensions\TreeWalkerExtensions.GetDescendants.cs" />
+    <Compile Include="TreeWalkerExtensions\TreeWalkerExtensions.GetSiblings.cs">
+      <SubType>Code</SubType>
+    </Compile>
     <Compile Include="TreeWalkerExtensions\TreeWalkerExtensions.HasChildren.cs" />
     <Compile Include="TreeWalkerExtensions\TreeWalkerExtensions.HasParent.cs" />
     <Compile Include="TreeWalkerExtensions\TreeWalkerExtensions.LevelOrderTraversal.cs" />
