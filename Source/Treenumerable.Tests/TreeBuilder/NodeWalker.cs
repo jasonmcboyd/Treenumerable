@@ -4,12 +4,10 @@ namespace Treenumerable.Tests.TreeBuilder
 {
     public class NodeWalker<T> : ITreeWalker<Node<T>>
     {
-        public ParentNode<Node<T>> GetParentNode(Node<T> node)
+        public bool TryGetParent(Node<T> node, out Node<T> parent)
         {
-            return
-                node.Parent != null ?
-                new ParentNode<Node<T>>(node.Parent) :
-                default(ParentNode<Node<T>>);
+            parent = node.Parent;
+            return parent != null;
         }
 
         public IEnumerable<Node<T>> GetChildren(Node<T> node)

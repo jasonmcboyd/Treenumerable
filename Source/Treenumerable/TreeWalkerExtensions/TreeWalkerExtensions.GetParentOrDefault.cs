@@ -15,10 +15,10 @@ namespace Treenumerable
         /// The node whose parent is to be returned.
         /// </param>
         /// <returns>
-        /// Returns a nodes parent.  This differs from <see cref="ITreeWalker<T>.GetParent"/> in
+        /// Returns a node''s parent.  This differs from <see cref="ITreeWalker<T>.GetParent"/> in
         /// that it returns the parent directly rather than a <see cref="ParentNode<T>"/>.
         /// </returns>
-        public static T GetParent<T>(this ITreeWalker<T> walker, T node)
+        public static T GetParentOrDefault<T>(this ITreeWalker<T> walker, T node)
         {
             // Validate parameters.
             if (walker == null)
@@ -32,8 +32,18 @@ namespace Treenumerable
             }
 
             // Return the node's parent.
-            ParentNode<T> parentNode = walker.GetParentNode(node);
-            return parentNode.HasValue ? parentNode.Value : default(T);
+            //ParentNode<T> parentNode = walker.GetParentNode(node);
+            T parent;
+            if (walker.TryGetParent(node, out parent))
+            {
+                return parent;
+            }
+            else
+            {
+                return default(T);
+            }
+            
+            //return parentNode.HasValue ? parentNode.Value : default(T);
         }
     }
 }

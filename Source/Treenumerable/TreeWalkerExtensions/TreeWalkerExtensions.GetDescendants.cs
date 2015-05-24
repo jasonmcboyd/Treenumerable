@@ -17,7 +17,7 @@ namespace Treenumerable
         /// <param name="predicate"></param>
         /// <param name="includeNodes"></param>
         /// <returns></returns>
-        public static IEnumerable<T> GetSubtrees<T>(this ITreeWalker<T> walker, IEnumerable<T> nodes, Func<T, bool> predicate, bool includeNodes)
+        public static IEnumerable<T> GetDescendants<T>(this ITreeWalker<T> walker, IEnumerable<T> nodes, Func<T, bool> predicate, bool includeNodes)
         {
             if (nodes == null)
             {
@@ -32,7 +32,7 @@ namespace Treenumerable
                 }
                 else
                 {
-                    foreach (T descendant in walker.GetSubtrees(walker.GetChildren(node), predicate, true))
+                    foreach (T descendant in walker.GetDescendants(walker.GetChildren(node), predicate, true))
                     {
                         yield return descendant;
                     }
@@ -40,24 +40,24 @@ namespace Treenumerable
             }
         }
 
-        public static IEnumerable<T> GetSubtrees<T>(this ITreeWalker<T> walker, IEnumerable<T> nodes, Func<T, bool> predicate)
+        public static IEnumerable<T> GetDescendants<T>(this ITreeWalker<T> walker, IEnumerable<T> nodes, Func<T, bool> predicate)
         {
-            return walker.GetSubtrees(nodes, predicate, false);
+            return walker.GetDescendants(nodes, predicate, false);
         }
 
-        public static IEnumerable<T> GetSubtrees<T>(this ITreeWalker<T> walker, T node, Func<T, bool> predicate, bool includeNode)
+        public static IEnumerable<T> GetDescendants<T>(this ITreeWalker<T> walker, T node, Func<T, bool> predicate, bool includeNode)
         {
             if (node == null)
             {
                 return Enumerable.Empty<T>();
             }
 
-            return walker.GetSubtrees(Enumerable.Repeat(node, 1), predicate, includeNode);
+            return walker.GetDescendants(Enumerable.Repeat(node, 1), predicate, includeNode);
         }
 
-        public static IEnumerable<T> GetSubtrees<T>(this ITreeWalker<T> walker, T node, Func<T, bool> predicate)
+        public static IEnumerable<T> GetDescendants<T>(this ITreeWalker<T> walker, T node, Func<T, bool> predicate)
         {
-            return walker.GetSubtrees<T>(node, predicate, false);
+            return walker.GetDescendants<T>(node, predicate, false);
         }
     }
 }

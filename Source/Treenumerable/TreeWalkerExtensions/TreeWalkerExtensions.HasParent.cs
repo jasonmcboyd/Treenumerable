@@ -31,7 +31,7 @@ namespace Treenumerable
                 throw new ArgumentNullException("node");
             }
 
-            return walker.GetParentNode(node).HasValue;
+            return walker.TryGetParent(node, out node);
         }
     }
 }

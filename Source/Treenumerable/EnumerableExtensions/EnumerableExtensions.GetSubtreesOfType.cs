@@ -5,6 +5,7 @@ namespace Treenumerable
 {
     public static partial class EnumerableExtensions
     {
+        // TODO:
         //public static IEnumerable<TResult> GetSubtreesOfType<TNode, TWalker, TResult>(
         //    this IEnumerable<TNode> nodes, 
         //    ITreeWalker<TWalker> walker, 

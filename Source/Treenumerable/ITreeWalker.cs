@@ -16,7 +16,7 @@ namespace Treenumerable
         /// <returns>
         /// The <see cref="ParentNode"/> that represents node's parent (or lack of parent).
         /// </returns>
-        ParentNode<T> GetParentNode(T node);
+        bool TryGetParent(T node, out T parent);
 
         /// <summary>
         /// Returns the children of a node.

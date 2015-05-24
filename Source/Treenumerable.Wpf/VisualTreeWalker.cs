@@ -17,10 +17,10 @@ namespace Treenumerable.Wpf
             get { return VisualTreeWalker._Instance; }
         }
 
-        public ParentNode<DependencyObject> GetParentNode(DependencyObject node)
+        public bool TryGetParent(DependencyObject node, out DependencyObject parent)
         {
-            DependencyObject parent = VisualTreeHelper.GetParent(node);
-            return parent != null ? ParentNode.Create(parent) : default(ParentNode<DependencyObject>);
+            parent = VisualTreeHelper.GetParent(node);
+            return parent != null;
         }
 
         public IEnumerable<DependencyObject> GetChildren(DependencyObject node)

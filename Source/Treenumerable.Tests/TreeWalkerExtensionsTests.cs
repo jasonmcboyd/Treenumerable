@@ -395,7 +395,7 @@ namespace Treenumerable.Tests
 
             // Assert that 'GetParent' throws an 'ArgumentNullException' when the tree walker
             // is null.
-            Assert.Throws<ArgumentNullException>("walker", () => walker.GetParent(tree));
+            Assert.Throws<ArgumentNullException>("walker", () => walker.GetParentOrDefault(tree));
         }
 
         [Fact]
@@ -405,11 +405,11 @@ namespace Treenumerable.Tests
             NodeWalker<int> walker = new NodeWalker<int>();
 
             // Assert that 'GetParent' throws an 'ArgumentNullException' when the node is null.
-            Assert.Throws<ArgumentNullException>("node", () => walker.GetParent(null));
+            Assert.Throws<ArgumentNullException>("node", () => walker.GetParentOrDefault(null));
         }
 
         [Fact]
-        public void GetParent()
+        public void GetParent_CorrectNodeReturned()
         {
             // Get a valid tree.
             var tree = this.GetTree();
@@ -420,7 +420,9 @@ namespace Treenumerable.Tests
             // For each node in the tree assert the 'GetParent' returns the node's parent.
             foreach (Node<int> node in walker.PreOrderTraversal(tree, true))
             {
-                Assert.Equal(walker.GetParentNode(node).Value, walker.GetParent(node));
+                Node<int> parent;
+                Assert.True(walker.TryGetParent(node, out parent));
+                Assert.Equal(parent, walker.GetParentOrDefault(node));
             }
         }
 
@@ -564,129 +566,129 @@ namespace Treenumerable.Tests
 
         #endregion
 
-        #region GetPrecedingSiblings
+        //#region GetPrecedingSiblings
 
-        [Fact]
-        public void GetPrecedingSiblings_NullWalker_ArgumentNullExceptionThrown()
-        {
-            // Get a valid tree.
-            var tree = this.GetTree();
+        //[Fact]
+        //public void GetPrecedingSiblings_NullWalker_ArgumentNullExceptionThrown()
+        //{
+        //    // Get a valid tree.
+        //    var tree = this.GetTree();
 
-            // Create a null ITreeWalker.
-            NodeWalker<int> walker = null;
+        //    // Create a null ITreeWalker.
+        //    NodeWalker<int> walker = null;
 
-            // Assert that 'GetPrecedingSiblings' throws an 'ArgumentNullException' when the tree walker
-            // is null.
-            Assert.Throws<ArgumentNullException>("walker", () => walker.GetPrecedingSiblings(tree).ToArray());
-        }
+        //    // Assert that 'GetPrecedingSiblings' throws an 'ArgumentNullException' when the tree walker
+        //    // is null.
+        //    Assert.Throws<ArgumentNullException>("walker", () => walker.GetPrecedingSiblings(tree).ToArray());
+        //}
 
-        [Fact]
-        public void GetPrecedingSiblings_NullNode_ArgumentNullExceptionThrown()
-        {
-            // Create a valid ITreeWalker.
-            NodeWalker<int> walker = new NodeWalker<int>();
+        //[Fact]
+        //public void GetPrecedingSiblings_NullNode_ArgumentNullExceptionThrown()
+        //{
+        //    // Create a valid ITreeWalker.
+        //    NodeWalker<int> walker = new NodeWalker<int>();
 
-            // Assert that 'GetPrecedingSiblings' throws an 'ArgumentNullException' when the node is null.
-            Assert.Throws<ArgumentNullException>("node", () => walker.GetPrecedingSiblings(null).ToArray());
-        }
+        //    // Assert that 'GetPrecedingSiblings' throws an 'ArgumentNullException' when the node is null.
+        //    Assert.Throws<ArgumentNullException>("node", () => walker.GetPrecedingSiblings(null).ToArray());
+        //}
 
-        [Fact]
-        public void GetPrecedingSiblings()
-        {
-            // Get a valid tree.
-            var tree = this.GetTree();
+        //[Fact]
+        //public void GetPrecedingSiblings()
+        //{
+        //    // Get a valid tree.
+        //    var tree = this.GetTree();
 
-            // Get a valid ITreeWalker.
-            NodeWalker<int> walker = new NodeWalker<int>();
+        //    // Get a valid ITreeWalker.
+        //    NodeWalker<int> walker = new NodeWalker<int>();
 
-            // For each node in the tree assert that 'GetPrecedingSiblings' returns the correct 
-            // elements.
-            Assert.Equal(
-                Enumerable.Empty<int>(),
-                walker.GetPrecedingSiblings(tree).Select(x => x.Value));
-            Assert.Equal(
-                Enumerable.Empty<int>(),
-                walker.GetPrecedingSiblings(tree[0]).Select(x => x.Value));
-            Assert.Equal(
-                Enumerable.Empty<int>(),
-                walker.GetPrecedingSiblings(tree[0][0]).Select(x => x.Value));
-            Assert.Equal(
-                new int[] { 2 },
-                walker.GetPrecedingSiblings(tree[0][1]).Select(x => x.Value));
-            Assert.Equal(
-                new int[] { 1 },
-                walker.GetPrecedingSiblings(tree[1]).Select(x => x.Value));
-            Assert.Equal(
-                Enumerable.Empty<int>(),
-                walker.GetPrecedingSiblings(tree[1][0]).Select(x => x.Value));
-            Assert.Equal(
-                Enumerable.Empty<int>(),
-                walker.GetPrecedingSiblings(tree[1][0][0]).Select(x => x.Value));
-        }
+        //    // For each node in the tree assert that 'GetPrecedingSiblings' returns the correct 
+        //    // elements.
+        //    Assert.Equal(
+        //        Enumerable.Empty<int>(),
+        //        walker.GetPrecedingSiblings(tree).Select(x => x.Value));
+        //    Assert.Equal(
+        //        Enumerable.Empty<int>(),
+        //        walker.GetPrecedingSiblings(tree[0]).Select(x => x.Value));
+        //    Assert.Equal(
+        //        Enumerable.Empty<int>(),
+        //        walker.GetPrecedingSiblings(tree[0][0]).Select(x => x.Value));
+        //    Assert.Equal(
+        //        new int[] { 2 },
+        //        walker.GetPrecedingSiblings(tree[0][1]).Select(x => x.Value));
+        //    Assert.Equal(
+        //        new int[] { 1 },
+        //        walker.GetPrecedingSiblings(tree[1]).Select(x => x.Value));
+        //    Assert.Equal(
+        //        Enumerable.Empty<int>(),
+        //        walker.GetPrecedingSiblings(tree[1][0]).Select(x => x.Value));
+        //    Assert.Equal(
+        //        Enumerable.Empty<int>(),
+        //        walker.GetPrecedingSiblings(tree[1][0][0]).Select(x => x.Value));
+        //}
 
-        #endregion
+        //#endregion
 
-        #region GetFollowingSiblings
+        //#region GetFollowingSiblings
 
-        [Fact]
-        public void GetFollowingSiblings_NullWalker_ArgumentNullExceptionThrown()
-        {
-            // Get a valid tree.
-            var tree = this.GetTree();
+        //[Fact]
+        //public void GetFollowingSiblings_NullWalker_ArgumentNullExceptionThrown()
+        //{
+        //    // Get a valid tree.
+        //    var tree = this.GetTree();
 
-            // Create a null ITreeWalker.
-            NodeWalker<int> walker = null;
+        //    // Create a null ITreeWalker.
+        //    NodeWalker<int> walker = null;
 
-            // Assert that 'GetFollowingSiblings' throws an 'ArgumentNullException' when the tree walker
-            // is null.
-            Assert.Throws<ArgumentNullException>("walker", () => walker.GetFollowingSiblings(tree).ToArray());
-        }
+        //    // Assert that 'GetFollowingSiblings' throws an 'ArgumentNullException' when the tree walker
+        //    // is null.
+        //    Assert.Throws<ArgumentNullException>("walker", () => walker.GetFollowingSiblings(tree).ToArray());
+        //}
 
-        [Fact]
-        public void GetFollowingSiblings_NullNode_ArgumentNullExceptionThrown()
-        {
-            // Create a valid ITreeWalker.
-            NodeWalker<int> walker = new NodeWalker<int>();
+        //[Fact]
+        //public void GetFollowingSiblings_NullNode_ArgumentNullExceptionThrown()
+        //{
+        //    // Create a valid ITreeWalker.
+        //    NodeWalker<int> walker = new NodeWalker<int>();
 
-            // Assert that 'GetFollowingSiblings' throws an 'ArgumentNullException' when the node is null.
-            Assert.Throws<ArgumentNullException>("node", () => walker.GetFollowingSiblings(null).ToArray());
-        }
+        //    // Assert that 'GetFollowingSiblings' throws an 'ArgumentNullException' when the node is null.
+        //    Assert.Throws<ArgumentNullException>("node", () => walker.GetFollowingSiblings(null).ToArray());
+        //}
 
-        [Fact]
-        public void GetFollowingSiblings()
-        {
-            // Get a valid tree.
-            var tree = this.GetTree();
+        //[Fact]
+        //public void GetFollowingSiblings()
+        //{
+        //    // Get a valid tree.
+        //    var tree = this.GetTree();
 
-            // Get a valid ITreeWalker.
-            NodeWalker<int> walker = new NodeWalker<int>();
+        //    // Get a valid ITreeWalker.
+        //    NodeWalker<int> walker = new NodeWalker<int>();
 
-            // For each node in the tree assert that 'GetFollowingSiblings' returns the correct 
-            // elements.
-            Assert.Equal(
-                Enumerable.Empty<int>(),
-                walker.GetFollowingSiblings(tree).Select(x => x.Value));
-            Assert.Equal(
-                new int[] { 4 },
-                walker.GetFollowingSiblings(tree[0]).Select(x => x.Value));
-            Assert.Equal(
-                new int[] { 3 },
-                walker.GetFollowingSiblings(tree[0][0]).Select(x => x.Value));
-            Assert.Equal(
-                Enumerable.Empty<int>(),
-                walker.GetFollowingSiblings(tree[0][1]).Select(x => x.Value));
-            Assert.Equal(
-                Enumerable.Empty<int>(),
-                walker.GetFollowingSiblings(tree[1]).Select(x => x.Value));
-            Assert.Equal(
-                Enumerable.Empty<int>(),
-                walker.GetFollowingSiblings(tree[1][0]).Select(x => x.Value));
-            Assert.Equal(
-                Enumerable.Empty<int>(),
-                walker.GetFollowingSiblings(tree[1][0][0]).Select(x => x.Value));
-        }
+        //    // For each node in the tree assert that 'GetFollowingSiblings' returns the correct 
+        //    // elements.
+        //    Assert.Equal(
+        //        Enumerable.Empty<int>(),
+        //        walker.GetFollowingSiblings(tree).Select(x => x.Value));
+        //    Assert.Equal(
+        //        new int[] { 4 },
+        //        walker.GetFollowingSiblings(tree[0]).Select(x => x.Value));
+        //    Assert.Equal(
+        //        new int[] { 3 },
+        //        walker.GetFollowingSiblings(tree[0][0]).Select(x => x.Value));
+        //    Assert.Equal(
+        //        Enumerable.Empty<int>(),
+        //        walker.GetFollowingSiblings(tree[0][1]).Select(x => x.Value));
+        //    Assert.Equal(
+        //        Enumerable.Empty<int>(),
+        //        walker.GetFollowingSiblings(tree[1]).Select(x => x.Value));
+        //    Assert.Equal(
+        //        Enumerable.Empty<int>(),
+        //        walker.GetFollowingSiblings(tree[1][0]).Select(x => x.Value));
+        //    Assert.Equal(
+        //        Enumerable.Empty<int>(),
+        //        walker.GetFollowingSiblings(tree[1][0][0]).Select(x => x.Value));
+        //}
 
-        #endregion
+        //#endregion
 
         #region LevelOrderTraversal
 

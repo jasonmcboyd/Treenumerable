@@ -33,11 +33,15 @@ namespace Treenumerable
             }
 
             // Get and return each parent node iteratively.
-            ParentNode<T> parentNode = walker.GetParentNode(node);
-            while (parentNode.HasValue)
+            //ParentNode<T> parentNode = walker.GetParentNode(node);
+            //while (parentNode.HasValue)
+            //{
+            //    yield return parentNode.Value;
+            //    parentNode = walker.GetParentNode(parentNode.Value);
+            //}
+            while (walker.TryGetParent(node, out node))
             {
-                yield return parentNode.Value;
-                parentNode = walker.GetParentNode(parentNode.Value);
+                yield return node;
             }
         }
     }
