@@ -47,9 +47,11 @@ namespace Treenumerable
                 comparer = EqualityComparer<T>.Default;
             }
 
+            // Get the node's parent.
             T parent;
             if (walker.TryGetParent(node, out parent))
             {
+                // Return all of the parent's children with the exception of the original node.
                 return
                     walker
                     .GetChildren(parent)
@@ -57,6 +59,7 @@ namespace Treenumerable
             }
             else
             {
+                // If the node does not have a parent then return an empty IEnumerable.
                 return Enumerable.Empty<T>();
             }
         }
