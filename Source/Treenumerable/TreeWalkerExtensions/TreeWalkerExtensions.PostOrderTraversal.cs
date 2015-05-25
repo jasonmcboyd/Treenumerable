@@ -7,15 +7,21 @@ namespace Treenumerable
     public static partial class TreeWalkerExtensions
     {
         /// <summary>
-        /// 
+        /// Enumerates a tree using the postorder traversal method.
         /// </summary>
         /// <typeparam name="T">The type of elements in the tree.</typeparam>
         /// <param name="walker">
         /// The <see cref="ITreeWalker&lt;T&gt;"/> that knows how to find the parent and child nodes.
         /// </param>
-        /// <param name="node"></param>
-        /// <param name="includeNode"></param>
-        /// <returns></returns>
+        /// <param name="node">The root node of the tree that is to be traversed.</param>
+        /// <param name="includeNode">
+        /// Indicates whether or not the <paramref name="node"/> is to be included in the resulting
+        /// <see cref="System.Collections.Generic.IEnumerable&lt;T&gt;"/>.
+        /// </param>
+        /// <returns>
+        /// An <see cref="System.Collections.Generic.IEnumerable&lt;T&gt;"/> that contains all the nodes
+        /// in the tree ordered based on a postorder traversal.
+        /// </returns>
         public static IEnumerable<T> PostOrderTraversal<T>(this ITreeWalker<T> walker, T node, bool includeNode)
         {
             // Validate parameters.
@@ -42,6 +48,18 @@ namespace Treenumerable
             }
         }
 
+        /// <summary>
+        /// Enumerates a tree using the postorder traversal method.
+        /// </summary>
+        /// <typeparam name="T">The type of elements in the tree.</typeparam>
+        /// <param name="walker">
+        /// The <see cref="ITreeWalker&lt;T&gt;"/> that knows how to find the parent and child nodes.
+        /// </param>
+        /// <param name="node">The root node of the tree that is to be traversed.</param>
+        /// <returns>
+        /// An <see cref="System.Collections.Generic.IEnumerable&lt;T&gt;"/> that contains all the nodes
+        /// in the tree ordered based on a postorder traversal.
+        /// </returns>
         public static IEnumerable<T> PostOrderTraversal<T>(this ITreeWalker<T> walker, T node)
         {
             return walker.PostOrderTraversal(node, false);
