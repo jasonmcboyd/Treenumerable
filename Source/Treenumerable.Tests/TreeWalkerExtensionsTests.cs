@@ -1062,6 +1062,204 @@ namespace Treenumerable.Tests
                 walker.PreOrderTraversal(tree[1][0][0]).Select(x => x.Value));
         }
 
+        [Fact]
+        public void PreOrderTraversal_ShortCircuitDepth()
+        {
+            // Get a valid tree.
+            var tree = this.GetTree();
+
+            // Get a valid ITreeWalker.
+            NodeWalker<int> walker = new NodeWalker<int>();
+
+            // Create arrays of the results expected from each node.
+            int[] node0ExpectedResult = new int[] { 0, 1, 4 };
+            int[] node1ExpectedResult = new int[] { 1, 2, 3 };
+            int[] node2ExpectedResult = new int[] { 2 };
+            int[] node3ExpectedResult = new int[] { 3 };
+            int[] node4ExpectedResult = new int[] { 4, 5 };
+            int[] node5ExpectedResult = new int[] { 5, 6 };
+            int[] node6ExpectedResult = new int[] { 6 };
+
+            // For each node in the tree assert that 'PreOrderTraversal' returns the correct 
+            // elements.
+
+            // Node 0:
+            Assert.Equal(
+                node0ExpectedResult,
+                walker.PreOrderTraversal(tree, true, (n, i) => i > 1).Select(x => x.Value));
+            Assert.Equal(
+                node0ExpectedResult.Skip(1),
+                walker.PreOrderTraversal(tree, false, (n, i) => i > 1).Select(x => x.Value));
+            Assert.Equal(
+                node0ExpectedResult.Skip(1),
+                walker.PreOrderTraversal(tree, (n, i) => i > 1).Select(x => x.Value));
+
+            // Node 1:
+            Assert.Equal(
+                node1ExpectedResult,
+                walker.PreOrderTraversal(tree[0], true, (n, i) => i > 1).Select(x => x.Value));
+            Assert.Equal(
+                node1ExpectedResult.Skip(1),
+                walker.PreOrderTraversal(tree[0], false, (n, i) => i > 1).Select(x => x.Value));
+            Assert.Equal(
+                node1ExpectedResult.Skip(1),
+                walker.PreOrderTraversal(tree[0], (n, i) => i > 1).Select(x => x.Value));
+
+            // Node 2:
+            Assert.Equal(
+                node2ExpectedResult,
+                walker.PreOrderTraversal(tree[0][0], true, (n, i) => i > 1).Select(x => x.Value));
+            Assert.Equal(
+                node2ExpectedResult.Skip(1),
+                walker.PreOrderTraversal(tree[0][0], false, (n, i) => i > 1).Select(x => x.Value));
+            Assert.Equal(
+                node2ExpectedResult.Skip(1),
+                walker.PreOrderTraversal(tree[0][0], (n, i) => i > 1).Select(x => x.Value));
+
+            // Node 3:
+            Assert.Equal(
+                node3ExpectedResult,
+                walker.PreOrderTraversal(tree[0][1], true, (n, i) => i > 1).Select(x => x.Value));
+            Assert.Equal(
+                node3ExpectedResult.Skip(1),
+                walker.PreOrderTraversal(tree[0][1], false, (n, i) => i > 1).Select(x => x.Value));
+            Assert.Equal(
+                node3ExpectedResult.Skip(1),
+                walker.PreOrderTraversal(tree[0][1], (n, i) => i > 1).Select(x => x.Value));
+
+            // Node 4:
+            Assert.Equal(
+                node4ExpectedResult,
+                walker.PreOrderTraversal(tree[1], true, (n, i) => i > 1).Select(x => x.Value));
+            Assert.Equal(
+                node4ExpectedResult.Skip(1),
+                walker.PreOrderTraversal(tree[1], false, (n, i) => i > 1).Select(x => x.Value));
+            Assert.Equal(
+                node4ExpectedResult.Skip(1),
+                walker.PreOrderTraversal(tree[1], (n, i) => i > 1).Select(x => x.Value));
+
+            // Node 5:
+            Assert.Equal(
+                node5ExpectedResult,
+                walker.PreOrderTraversal(tree[1][0], true, (n, i) => i > 1).Select(x => x.Value));
+            Assert.Equal(
+                node5ExpectedResult.Skip(1),
+                walker.PreOrderTraversal(tree[1][0], false, (n, i) => i > 1).Select(x => x.Value));
+            Assert.Equal(
+                node5ExpectedResult.Skip(1),
+                walker.PreOrderTraversal(tree[1][0], (n, i) => i > 1).Select(x => x.Value));
+
+            // Node 6:
+            Assert.Equal(
+                node6ExpectedResult,
+                walker.PreOrderTraversal(tree[1][0][0], true, (n, i) => i > 1).Select(x => x.Value));
+            Assert.Equal(
+                node6ExpectedResult.Skip(1),
+                walker.PreOrderTraversal(tree[1][0][0], false, (n, i) => i > 1).Select(x => x.Value));
+            Assert.Equal(
+                node6ExpectedResult.Skip(1),
+                walker.PreOrderTraversal(tree[1][0][0], (n, i) => i > 1).Select(x => x.Value));
+        }
+
+        [Fact]
+        public void PreOrderTraversal_ShortCircuitOddNumbers()
+        {
+            // Get a valid tree.
+            var tree = this.GetTree();
+
+            // Get a valid ITreeWalker.
+            NodeWalker<int> walker = new NodeWalker<int>();
+
+            // Create arrays of the results expected from each node.
+            int[] node0ExpectedResult = new int[] { 0, 4 };
+            int[] node1ExpectedResult = new int[] { };
+            int[] node2ExpectedResult = new int[] { 2 };
+            int[] node3ExpectedResult = new int[] { };
+            int[] node4ExpectedResult = new int[] { 4 };
+            int[] node5ExpectedResult = new int[] { };
+            int[] node6ExpectedResult = new int[] { 6 };
+
+            // For each node in the tree assert that 'PreOrderTraversal' returns the correct 
+            // elements.
+
+            // Node 0:
+            Assert.Equal(
+                node0ExpectedResult,
+                walker.PreOrderTraversal(tree, true, (n, i) => n.Value % 2 == 1).Select(x => x.Value));
+            Assert.Equal(
+                node0ExpectedResult.Skip(1),
+                walker.PreOrderTraversal(tree, false, (n, i) => n.Value % 2 == 1).Select(x => x.Value));
+            Assert.Equal(
+                node0ExpectedResult.Skip(1),
+                walker.PreOrderTraversal(tree, (n, i) => n.Value % 2 == 1).Select(x => x.Value));
+
+            // Node 1:
+            Assert.Equal(
+                node1ExpectedResult,
+                walker.PreOrderTraversal(tree[0], true, (n, i) => n.Value % 2 == 1).Select(x => x.Value));
+            Assert.Equal(
+                node1ExpectedResult.Skip(1),
+                walker.PreOrderTraversal(tree[0], false, (n, i) => n.Value % 2 == 1).Select(x => x.Value));
+            Assert.Equal(
+                node1ExpectedResult.Skip(1),
+                walker.PreOrderTraversal(tree[0], (n, i) => n.Value % 2 == 1).Select(x => x.Value));
+
+            // Node 2:
+            Assert.Equal(
+                node2ExpectedResult,
+                walker.PreOrderTraversal(tree[0][0], true, (n, i) => n.Value % 2 == 1).Select(x => x.Value));
+            Assert.Equal(
+                node2ExpectedResult.Skip(1),
+                walker.PreOrderTraversal(tree[0][0], false, (n, i) => n.Value % 2 == 1).Select(x => x.Value));
+            Assert.Equal(
+                node2ExpectedResult.Skip(1),
+                walker.PreOrderTraversal(tree[0][0], (n, i) => n.Value % 2 == 1).Select(x => x.Value));
+
+            // Node 3:
+            Assert.Equal(
+                node3ExpectedResult,
+                walker.PreOrderTraversal(tree[0][1], true, (n, i) => n.Value % 2 == 1).Select(x => x.Value));
+            Assert.Equal(
+                node3ExpectedResult.Skip(1),
+                walker.PreOrderTraversal(tree[0][1], false, (n, i) => n.Value % 2 == 1).Select(x => x.Value));
+            Assert.Equal(
+                node3ExpectedResult.Skip(1),
+                walker.PreOrderTraversal(tree[0][1], (n, i) => n.Value % 2 == 1).Select(x => x.Value));
+
+            // Node 4:
+            Assert.Equal(
+                node4ExpectedResult,
+                walker.PreOrderTraversal(tree[1], true, (n, i) => n.Value % 2 == 1).Select(x => x.Value));
+            Assert.Equal(
+                node4ExpectedResult.Skip(1),
+                walker.PreOrderTraversal(tree[1], false, (n, i) => n.Value % 2 == 1).Select(x => x.Value));
+            Assert.Equal(
+                node4ExpectedResult.Skip(1),
+                walker.PreOrderTraversal(tree[1], (n, i) => n.Value % 2 == 1).Select(x => x.Value));
+
+            // Node 5:
+            Assert.Equal(
+                node5ExpectedResult,
+                walker.PreOrderTraversal(tree[1][0], true, (n, i) => n.Value % 2 == 1).Select(x => x.Value));
+            Assert.Equal(
+                node5ExpectedResult.Skip(1),
+                walker.PreOrderTraversal(tree[1][0], false, (n, i) => n.Value % 2 == 1).Select(x => x.Value));
+            Assert.Equal(
+                node5ExpectedResult.Skip(1),
+                walker.PreOrderTraversal(tree[1][0], (n, i) => n.Value % 2 == 1).Select(x => x.Value));
+
+            // Node 6:
+            Assert.Equal(
+                node6ExpectedResult,
+                walker.PreOrderTraversal(tree[1][0][0], true, (n, i) => n.Value % 2 == 1).Select(x => x.Value));
+            Assert.Equal(
+                node6ExpectedResult.Skip(1),
+                walker.PreOrderTraversal(tree[1][0][0], false, (n, i) => n.Value % 2 == 1).Select(x => x.Value));
+            Assert.Equal(
+                node6ExpectedResult.Skip(1),
+                walker.PreOrderTraversal(tree[1][0][0], (n, i) => n.Value % 2 == 1).Select(x => x.Value));
+        }
+
         #endregion
     }
 }
