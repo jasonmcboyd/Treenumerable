@@ -16,15 +16,22 @@ namespace Treenumerable
         /// The <see cref="ITreeWalker&lt;T&gt;"/> that knows how to find the parent and child nodes.
         /// </param>
         /// <param name="node">The root node of the tree that is to be traversed.</param>
-        /// <param name="includeNode">
-        /// Indicates whether or not the <paramref name="node"/> is to be included in the resulting
-        /// <see cref="System.Collections.Generic.IEnumerable&lt;T&gt;"/>.
+        /// <param name="excludeSubtreePredicate">
+        /// A <see cref="System.Func&lt;T, int, bool&gt;"/> that determines if the current node
+        /// that is being evaluated (and all of its descendants) should be included in the 
+        /// traversal.  This allows for short-circuiting of the level-order traversal by excluding
+        /// particular subtrees from the traversal.  The first argument is the current node being
+        /// evaluated and the second argument is the depth of the current node relative to the
+        /// original node that the traversal began on.
         /// </param>
         /// <returns>
         /// An <see cref="System.Collections.Generic.IEnumerable&lt;T&gt;"/> that contains all the nodes
         /// in the tree ordered based on a level order traversal.
         /// </returns>
-        public static IEnumerable<T> LevelOrderTraversal<T>(this ITreeWalker<T> walker, T node, bool includeNode)
+        public static IEnumerable<T> LevelOrderTraversal<T>(
+            this ITreeWalker<T> walker, 
+            T node, 
+            Func<T, int, bool> excludeSubtreePredicate)
         {
             // Validate parameters.
             if (walker == null)
@@ -37,29 +44,30 @@ namespace Treenumerable
                 throw new ArgumentNullException("node");
             }
 
-            // If 'includeNode' is true then yield the root node.
-            if (includeNode)
-            {
-                yield return node;
-            }
+            // Set the initial depth to 0.
+            int depth = 0;
 
-            // Add the current node's children to the 'nextLevel' enumerable.
-            IEnumerable<T> nextLevel = walker.GetChildren(node);
-            IEnumerable<T> followingLevel = Enumerable.Empty<T>();
+            // Set 'node' as the current level.
+            IEnumerable<T> currentLevel = new T[] { node };
+            IEnumerable<T> nextLevel = Enumerable.Empty<T>();
 
-            // Enumerate 'nextLevel' and yield each node while adding that node's children to 
-            // 'followingLevel'.  When complete set 'nextLevel' equal to 'followingLevel' and 
-            // repeat the process.
-            while (nextLevel.Any())
+            // Enumerate 'currentLevel' and yield each node while adding that node's children to 
+            // 'nextLevel'.  When complete set 'currentLevel' equal to 'nextLevel', increment count
+            // and repeat the process.
+            while (currentLevel.Any())
             {
-                foreach (T currentNode in nextLevel)
+                foreach (T currentNode in currentLevel)
                 {
-                    yield return currentNode;
-                    followingLevel = followingLevel.Concat(walker.GetChildren(currentNode));
+                    if (excludeSubtreePredicate == null || !excludeSubtreePredicate.Invoke(currentNode, depth))
+                    {
+                        yield return currentNode;
+                        nextLevel = nextLevel.Concat(walker.GetChildren(currentNode));
+                    }
                 }
 
-                nextLevel = followingLevel;
-                followingLevel = Enumerable.Empty<T>();
+                currentLevel = nextLevel;
+                nextLevel = Enumerable.Empty<T>();
+                depth++;
             }
         }
 
@@ -79,7 +87,7 @@ namespace Treenumerable
         /// </returns>
         public static IEnumerable<T> LevelOrderTraversal<T>(this ITreeWalker<T> walker, T node)
         {
-            return walker.LevelOrderTraversal(node, false);
+            return walker.LevelOrderTraversal(node, null);
         }
     }
 }
