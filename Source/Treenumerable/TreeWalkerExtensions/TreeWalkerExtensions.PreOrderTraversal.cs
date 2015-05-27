@@ -23,7 +23,7 @@ namespace Treenumerable
         /// original node that the traversal began on.
         /// </param>
         /// <param name="depth">
-        /// The depth of the current node being evaluated for traversal.  The is the number of
+        /// The depth of the current node being evaluated for traversal.  This is the number of
         /// edges from the original node that the traversal began on to the current node being
         /// evaluated.
         /// </param>
@@ -70,7 +70,7 @@ namespace Treenumerable
                         excludeSubtreePredicate,
                         depth + 1));
 
-            // Recursively yield each descendant using the preporder traversal method.
+            // Recursively yield each descendant using the preorder traversal method.
             foreach (T descendant in remainingNodes)
             {
                 yield return descendant;
