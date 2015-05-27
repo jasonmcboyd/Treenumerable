@@ -14,10 +14,6 @@ namespace Treenumerable
         /// The <see cref="ITreeWalker&lt;T&gt;"/> that knows how to find the parent and child nodes.
         /// </param>
         /// <param name="node">The root node of the tree that is to be traversed.</param>
-        /// <param name="includeNode">
-        /// Indicates whether or not the <paramref name="node"/> is to be included in the resulting
-        /// <see cref="System.Collections.Generic.IEnumerable&lt;T&gt;"/>.
-        /// </param>
         /// <param name="excludeSubtreePredicate">
         /// A <see cref="System.Func&lt;T, int, bool&gt;"/> that determines if the current node
         /// that is being evaluated (and all of its descendants) should be included in the 
@@ -38,7 +34,6 @@ namespace Treenumerable
         private static IEnumerable<T> PreOrderTraversalImplementation<T>(
             this ITreeWalker<T> walker,
             T node,
-            bool includeNode,
             Func<T, int, bool> excludeSubtreePredicate,
             int depth)
         {
@@ -61,11 +56,8 @@ namespace Treenumerable
                 yield break;
             }
 
-            // If 'includeNode' is true then yield the root node.
-            if (includeNode)
-            {
-                yield return node;
-            }
+            // Yield the root node.
+            yield return node;
 
             // Construct an IEnumerable to traverse the remaining nodes.
             IEnumerable<T> remainingNodes =
@@ -75,7 +67,6 @@ namespace Treenumerable
                     walker
                     .PreOrderTraversalImplementation(
                         x, 
-                        true, 
                         excludeSubtreePredicate,
                         depth + 1));
 
@@ -84,56 +75,6 @@ namespace Treenumerable
             {
                 yield return descendant;
             }
-        }
-
-        /// <summary>
-        /// Enumerates a tree using the preorder traversal method.
-        /// </summary>
-        /// <typeparam name="T">The type of elements in the tree.</typeparam>
-        /// <param name="walker">
-        /// The <see cref="ITreeWalker&lt;T&gt;"/> that knows how to find the parent and child nodes.
-        /// </param>
-        /// <param name="node">The root node of the tree that is to be traversed.</param>
-        /// <param name="includeNode">
-        /// Indicates whether or not the <paramref name="node"/> is to be included in the resulting
-        /// <see cref="System.Collections.Generic.IEnumerable&lt;T&gt;"/>.
-        /// </param>
-        /// <param name="excludeSubtreePredicate">
-        /// A <see cref="System.Func&lt;T, int, bool&gt;"/> that determines if the current node
-        /// that is being evaluated (and all of its descendants) should be included in the 
-        /// traversal.  This allows for short-circuiting of the preorder traversal by excluding
-        /// particular subtrees from the traversal.  The first argument is the current node being
-        /// evaluated and the second argument is the depth of the current node relative to the
-        /// original node that the traversal began on.
-        /// </param>
-        /// <returns>
-        /// An <see cref="System.Collections.Generic.IEnumerable&lt;T&gt;"/> that contains all the
-        /// nodes in the tree ordered based on a preorder traversal.
-        /// </returns>
-        public static IEnumerable<T> PreOrderTraversal<T>(this ITreeWalker<T> walker, T node, bool includeNode, Func<T, int, bool> excludeSubtreePredicate)
-        {
-            return walker.PreOrderTraversalImplementation(node, includeNode, excludeSubtreePredicate, 0);
-        }
-
-        /// <summary>
-        /// Enumerates a tree using the preorder traversal method.
-        /// </summary>
-        /// <typeparam name="T">The type of elements in the tree.</typeparam>
-        /// <param name="walker">
-        /// The <see cref="ITreeWalker&lt;T&gt;"/> that knows how to find the parent and child nodes.
-        /// </param>
-        /// <param name="node">The root node of the tree that is to be traversed.</param>
-        /// <param name="includeNode">
-        /// Indicates whether or not the <paramref name="node"/> is to be included in the resulting
-        /// <see cref="System.Collections.Generic.IEnumerable&lt;T&gt;"/>.
-        /// </param>
-        /// <returns>
-        /// An <see cref="System.Collections.Generic.IEnumerable&lt;T&gt;"/> that contains all the nodes
-        /// in the tree ordered based on a preorder traversal.
-        /// </returns>
-        public static IEnumerable<T> PreOrderTraversal<T>(this ITreeWalker<T> walker, T node, bool includeNode)
-        {
-            return walker.PreOrderTraversalImplementation(node, includeNode, null, 0);
         }
 
         /// <summary>
@@ -158,7 +99,7 @@ namespace Treenumerable
         /// </returns>
         public static IEnumerable<T> PreOrderTraversal<T>(this ITreeWalker<T> walker, T node, Func<T, int, bool> excludeSubtreePredicate)
         {
-            return walker.PreOrderTraversalImplementation(node, false, excludeSubtreePredicate, 0);
+            return walker.PreOrderTraversalImplementation(node, excludeSubtreePredicate, 0);
         }
 
         /// <summary>
@@ -175,7 +116,7 @@ namespace Treenumerable
         /// </returns>
         public static IEnumerable<T> PreOrderTraversal<T>(this ITreeWalker<T> walker, T node)
         {
-            return walker.PreOrderTraversalImplementation(node, false, null, 0);
+            return walker.PreOrderTraversalImplementation(node, null, 0);
         }
     }
 }
