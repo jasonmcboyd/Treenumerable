@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.Linq;
 using Treenumerable.Tests.TreeBuilder;
 using Xunit;
@@ -122,7 +123,7 @@ namespace Treenumerable.Tests
                 Assert.Equal(node.Children.Count, walker.GetDegree(node));
             }
         }
-
+        
         #endregion
 
         #region GetDepth
@@ -1240,6 +1241,122 @@ namespace Treenumerable.Tests
             Assert.Equal(
                 node6ExpectedResult,
                 walker.PreOrderTraversal(tree[1][0][0], (n, i) => n.Value % 2 == 1).Select(x => x.Value));
+        }
+
+        #endregion
+
+        #region SelectDescendants
+
+        [Fact]
+        public void SelectDescendants_NullWalker_ArgumentNullExceptionThrown()
+        {
+            // Get a valid tree.
+            var tree = this.GetTree();
+
+            // Create a null ITreeWalker.
+            NodeWalker<int> walker = null;
+
+            // Assert that 'SelectDescendants' throws an 'ArgumentNullException' when the tree 
+            // walker is null.
+            Assert.Throws<ArgumentNullException>(
+                "walker",
+                () => walker.SelectDescendants(new Node<int>[] { tree }, (n, i) => true).ToArray());
+            Assert.Throws<ArgumentNullException>(
+                "walker",
+                () => walker.SelectDescendants(new Node<int>[] { tree }, (n) => true).ToArray());
+            Assert.Throws<ArgumentNullException>(
+                "walker",
+                () => walker.SelectDescendants(tree, (n, i) => true).ToArray());
+            Assert.Throws<ArgumentNullException>(
+                "walker",
+                () => walker.SelectDescendants(tree, (n) => true).ToArray());
+            
+        }
+
+        [Fact]
+        public void SelectDescendants_NullNode_ArgumentNullExceptionThrown()
+        {
+            // Create a valid ITreeWalker.
+            NodeWalker<int> walker = new NodeWalker<int>();
+
+            // Assert that 'SelectDescendants' throws an 'ArgumentNullException' when the node is
+            // null.
+            Assert.Throws<ArgumentNullException>(
+                "nodes",
+                () => walker.SelectDescendants((IEnumerable<Node<int>>)null, (n, i) => true).ToArray());
+            Assert.Throws<ArgumentNullException>(
+                "nodes",
+                () => walker.SelectDescendants((IEnumerable<Node<int>>)null, (n) => true).ToArray());
+            Assert.Throws<ArgumentNullException>(
+                "node",
+                () => walker.SelectDescendants((Node<int>)null, (n, i) => true).ToArray());
+            Assert.Throws<ArgumentNullException>(
+                "node",
+                () => walker.SelectDescendants((Node<int>)null, (n) => true).ToArray());
+        }
+
+        [Fact]
+        public void SelectDescendants_NullPredicate_ArgumentNullExceptionThrown()
+        {
+            // Get a valid tree.
+            var tree = this.GetTree();
+
+            // Create a valid ITreeWalker.
+            NodeWalker<int> walker = new NodeWalker<int>();
+
+            // Assert that 'SelectDescendants' throws an 'ArgumentNullException' when the predicate 
+            // is null.
+            Assert.Throws<ArgumentNullException>(
+                "predicate",
+                () => walker.SelectDescendants(new Node<int>[] { tree }, (Func<Node<int>, int, bool>)null).ToArray());
+            Assert.Throws<ArgumentNullException>(
+                "predicate",
+                () => walker.SelectDescendants(new Node<int>[] { tree }, (Func<Node<int>, bool>)null).ToArray());
+            Assert.Throws<ArgumentNullException>(
+                "predicate",
+                () => walker.SelectDescendants(tree, (Func<Node<int>, int, bool>)null).ToArray());
+            Assert.Throws<ArgumentNullException>(
+                "predicate",
+                () => walker.SelectDescendants(tree, (Func<Node<int>, bool>)null).ToArray());
+        }
+
+        [Fact]
+        public void SelectDescendants_PredicateTests()
+        {
+            // Get a valid tree.
+            var tree = this.GetTree();
+
+            // Create a valid ITreeWalker.
+            NodeWalker<int> walker = new NodeWalker<int>();
+
+            // Create test predicates and the expected results.
+            var testCases = new[]
+            {
+                new { 
+                    Predicate = new Func<Node<int>, bool>(i => i.Value % 2 == 0), 
+                    ExpectedResults = new int[] { 0 } },
+                new { 
+                    Predicate = new Func<Node<int>, bool>(i => i.Value % 2 == 1), 
+                    ExpectedResults = new int[] { 1, 5 } },
+                    new { 
+                    Predicate = new Func<Node<int>, bool>(i => i.Value >= 2), 
+                    ExpectedResults = new int[] { 2, 3, 4 } },
+            };
+
+            // Assert that 'SelectDescendants' returns the expected results for each predicate.
+            foreach (var testCase in testCases)
+            {
+                Assert.Equal(
+                    walker
+                        .SelectDescendants(tree, testCase.Predicate)
+                        .Select(x => x.Value), 
+                    testCase.ExpectedResults);
+                Assert.Equal(
+                    walker
+                        .SelectDescendants(new Node<int>[] { tree }, testCase.Predicate)
+                        .Select(x => x.Value),
+                    testCase.ExpectedResults);
+            }
         }
 
         #endregion

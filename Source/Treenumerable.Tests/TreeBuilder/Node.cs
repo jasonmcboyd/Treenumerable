@@ -11,6 +11,13 @@ namespace Treenumerable.Tests.TreeBuilder
             this.Value = value;
         }
 
+        public Node(T value, Node<T>[] children)
+        {
+            this._Children = new ReadOnlyCollection<Node<T>>(this._InternalChildren);
+            this.Value = value;
+            this.AddChildren(children);
+        }
+
         public Node<T> this[int index]
         {
             get

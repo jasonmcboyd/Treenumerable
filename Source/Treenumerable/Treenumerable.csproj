@@ -49,7 +49,7 @@
     <Compile Include="TreeWalkerExtensions\TreeWalkerExtensions.GetLevel.cs" />
     <Compile Include="TreeWalkerExtensions\TreeWalkerExtensions.GetParentOrDefault.cs" />
     <Compile Include="TreeWalkerExtensions\TreeWalkerExtensions.GetRoot.cs" />
-    <Compile Include="TreeWalkerExtensions\TreeWalkerExtensions.GetDescendants.cs" />
+    <Compile Include="TreeWalkerExtensions\TreeWalkerExtensions.SelectDescendants.cs" />
     <Compile Include="TreeWalkerExtensions\TreeWalkerExtensions.GetSiblings.cs">
       <SubType>Code</SubType>
     </Compile>
