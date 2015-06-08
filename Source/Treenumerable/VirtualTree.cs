@@ -11,7 +11,7 @@ namespace Treenumerable
                 throw new ArgumentNullException("treeWalker");
             }
 
-            this.TreeWalker = TreeWalker;
+            this.TreeWalker = treeWalker;
             this.Root = root;
         }
 
