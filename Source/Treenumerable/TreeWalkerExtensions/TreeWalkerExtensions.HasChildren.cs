@@ -25,7 +25,7 @@ namespace Treenumerable
             {
                 throw new ArgumentNullException("walker");
             }
-            
+
             if (node == null)
             {
                 throw new ArgumentNullException("node");

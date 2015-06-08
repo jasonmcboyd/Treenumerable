@@ -123,7 +123,7 @@ namespace Treenumerable.Tests
                 Assert.Equal(node.Children.Count, walker.GetDegree(node));
             }
         }
-        
+
         #endregion
 
         #region GetDepth
@@ -1154,32 +1154,32 @@ namespace Treenumerable.Tests
             Assert.Equal(
                 node0ExpectedResult,
                 walker.PreOrderTraversal(tree, (n, i) => i > 1).Select(x => x.Value));
-            
+
             // Node 1:
             Assert.Equal(
                 node1ExpectedResult,
                 walker.PreOrderTraversal(tree[0], (n, i) => i > 1).Select(x => x.Value));
-            
+
             // Node 2:
             Assert.Equal(
                 node2ExpectedResult,
                 walker.PreOrderTraversal(tree[0][0], (n, i) => i > 1).Select(x => x.Value));
-            
+
             // Node 3:
             Assert.Equal(
                 node3ExpectedResult,
                 walker.PreOrderTraversal(tree[0][1], (n, i) => i > 1).Select(x => x.Value));
-            
+
             // Node 4:
             Assert.Equal(
                 node4ExpectedResult,
                 walker.PreOrderTraversal(tree[1], (n, i) => i > 1).Select(x => x.Value));
-            
+
             // Node 5:
             Assert.Equal(
                 node5ExpectedResult,
                 walker.PreOrderTraversal(tree[1][0], (n, i) => i > 1).Select(x => x.Value));
-            
+
             // Node 6:
             Assert.Equal(
                 node6ExpectedResult,
@@ -1270,7 +1270,6 @@ namespace Treenumerable.Tests
             Assert.Throws<ArgumentNullException>(
                 "walker",
                 () => walker.SelectDescendants(tree, (n) => true).ToArray());
-            
         }
 
         [Fact]
@@ -1332,14 +1331,14 @@ namespace Treenumerable.Tests
             // Create test predicates and the expected results.
             var testCases = new[]
             {
-                new { 
-                    Predicate = new Func<Node<int>, bool>(i => i.Value % 2 == 0), 
+                new {
+                    Predicate = new Func<Node<int>, bool>(i => i.Value % 2 == 0),
                     ExpectedResults = new int[] { 0 } },
-                new { 
-                    Predicate = new Func<Node<int>, bool>(i => i.Value % 2 == 1), 
+                new {
+                    Predicate = new Func<Node<int>, bool>(i => i.Value % 2 == 1),
                     ExpectedResults = new int[] { 1, 5 } },
-                    new { 
-                    Predicate = new Func<Node<int>, bool>(i => i.Value >= 2), 
+                new {
+                    Predicate = new Func<Node<int>, bool>(i => i.Value >= 2),
                     ExpectedResults = new int[] { 2, 3, 4 } },
             };
 
@@ -1349,7 +1348,7 @@ namespace Treenumerable.Tests
                 Assert.Equal(
                     walker
                         .SelectDescendants(tree, testCase.Predicate)
-                        .Select(x => x.Value), 
+                        .Select(x => x.Value),
                     testCase.ExpectedResults);
                 Assert.Equal(
                     walker

@@ -29,8 +29,8 @@ namespace Treenumerable
         /// in the tree ordered based on a level order traversal.
         /// </returns>
         public static IEnumerable<T> LevelOrderTraversal<T>(
-            this ITreeWalker<T> walker, 
-            T node, 
+            this ITreeWalker<T> walker,
+            T node,
             Func<T, int, bool> excludeSubtreePredicate)
         {
             // Validate parameters.

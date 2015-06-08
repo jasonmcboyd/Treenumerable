@@ -41,7 +41,7 @@ namespace Treenumerable
             {
                 throw new ArgumentNullException("walker");
             }
-            
+
             if (nodes == null)
             {
                 throw new ArgumentNullException("nodes");
@@ -100,15 +100,15 @@ namespace Treenumerable
         /// nodes in the tree ordered based on a preorder traversal.
         /// </returns>
         public static IEnumerable<T> SelectDescendants<T>(
-            this ITreeWalker<T> walker, 
-            IEnumerable<T> nodes, 
+            this ITreeWalker<T> walker,
+            IEnumerable<T> nodes,
             Func<T, int, bool> predicate)
         {
-            return 
+            return
                 walker
                 .SelectDescendantsImplementation(
-                    nodes, 
-                    predicate, 
+                    nodes,
+                    predicate,
                     0);
         }
 
@@ -133,8 +133,8 @@ namespace Treenumerable
         /// nodes in the tree ordered based on a preorder traversal.
         /// </returns>
         public static IEnumerable<T> SelectDescendants<T>(
-            this ITreeWalker<T> walker, 
-            IEnumerable<T> nodes, 
+            this ITreeWalker<T> walker,
+            IEnumerable<T> nodes,
             Func<T, bool> predicate)
         {
             // Validate parameters.
@@ -143,10 +143,10 @@ namespace Treenumerable
                 throw new ArgumentNullException("predicate");
             }
 
-            return 
+            return
                 walker
                 .SelectDescendantsImplementation(
-                    nodes, 
+                    nodes,
                     (n, i) => predicate.Invoke(n),
                     0);
         }
@@ -172,8 +172,8 @@ namespace Treenumerable
         /// nodes in the tree ordered based on a preorder traversal.
         /// </returns>
         public static IEnumerable<T> SelectDescendants<T>(
-            this ITreeWalker<T> walker, 
-            T node, 
+            this ITreeWalker<T> walker,
+            T node,
             Func<T, int, bool> predicate)
         {
             // Validate parameters.
@@ -182,10 +182,10 @@ namespace Treenumerable
                 throw new ArgumentNullException("node");
             }
 
-            return 
+            return
                 walker
                 .SelectDescendantsImplementation(
-                    new T[] { node }, 
+                    new T[] { node },
                     predicate,
                     0);
         }
@@ -211,8 +211,8 @@ namespace Treenumerable
         /// nodes in the tree ordered based on a preorder traversal.
         /// </returns>
         public static IEnumerable<T> SelectDescendants<T>(
-            this ITreeWalker<T> walker, 
-            T node, 
+            this ITreeWalker<T> walker,
+            T node,
             Func<T, bool> predicate)
         {
             // Validate parameters.

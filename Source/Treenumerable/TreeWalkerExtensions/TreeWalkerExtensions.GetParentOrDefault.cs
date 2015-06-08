@@ -29,7 +29,7 @@ namespace Treenumerable
             {
                 throw new ArgumentNullException("node");
             }
-            
+
             // Return the node's parent or a default node if the parent does not exist.
             if (walker.TryGetParent(node, out node))
             {

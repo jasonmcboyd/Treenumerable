@@ -66,7 +66,7 @@ namespace Treenumerable
                 .SelectMany(x =>
                     walker
                     .PreOrderTraversalImplementation(
-                        x, 
+                        x,
                         excludeSubtreePredicate,
                         depth + 1));
 

@@ -40,7 +40,7 @@ namespace Treenumerable
             {
                 throw new ArgumentNullException("node");
             }
-            
+
             // If the comparer is null then use the default comparer.
             if (comparer == null)
             {
