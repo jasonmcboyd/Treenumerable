@@ -159,7 +159,7 @@ namespace Treenumerable
         /// The <see cref="ITreeWalker&lt;T&gt;"/> that knows how to find the parent and child
         /// nodes.
         /// </param>
-        /// <param name="nodes">
+        /// <param name="node">
         /// The root node to be queried.
         /// </param>
         /// <param name="predicate">
@@ -198,7 +198,7 @@ namespace Treenumerable
         /// The <see cref="ITreeWalker&lt;T&gt;"/> that knows how to find the parent and child
         /// nodes.
         /// </param>
-        /// <param name="nodes">
+        /// <param name="node">
         /// The root node to be queried.
         /// </param>
         /// <param name="predicate">
