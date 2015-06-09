@@ -7,7 +7,7 @@ namespace Treenumerable
     public static partial class TreeWalkerExtensions
     {
         /// <summary>
-        /// Enumerates a tree using the postorder traversal method.
+        /// Enumerates a tree using the post-order traversal method.
         /// </summary>
         /// <typeparam name="T">The type of elements in the tree.</typeparam>
         /// <param name="walker">
@@ -17,7 +17,7 @@ namespace Treenumerable
         /// <param name="excludeSubtreePredicate">
         /// A <see cref="System.Func&lt;T, int, bool&gt;"/> that determines if the current node
         /// that is being evaluated (and all of its descendants) should be included in the 
-        /// traversal.  This allows for short-circuiting of the postorder traversal by excluding
+        /// traversal.  This allows for short-circuiting of the post-order traversal by excluding
         /// particular subtrees from the traversal.  The first argument is the current node being
         /// evaluated and the second argument is the depth of the current node relative to the
         /// original node that the traversal began on.
@@ -29,7 +29,7 @@ namespace Treenumerable
         /// </param>
         /// <returns>
         /// An <see cref="System.Collections.Generic.IEnumerable&lt;T&gt;"/> that contains all the 
-        /// nodes in the tree ordered based on a preorder traversal.
+        /// nodes in the tree ordered based on a post-order traversal.
         /// </returns>
         private static IEnumerable<T> PostOrderTraversalImplementation<T>(
             this ITreeWalker<T> walker,
@@ -78,7 +78,7 @@ namespace Treenumerable
         }
 
         /// <summary>
-        /// Enumerates a tree using the postorder traversal method.
+        /// Enumerates a tree using the post-order traversal method.
         /// </summary>
         /// <typeparam name="T">The type of elements in the tree.</typeparam>
         /// <param name="walker">
@@ -88,13 +88,14 @@ namespace Treenumerable
         /// <param name="excludeSubtreePredicate">
         /// A <see cref="System.Func&lt;T, int, bool&gt;"/> that determines if the current node
         /// that is being evaluated (and all of its descendants) should be included in the 
-        /// traversal.  This allows for short-circuiting of the postorder traversal by excluding
+        /// traversal.  This allows for short-circuiting of the post-order traversal by excluding
         /// particular subtrees from the traversal.  The first argument is the current node being
         /// evaluated and the second argument is the depth of the current node relative to the
         /// original node that the traversal began on.
         /// </param>
+        /// <returns>
         /// An <see cref="System.Collections.Generic.IEnumerable&lt;T&gt;"/> that contains all the 
-        /// nodes in the tree ordered based on a preorder traversal.
+        /// nodes in the tree ordered based on a post-order traversal.
         /// </returns>
         public static IEnumerable<T> PostOrderTraversal<T>(this ITreeWalker<T> walker, T node, Func<T, int, bool> excludeSubtreePredicate)
         {
@@ -102,7 +103,7 @@ namespace Treenumerable
         }
 
         /// <summary>
-        /// Enumerates a tree using the postorder traversal method.
+        /// Enumerates a tree using the post-order traversal method.
         /// </summary>
         /// <typeparam name="T">The type of elements in the tree.</typeparam>
         /// <param name="walker">
@@ -110,7 +111,10 @@ namespace Treenumerable
         /// </param>
         /// <param name="node">The root node of the tree that is to be traversed.</param>
         /// An <see cref="System.Collections.Generic.IEnumerable&lt;T&gt;"/> that contains all the 
-        /// nodes in the tree ordered based on a preorder traversal.
+        /// nodes in the tree ordered based on a post-order traversal.
+        /// <returns>
+        /// An <see cref="System.Collections.Generic.IEnumerable&lt;T&gt;"/> that contains all the 
+        /// nodes in the tree ordered based on a post-order traversal.
         /// </returns>
         public static IEnumerable<T> PostOrderTraversal<T>(this ITreeWalker<T> walker, T node)
         {

@@ -28,7 +28,7 @@ namespace Treenumerable
         /// </param>
         /// <returns>
         /// An <see cref="System.Collections.Generic.IEnumerable&lt;T&gt;"/> that contains all the
-        /// nodes in the tree ordered based on a preorder traversal.
+        /// nodes in the tree ordered based on a pre-order traversal.
         /// </returns>
         private static IEnumerable<T> SelectDescendantsImplementation<T>(
             this ITreeWalker<T> walker,
@@ -97,7 +97,7 @@ namespace Treenumerable
         /// </param>
         /// <returns>
         /// An <see cref="System.Collections.Generic.IEnumerable&lt;T&gt;"/> that contains all the
-        /// nodes in the tree ordered based on a preorder traversal.
+        /// nodes in the tree ordered based on a pre-order traversal.
         /// </returns>
         public static IEnumerable<T> SelectDescendants<T>(
             this ITreeWalker<T> walker,
@@ -130,7 +130,7 @@ namespace Treenumerable
         /// </param>
         /// <returns>
         /// An <see cref="System.Collections.Generic.IEnumerable&lt;T&gt;"/> that contains all the
-        /// nodes in the tree ordered based on a preorder traversal.
+        /// nodes in the tree ordered based on a pre-order traversal.
         /// </returns>
         public static IEnumerable<T> SelectDescendants<T>(
             this ITreeWalker<T> walker,
@@ -169,7 +169,7 @@ namespace Treenumerable
         /// </param>
         /// <returns>
         /// An <see cref="System.Collections.Generic.IEnumerable&lt;T&gt;"/> that contains all the
-        /// nodes in the tree ordered based on a preorder traversal.
+        /// nodes in the tree ordered based on a pre-order traversal.
         /// </returns>
         public static IEnumerable<T> SelectDescendants<T>(
             this ITreeWalker<T> walker,
@@ -208,7 +208,7 @@ namespace Treenumerable
         /// </param>
         /// <returns>
         /// An <see cref="System.Collections.Generic.IEnumerable&lt;T&gt;"/> that contains all the
-        /// nodes in the tree ordered based on a preorder traversal.
+        /// nodes in the tree ordered based on a pre-order traversal.
         /// </returns>
         public static IEnumerable<T> SelectDescendants<T>(
             this ITreeWalker<T> walker,

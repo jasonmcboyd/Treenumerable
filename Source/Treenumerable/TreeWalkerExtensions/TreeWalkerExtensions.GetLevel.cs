@@ -17,7 +17,7 @@ namespace Treenumerable
         /// The node relative to which the level is returned.
         /// </param>
         /// <param name="depth">
-        /// The depth of the level to be returned relateive to <paramref name="node"/>.  This must
+        /// The depth of the level to be returned relative to <paramref name="node"/>.  This must
         /// be a nonnegative number.
         /// </param>
         /// <returns>
