@@ -10,11 +10,14 @@ namespace Treenumerable
     public interface ITreeWalker<T>
     {
         /// <summary>
-        /// Returns the parent of a node.
+        /// Returns a <see cref="System.Boolean"/> that indicates if a parent node exists.
         /// </summary>
         /// <param name="node">The node whose parent is to be returned.</param>
+        /// <param name="parent">The parent node, if one exists.</param>
         /// <returns>
-        /// The <see cref="ParentNode"/> that represents node's parent (or lack of parent).
+        /// When this method returns true this parameter will contain the <see cref="ParentNode"/>
+        /// that represents the parent of the <paramref name="node"/> parameter.  When this method
+        /// returns false the behavior of this parameter is undefined.
         /// </returns>
         bool TryGetParent(T node, out T parent);
 
