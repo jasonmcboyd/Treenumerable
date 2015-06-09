@@ -15,7 +15,7 @@ namespace Treenumerable
         /// nodes.
         /// </param>
         /// <param name="node">
-        /// The node whose sibilings are to be returned.
+        /// The node whose siblings are to be returned.
         /// </param>
         /// <param name="comparer">
         /// An <see cref="System.Collections.Generic.IEqualityComparer&lt;T&gt;"/> that knows how
@@ -26,7 +26,7 @@ namespace Treenumerable
         /// </param>
         /// <returns>
         /// An <see cref="System.Collections.Generic.IEnumerable&lt;T&gt;"/> that contains all of
-        /// the node's sibilings.
+        /// the node's siblings.
         /// </returns>
         public static IEnumerable<T> GetSiblings<T>(this ITreeWalker<T> walker, T node, IEqualityComparer<T> comparer)
         {
@@ -73,11 +73,11 @@ namespace Treenumerable
         /// nodes.
         /// </param>
         /// <param name="node">
-        /// The node whose sibilings are to be returned.
+        /// The node whose siblings are to be returned.
         /// </param>
         /// <returns>
         /// An <see cref="System.Collections.Generic.IEnumerable&lt;T&gt;"/> that contains all of
-        /// the node's sibilings.
+        /// the node's siblings.
         /// </returns>
         public static IEnumerable<T> GetSiblings<T>(this ITreeWalker<T> walker, T node)
         {
