@@ -723,8 +723,25 @@ namespace Treenumerable.Tests
                 walker.LevelOrderTraversal(tree[1][0][0]).Select(x => x.Value));
         }
 
-        [Fact]
-        public void LevelOrderTraversal_ShortCircuitDepth()
+        [Theory]
+        [InlineData(new int[] { }, ExcludeOption.ExcludeTree, new int[] { 0, 1, 4 })]
+        [InlineData(new int[] { 0 }, ExcludeOption.ExcludeTree, new int[] { 1, 2, 3 })]
+        [InlineData(new int[] { 0, 0 }, ExcludeOption.ExcludeTree, new int[] { 2 })]
+        [InlineData(new int[] { 0, 1 }, ExcludeOption.ExcludeTree, new int[] { 3 })]
+        [InlineData(new int[] { 1 }, ExcludeOption.ExcludeTree, new int[] { 4, 5 })]
+        [InlineData(new int[] { 1, 0 }, ExcludeOption.ExcludeTree, new int[] { 5, 6 })]
+        [InlineData(new int[] { 1, 0, 0 }, ExcludeOption.ExcludeTree, new int[] { 6 })]
+        [InlineData(new int[] { }, ExcludeOption.ExcludeChildren, new int[] { 0, 1, 4, 2, 3, 5 })]
+        [InlineData(new int[] { 0 }, ExcludeOption.ExcludeChildren, new int[] { 1, 2, 3 })]
+        [InlineData(new int[] { 0, 0 }, ExcludeOption.ExcludeChildren, new int[] { 2 })]
+        [InlineData(new int[] { 0, 1 }, ExcludeOption.ExcludeChildren, new int[] { 3 })]
+        [InlineData(new int[] { 1 }, ExcludeOption.ExcludeChildren, new int[] { 4, 5, 6 })]
+        [InlineData(new int[] { 1, 0 }, ExcludeOption.ExcludeChildren, new int[] { 5, 6 })]
+        [InlineData(new int[] { 1, 0, 0 }, ExcludeOption.ExcludeChildren, new int[] { 6 })]
+        public void LevelOrderTraversal_ShortCircuitDepth(
+            int[] traversalToStartNode,
+            ExcludeOption excludeOption,
+            int[] expectedResults)
         {
             // Get a valid tree.
             var tree = this.GetTree();
@@ -732,56 +749,38 @@ namespace Treenumerable.Tests
             // Get a valid ITreeWalker.
             NodeWalker<int> walker = new NodeWalker<int>();
 
-            // Create arrays of the results expected from each node.
-            int[] node0ExpectedResult = new int[] { 0, 1, 4 };
-            int[] node1ExpectedResult = new int[] { 1, 2, 3 };
-            int[] node2ExpectedResult = new int[] { 2 };
-            int[] node3ExpectedResult = new int[] { 3 };
-            int[] node4ExpectedResult = new int[] { 4, 5 };
-            int[] node5ExpectedResult = new int[] { 5, 6 };
-            int[] node6ExpectedResult = new int[] { 6 };
+            // Get the node to begin traversing from.
+            var startNode = tree;
+            foreach (int i in traversalToStartNode)
+            {
+                startNode = startNode[i];
+            }
 
-            // For each node in the tree assert that 'LevelOrderTraversal' returns the correct 
-            // elements.
-
-            // Node 0:
+            // Assert that the correct sequence is returned.
             Assert.Equal(
-                node0ExpectedResult,
-                walker.LevelOrderTraversal(tree, (n, i) => i > 1).Select(x => x.Value));
-
-            // Node 1:
-            Assert.Equal(
-                node1ExpectedResult,
-                walker.LevelOrderTraversal(tree[0], (n, i) => i > 1).Select(x => x.Value));
-
-            // Node 2:
-            Assert.Equal(
-                node2ExpectedResult,
-                walker.LevelOrderTraversal(tree[0][0], (n, i) => i > 1).Select(x => x.Value));
-
-            // Node 3:
-            Assert.Equal(
-                node3ExpectedResult,
-                walker.LevelOrderTraversal(tree[0][1], (n, i) => i > 1).Select(x => x.Value));
-
-            // Node 4:
-            Assert.Equal(
-                node4ExpectedResult,
-                walker.LevelOrderTraversal(tree[1], (n, i) => i > 1).Select(x => x.Value));
-
-            // Node 5:
-            Assert.Equal(
-                node5ExpectedResult,
-                walker.LevelOrderTraversal(tree[1][0], (n, i) => i > 1).Select(x => x.Value));
-
-            // Node 6:
-            Assert.Equal(
-                node6ExpectedResult,
-                walker.LevelOrderTraversal(tree[1][0][0], (n, i) => i > 1).Select(x => x.Value));
+                expectedResults,
+                walker.LevelOrderTraversal(startNode, (n, i) => i > 1, excludeOption).Select(x => x.Value));
         }
 
-        [Fact]
-        public void LevelOrderTraversal_ShortCircuitOddNumbers()
+        [Theory]
+        [InlineData(new int[] { }, ExcludeOption.ExcludeTree, new int[] { 0, 4 })]
+        [InlineData(new int[] { 0 }, ExcludeOption.ExcludeTree, new int[] { })]
+        [InlineData(new int[] { 0, 0 }, ExcludeOption.ExcludeTree, new int[] { 2 })]
+        [InlineData(new int[] { 0, 1 }, ExcludeOption.ExcludeTree, new int[] {  })]
+        [InlineData(new int[] { 1 }, ExcludeOption.ExcludeTree, new int[] { 4 })]
+        [InlineData(new int[] { 1, 0 }, ExcludeOption.ExcludeTree, new int[] { })]
+        [InlineData(new int[] { 1, 0, 0 }, ExcludeOption.ExcludeTree, new int[] { 6 })]
+        [InlineData(new int[] { }, ExcludeOption.ExcludeChildren, new int[] { 0, 1, 4, 5 })]
+        [InlineData(new int[] { 0 }, ExcludeOption.ExcludeChildren, new int[] { 1 })]
+        [InlineData(new int[] { 0, 0 }, ExcludeOption.ExcludeChildren, new int[] { 2 })]
+        [InlineData(new int[] { 0, 1 }, ExcludeOption.ExcludeChildren, new int[] { 3 })]
+        [InlineData(new int[] { 1 }, ExcludeOption.ExcludeChildren, new int[] { 4, 5 })]
+        [InlineData(new int[] { 1, 0 }, ExcludeOption.ExcludeChildren, new int[] { 5 })]
+        [InlineData(new int[] { 1, 0, 0 }, ExcludeOption.ExcludeChildren, new int[] { 6 })]
+        public void LevelOrderTraversal_ShortCircuitOddNumbers(
+            int[] traversalToStartNode,
+            ExcludeOption excludeOption,
+            int[] expectedResults)
         {
             // Get a valid tree.
             var tree = this.GetTree();
@@ -789,52 +788,17 @@ namespace Treenumerable.Tests
             // Get a valid ITreeWalker.
             NodeWalker<int> walker = new NodeWalker<int>();
 
-            // Create arrays of the results expected from each node.
-            int[] node0ExpectedResult = new int[] { 0, 4 };
-            int[] node1ExpectedResult = new int[] { };
-            int[] node2ExpectedResult = new int[] { 2 };
-            int[] node3ExpectedResult = new int[] { };
-            int[] node4ExpectedResult = new int[] { 4 };
-            int[] node5ExpectedResult = new int[] { };
-            int[] node6ExpectedResult = new int[] { 6 };
+            // Get the node to begin traversing from.
+            var startNode = tree;
+            foreach (int i in traversalToStartNode)
+            {
+                startNode = startNode[i];
+            }
 
-            // For each node in the tree assert that 'LevelOrderTraversal' returns the correct 
-            // elements.
-
-            // Node 0:
+            // Assert that the correct sequence is returned.
             Assert.Equal(
-                node0ExpectedResult,
-                walker.LevelOrderTraversal(tree, (n, i) => n.Value % 2 == 1).Select(x => x.Value));
-
-            // Node 1:
-            Assert.Equal(
-                node1ExpectedResult,
-                walker.LevelOrderTraversal(tree[0], (n, i) => n.Value % 2 == 1).Select(x => x.Value));
-
-            // Node 2:
-            Assert.Equal(
-                node2ExpectedResult,
-                walker.LevelOrderTraversal(tree[0][0], (n, i) => n.Value % 2 == 1).Select(x => x.Value));
-
-            // Node 3:
-            Assert.Equal(
-                node3ExpectedResult,
-                walker.LevelOrderTraversal(tree[0][1], (n, i) => n.Value % 2 == 1).Select(x => x.Value));
-
-            // Node 4:
-            Assert.Equal(
-                node4ExpectedResult,
-                walker.LevelOrderTraversal(tree[1], (n, i) => n.Value % 2 == 1).Select(x => x.Value));
-
-            // Node 5:
-            Assert.Equal(
-                node5ExpectedResult,
-                walker.LevelOrderTraversal(tree[1][0], (n, i) => n.Value % 2 == 1).Select(x => x.Value));
-
-            // Node 6:
-            Assert.Equal(
-                node6ExpectedResult,
-                walker.LevelOrderTraversal(tree[1][0][0], (n, i) => n.Value % 2 == 1).Select(x => x.Value));
+                expectedResults,
+                walker.LevelOrderTraversal(startNode, (n, i) => n.Value % 2 == 1, excludeOption).Select(x => x.Value));
         }
 
         #endregion
@@ -926,8 +890,25 @@ namespace Treenumerable.Tests
                 walker.PostOrderTraversal(tree[1][0][0]).Select(x => x.Value));
         }
 
-        [Fact]
-        public void PostOrderTraversal_ShortCircuitDepth()
+        [Theory]
+        [InlineData(new int[] { }, ExcludeOption.ExcludeTree, new int[] { 1, 4, 0 })]
+        [InlineData(new int[] { 0 }, ExcludeOption.ExcludeTree, new int[] { 2, 3, 1 })]
+        [InlineData(new int[] { 0, 0 }, ExcludeOption.ExcludeTree, new int[] { 2 })]
+        [InlineData(new int[] { 0, 1 }, ExcludeOption.ExcludeTree, new int[] { 3 })]
+        [InlineData(new int[] { 1 }, ExcludeOption.ExcludeTree, new int[] { 5, 4 })]
+        [InlineData(new int[] { 1, 0 }, ExcludeOption.ExcludeTree, new int[] { 6, 5 })]
+        [InlineData(new int[] { 1, 0, 0 }, ExcludeOption.ExcludeTree, new int[] { 6 })]
+        [InlineData(new int[] { }, ExcludeOption.ExcludeChildren, new int[] { 2, 3, 1, 5, 4, 0 })]
+        [InlineData(new int[] { 0 }, ExcludeOption.ExcludeChildren, new int[] { 2, 3, 1 })]
+        [InlineData(new int[] { 0, 0 }, ExcludeOption.ExcludeChildren, new int[] { 2 })]
+        [InlineData(new int[] { 0, 1 }, ExcludeOption.ExcludeChildren, new int[] { 3 })]
+        [InlineData(new int[] { 1 }, ExcludeOption.ExcludeChildren, new int[] { 6, 5, 4 })]
+        [InlineData(new int[] { 1, 0 }, ExcludeOption.ExcludeChildren, new int[] { 6, 5 })]
+        [InlineData(new int[] { 1, 0, 0 }, ExcludeOption.ExcludeChildren, new int[] { 6 })]
+        public void PostOrderTraversal_ShortCircuitDepth(
+            int[] traversalToStartNode,
+            ExcludeOption excludeOption,
+            int[] expectedResults)
         {
             // Get a valid tree.
             var tree = this.GetTree();
@@ -935,56 +916,38 @@ namespace Treenumerable.Tests
             // Get a valid ITreeWalker.
             NodeWalker<int> walker = new NodeWalker<int>();
 
-            // Create arrays of the results expected from each node.
-            int[] node0ExpectedResult = new int[] { 1, 4, 0 };
-            int[] node1ExpectedResult = new int[] { 2, 3, 1 };
-            int[] node2ExpectedResult = new int[] { 2 };
-            int[] node3ExpectedResult = new int[] { 3 };
-            int[] node4ExpectedResult = new int[] { 5, 4 };
-            int[] node5ExpectedResult = new int[] { 6, 5 };
-            int[] node6ExpectedResult = new int[] { 6 };
+            // Get the node to begin traversing from.
+            var startNode = tree;
+            foreach (int i in traversalToStartNode)
+            {
+                startNode = startNode[i];
+            }
 
-            // For each node in the tree assert that 'PreOrderTraversal' returns the correct 
-            // elements.
-
-            // Node 0:
+            // Assert that the correct sequence is returned.
             Assert.Equal(
-                node0ExpectedResult,
-                walker.PostOrderTraversal(tree, (n, i) => i > 1).Select(x => x.Value));
-
-            // Node 1:
-            Assert.Equal(
-                node1ExpectedResult,
-                walker.PostOrderTraversal(tree[0], (n, i) => i > 1).Select(x => x.Value));
-
-            // Node 2:
-            Assert.Equal(
-                node2ExpectedResult,
-                walker.PostOrderTraversal(tree[0][0], (n, i) => i > 1).Select(x => x.Value));
-
-            // Node 3:
-            Assert.Equal(
-                node3ExpectedResult,
-                walker.PostOrderTraversal(tree[0][1], (n, i) => i > 1).Select(x => x.Value));
-
-            // Node 4:
-            Assert.Equal(
-                node4ExpectedResult,
-                walker.PostOrderTraversal(tree[1], (n, i) => i > 1).Select(x => x.Value));
-
-            // Node 5:
-            Assert.Equal(
-                node5ExpectedResult,
-                walker.PostOrderTraversal(tree[1][0], (n, i) => i > 1).Select(x => x.Value));
-
-            // Node 6:
-            Assert.Equal(
-                node6ExpectedResult,
-                walker.PostOrderTraversal(tree[1][0][0], (n, i) => i > 1).Select(x => x.Value));
+                expectedResults,
+                walker.PostOrderTraversal(startNode, (n, i) => i > 1, excludeOption).Select(x => x.Value));
         }
 
-        [Fact]
-        public void PostOrderTraversal_ShortCircuitOddNumbers()
+        [Theory]
+        [InlineData(new int[] { }, ExcludeOption.ExcludeTree, new int[] { 4, 0 })]
+        [InlineData(new int[] { 0 }, ExcludeOption.ExcludeTree, new int[] { })]
+        [InlineData(new int[] { 0, 0 }, ExcludeOption.ExcludeTree, new int[] { 2 })]
+        [InlineData(new int[] { 0, 1 }, ExcludeOption.ExcludeTree, new int[] { })]
+        [InlineData(new int[] { 1 }, ExcludeOption.ExcludeTree, new int[] { 4 })]
+        [InlineData(new int[] { 1, 0 }, ExcludeOption.ExcludeTree, new int[] { })]
+        [InlineData(new int[] { 1, 0, 0 }, ExcludeOption.ExcludeTree, new int[] { 6 })]
+        [InlineData(new int[] { }, ExcludeOption.ExcludeChildren, new int[] { 1, 5, 4, 0 })]
+        [InlineData(new int[] { 0 }, ExcludeOption.ExcludeChildren, new int[] { 1 })]
+        [InlineData(new int[] { 0, 0 }, ExcludeOption.ExcludeChildren, new int[] { 2 })]
+        [InlineData(new int[] { 0, 1 }, ExcludeOption.ExcludeChildren, new int[] { 3 })]
+        [InlineData(new int[] { 1 }, ExcludeOption.ExcludeChildren, new int[] { 5, 4 })]
+        [InlineData(new int[] { 1, 0 }, ExcludeOption.ExcludeChildren, new int[] { 5 })]
+        [InlineData(new int[] { 1, 0, 0 }, ExcludeOption.ExcludeChildren, new int[] { 6 })]
+        public void PostOrderTraversal_ShortCircuitOddNumbers(
+            int[] traversalToStartNode,
+            ExcludeOption excludeOption,
+            int[] expectedResults)
         {
             // Get a valid tree.
             var tree = this.GetTree();
@@ -992,52 +955,17 @@ namespace Treenumerable.Tests
             // Get a valid ITreeWalker.
             NodeWalker<int> walker = new NodeWalker<int>();
 
-            // Create arrays of the results expected from each node.
-            int[] node0ExpectedResult = new int[] { 4, 0 };
-            int[] node1ExpectedResult = new int[] { };
-            int[] node2ExpectedResult = new int[] { 2 };
-            int[] node3ExpectedResult = new int[] { };
-            int[] node4ExpectedResult = new int[] { 4 };
-            int[] node5ExpectedResult = new int[] { };
-            int[] node6ExpectedResult = new int[] { 6 };
+            // Get the node to begin traversing from.
+            var startNode = tree;
+            foreach (int i in traversalToStartNode)
+            {
+                startNode = startNode[i];
+            }
 
-            // For each node in the tree assert that 'PostOrderTraversal' returns the correct 
-            // elements.
-
-            // Node 0:
+            // Assert that the correct sequence is returned.
             Assert.Equal(
-                node0ExpectedResult,
-                walker.PostOrderTraversal(tree, (n, i) => n.Value % 2 == 1).Select(x => x.Value));
-
-            // Node 1:
-            Assert.Equal(
-                node1ExpectedResult,
-                walker.PostOrderTraversal(tree[0], (n, i) => n.Value % 2 == 1).Select(x => x.Value));
-
-            // Node 2:
-            Assert.Equal(
-                node2ExpectedResult,
-                walker.PostOrderTraversal(tree[0][0], (n, i) => n.Value % 2 == 1).Select(x => x.Value));
-
-            // Node 3:
-            Assert.Equal(
-                node3ExpectedResult,
-                walker.PostOrderTraversal(tree[0][1], (n, i) => n.Value % 2 == 1).Select(x => x.Value));
-
-            // Node 4:
-            Assert.Equal(
-                node4ExpectedResult,
-                walker.PostOrderTraversal(tree[1], (n, i) => n.Value % 2 == 1).Select(x => x.Value));
-
-            // Node 5:
-            Assert.Equal(
-                node5ExpectedResult,
-                walker.PostOrderTraversal(tree[1][0], (n, i) => n.Value % 2 == 1).Select(x => x.Value));
-
-            // Node 6:
-            Assert.Equal(
-                node6ExpectedResult,
-                walker.PostOrderTraversal(tree[1][0][0], (n, i) => n.Value % 2 == 1).Select(x => x.Value));
+                expectedResults,
+                walker.PostOrderTraversal(startNode, (n, i) => n.Value % 2 == 1, excludeOption).Select(x => x.Value));
         }
 
         #endregion
@@ -1129,8 +1057,25 @@ namespace Treenumerable.Tests
                 walker.PreOrderTraversal(tree[1][0][0]).Select(x => x.Value));
         }
 
-        [Fact]
-        public void PreOrderTraversal_ShortCircuitDepth()
+        [Theory]
+        [InlineData(new int[] { }, ExcludeOption.ExcludeTree, new int[] { 0, 1, 4 })]
+        [InlineData(new int[] { 0 }, ExcludeOption.ExcludeTree, new int[] { 1, 2, 3 })]
+        [InlineData(new int[] { 0, 0 }, ExcludeOption.ExcludeTree, new int[] { 2 })]
+        [InlineData(new int[] { 0, 1 }, ExcludeOption.ExcludeTree, new int[] { 3 })]
+        [InlineData(new int[] { 1 }, ExcludeOption.ExcludeTree, new int[] { 4, 5 })]
+        [InlineData(new int[] { 1, 0 }, ExcludeOption.ExcludeTree, new int[] { 5, 6 })]
+        [InlineData(new int[] { 1, 0, 0 }, ExcludeOption.ExcludeTree, new int[] { 6 })]
+        [InlineData(new int[] { }, ExcludeOption.ExcludeChildren, new int[] { 0, 1, 2, 3, 4, 5 })]
+        [InlineData(new int[] { 0 }, ExcludeOption.ExcludeChildren, new int[] { 1, 2, 3 })]
+        [InlineData(new int[] { 0, 0 }, ExcludeOption.ExcludeChildren, new int[] { 2 })]
+        [InlineData(new int[] { 0, 1 }, ExcludeOption.ExcludeChildren, new int[] { 3 })]
+        [InlineData(new int[] { 1 }, ExcludeOption.ExcludeChildren, new int[] { 4, 5, 6 })]
+        [InlineData(new int[] { 1, 0 }, ExcludeOption.ExcludeChildren, new int[] { 5, 6 })]
+        [InlineData(new int[] { 1, 0, 0 }, ExcludeOption.ExcludeChildren, new int[] { 6 })]
+        public void PreOrderTraversal_ShortCircuitDepth(
+            int[] traversalToStartNode,
+            ExcludeOption excludeOption,
+            int[] expectedResults)
         {
             // Get a valid tree.
             var tree = this.GetTree();
@@ -1138,56 +1083,38 @@ namespace Treenumerable.Tests
             // Get a valid ITreeWalker.
             NodeWalker<int> walker = new NodeWalker<int>();
 
-            // Create arrays of the results expected from each node.
-            int[] node0ExpectedResult = new int[] { 0, 1, 4 };
-            int[] node1ExpectedResult = new int[] { 1, 2, 3 };
-            int[] node2ExpectedResult = new int[] { 2 };
-            int[] node3ExpectedResult = new int[] { 3 };
-            int[] node4ExpectedResult = new int[] { 4, 5 };
-            int[] node5ExpectedResult = new int[] { 5, 6 };
-            int[] node6ExpectedResult = new int[] { 6 };
+            // Get the node to begin traversing from.
+            var startNode = tree;
+            foreach (int i in traversalToStartNode)
+            {
+                startNode = startNode[i];
+            }
 
-            // For each node in the tree assert that 'PreOrderTraversal' returns the correct 
-            // elements.
-
-            // Node 0:
+            // Assert that the correct sequence is returned.
             Assert.Equal(
-                node0ExpectedResult,
-                walker.PreOrderTraversal(tree, (n, i) => i > 1).Select(x => x.Value));
-
-            // Node 1:
-            Assert.Equal(
-                node1ExpectedResult,
-                walker.PreOrderTraversal(tree[0], (n, i) => i > 1).Select(x => x.Value));
-
-            // Node 2:
-            Assert.Equal(
-                node2ExpectedResult,
-                walker.PreOrderTraversal(tree[0][0], (n, i) => i > 1).Select(x => x.Value));
-
-            // Node 3:
-            Assert.Equal(
-                node3ExpectedResult,
-                walker.PreOrderTraversal(tree[0][1], (n, i) => i > 1).Select(x => x.Value));
-
-            // Node 4:
-            Assert.Equal(
-                node4ExpectedResult,
-                walker.PreOrderTraversal(tree[1], (n, i) => i > 1).Select(x => x.Value));
-
-            // Node 5:
-            Assert.Equal(
-                node5ExpectedResult,
-                walker.PreOrderTraversal(tree[1][0], (n, i) => i > 1).Select(x => x.Value));
-
-            // Node 6:
-            Assert.Equal(
-                node6ExpectedResult,
-                walker.PreOrderTraversal(tree[1][0][0], (n, i) => i > 1).Select(x => x.Value));
+                expectedResults,
+                walker.PreOrderTraversal(startNode, (n, i) => i > 1, excludeOption).Select(x => x.Value));
         }
 
-        [Fact]
-        public void PreOrderTraversal_ShortCircuitOddNumbers()
+        [Theory]
+        [InlineData(new int[] { }, ExcludeOption.ExcludeTree, new int[] { 0, 4 })]
+        [InlineData(new int[] { 0 }, ExcludeOption.ExcludeTree, new int[] { })]
+        [InlineData(new int[] { 0, 0 }, ExcludeOption.ExcludeTree, new int[] { 2 })]
+        [InlineData(new int[] { 0, 1 }, ExcludeOption.ExcludeTree, new int[] { })]
+        [InlineData(new int[] { 1 }, ExcludeOption.ExcludeTree, new int[] { 4 })]
+        [InlineData(new int[] { 1, 0 }, ExcludeOption.ExcludeTree, new int[] { })]
+        [InlineData(new int[] { 1, 0, 0 }, ExcludeOption.ExcludeTree, new int[] { 6 })]
+        [InlineData(new int[] { }, ExcludeOption.ExcludeChildren, new int[] { 0, 1, 4, 5 })]
+        [InlineData(new int[] { 0 }, ExcludeOption.ExcludeChildren, new int[] { 1 })]
+        [InlineData(new int[] { 0, 0 }, ExcludeOption.ExcludeChildren, new int[] { 2 })]
+        [InlineData(new int[] { 0, 1 }, ExcludeOption.ExcludeChildren, new int[] { 3 })]
+        [InlineData(new int[] { 1 }, ExcludeOption.ExcludeChildren, new int[] { 4, 5 })]
+        [InlineData(new int[] { 1, 0 }, ExcludeOption.ExcludeChildren, new int[] { 5 })]
+        [InlineData(new int[] { 1, 0, 0 }, ExcludeOption.ExcludeChildren, new int[] { 6 })]
+        public void PreOrderTraversal_ShortCircuitOddNumbers(
+            int[] traversalToStartNode,
+            ExcludeOption excludeOption,
+            int[] expectedResults)
         {
             // Get a valid tree.
             var tree = this.GetTree();
@@ -1195,52 +1122,17 @@ namespace Treenumerable.Tests
             // Get a valid ITreeWalker.
             NodeWalker<int> walker = new NodeWalker<int>();
 
-            // Create arrays of the results expected from each node.
-            int[] node0ExpectedResult = new int[] { 0, 4 };
-            int[] node1ExpectedResult = new int[] { };
-            int[] node2ExpectedResult = new int[] { 2 };
-            int[] node3ExpectedResult = new int[] { };
-            int[] node4ExpectedResult = new int[] { 4 };
-            int[] node5ExpectedResult = new int[] { };
-            int[] node6ExpectedResult = new int[] { 6 };
+            // Get the node to begin traversing from.
+            var startNode = tree;
+            foreach (int i in traversalToStartNode)
+            {
+                startNode = startNode[i];
+            }
 
-            // For each node in the tree assert that 'PreOrderTraversal' returns the correct 
-            // elements.
-
-            // Node 0:
+            // Assert that the correct sequence is returned.
             Assert.Equal(
-                node0ExpectedResult,
-                walker.PreOrderTraversal(tree, (n, i) => n.Value % 2 == 1).Select(x => x.Value));
-
-            // Node 1:
-            Assert.Equal(
-                node1ExpectedResult,
-                walker.PreOrderTraversal(tree[0], (n, i) => n.Value % 2 == 1).Select(x => x.Value));
-
-            // Node 2:
-            Assert.Equal(
-                node2ExpectedResult,
-                walker.PreOrderTraversal(tree[0][0], (n, i) => n.Value % 2 == 1).Select(x => x.Value));
-
-            // Node 3:
-            Assert.Equal(
-                node3ExpectedResult,
-                walker.PreOrderTraversal(tree[0][1], (n, i) => n.Value % 2 == 1).Select(x => x.Value));
-
-            // Node 4:
-            Assert.Equal(
-                node4ExpectedResult,
-                walker.PreOrderTraversal(tree[1], (n, i) => n.Value % 2 == 1).Select(x => x.Value));
-
-            // Node 5:
-            Assert.Equal(
-                node5ExpectedResult,
-                walker.PreOrderTraversal(tree[1][0], (n, i) => n.Value % 2 == 1).Select(x => x.Value));
-
-            // Node 6:
-            Assert.Equal(
-                node6ExpectedResult,
-                walker.PreOrderTraversal(tree[1][0][0], (n, i) => n.Value % 2 == 1).Select(x => x.Value));
+                expectedResults,
+                walker.PreOrderTraversal(startNode, (n, i) => n.Value % 2 == 1, excludeOption).Select(x => x.Value));
         }
 
         #endregion
