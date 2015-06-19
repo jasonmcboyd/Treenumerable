@@ -24,6 +24,10 @@ namespace Treenumerable
         /// evaluated and the second argument is the depth of the current node relative to the
         /// original node that the traversal began on.
         /// </param>
+        /// <param name="excludeOption">
+        /// Used in conjunction with the <paramref name="excludeSubtreePredicate"/>.  Determines
+        /// if the entire subtree should be excluded or just its children.
+        /// </param>
         /// <returns>
         /// An <see cref="System.Collections.Generic.IEnumerable&lt;T&gt;"/> that contains all the nodes
         /// in the tree ordered based on a level order traversal.
@@ -31,7 +35,8 @@ namespace Treenumerable
         public static IEnumerable<T> LevelOrderTraversal<T>(
             this ITreeWalker<T> walker,
             T node,
-            Func<T, int, bool> excludeSubtreePredicate)
+            Func<T, int, bool> excludeSubtreePredicate,
+            ExcludeOption excludeOption)
         {
             // Validate parameters.
             if (walker == null)
@@ -52,13 +57,23 @@ namespace Treenumerable
             IEnumerable<T> nextLevel = Enumerable.Empty<T>();
 
             // Enumerate 'currentLevel' and yield each node while adding that node's children to 
-            // 'nextLevel'.  When complete set 'currentLevel' equal to 'nextLevel', increment count
+            // 'nextLevel'.  When complete: set 'currentLevel' equal to 'nextLevel', increment count
             // and repeat the process.
             while (currentLevel.Any())
             {
                 foreach (T currentNode in currentLevel)
                 {
-                    if (excludeSubtreePredicate == null || !excludeSubtreePredicate.Invoke(currentNode, depth))
+                    // If the 'excludeSubtreePredicate' is not null and evaluates to true then
+                    // exlucude this node and all of its descendants, depending on 'excludeOption',
+                    // from the traversal result.
+                    if (excludeSubtreePredicate != null && excludeSubtreePredicate.Invoke(currentNode, depth))
+                    {
+                        if (excludeOption == ExcludeOption.ExcludeChildren)
+                        {
+                            yield return currentNode;
+                        }
+                    }
+                    else
                     {
                         yield return currentNode;
                         nextLevel = nextLevel.Concat(walker.GetChildren(currentNode));
@@ -87,7 +102,9 @@ namespace Treenumerable
         /// </returns>
         public static IEnumerable<T> LevelOrderTraversal<T>(this ITreeWalker<T> walker, T node)
         {
-            return walker.LevelOrderTraversal(node, null);
+            return walker.LevelOrderTraversal(node, null, ExcludeOption.ExcludeTree);
         }
+
+        
     }
 }

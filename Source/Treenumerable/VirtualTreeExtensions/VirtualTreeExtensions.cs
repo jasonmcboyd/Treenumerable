@@ -107,12 +107,15 @@ namespace Treenumerable
                 .Select(x => new VirtualTree<T>(virtualTree.TreeWalker, x));
         }
 
-        public static IEnumerable<VirtualTree<T>> LevelOrderTraversal<T>(this VirtualTree<T> virtualTree, Func<T, int, bool> predicate)
+        public static IEnumerable<VirtualTree<T>> LevelOrderTraversal<T>(
+            this VirtualTree<T> virtualTree, 
+            Func<T, int, bool> predicate,
+            ExcludeOption excludeOption)
         {
             return
                 virtualTree
                 .TreeWalker
-                .LevelOrderTraversal(virtualTree.Root, predicate)
+                .LevelOrderTraversal(virtualTree.Root, predicate, excludeOption)
                 .Select(x => new VirtualTree<T>(virtualTree.TreeWalker, x));
         }
 
@@ -125,12 +128,15 @@ namespace Treenumerable
                 .Select(x => new VirtualTree<T>(virtualTree.TreeWalker, x));
         }
 
-        public static IEnumerable<VirtualTree<T>> PreOrderTraversal<T>(this VirtualTree<T> virtualTree, Func<T, int, bool> predicate)
+        public static IEnumerable<VirtualTree<T>> PreOrderTraversal<T>(
+            this VirtualTree<T> virtualTree, 
+            Func<T, int, bool> excludeSubtreePredicate,
+            ExcludeOption excludeOption)
         {
             return
                 virtualTree
                 .TreeWalker
-                .PreOrderTraversal(virtualTree.Root, predicate)
+                .PreOrderTraversal(virtualTree.Root, excludeSubtreePredicate, excludeOption)
                 .Select(x => new VirtualTree<T>(virtualTree.TreeWalker, x));
         }
 
@@ -143,12 +149,15 @@ namespace Treenumerable
                 .Select(x => new VirtualTree<T>(virtualTree.TreeWalker, x));
         }
 
-        public static IEnumerable<VirtualTree<T>> PostOrderTraversal<T>(this VirtualTree<T> virtualTree, Func<T, int, bool> predicate)
+        public static IEnumerable<VirtualTree<T>> PostOrderTraversal<T>(
+            this VirtualTree<T> virtualTree,
+            Func<T, int, bool> excludeSubtreePredicate,
+            ExcludeOption excludeOption)
         {
             return
                 virtualTree
                 .TreeWalker
-                .PostOrderTraversal(virtualTree.Root, predicate)
+                .PostOrderTraversal(virtualTree.Root, excludeSubtreePredicate, excludeOption)
                 .Select(x => new VirtualTree<T>(virtualTree.TreeWalker, x));
         }
 

@@ -22,6 +22,10 @@ namespace Treenumerable
         /// evaluated and the second argument is the depth of the current node relative to the
         /// original node that the traversal began on.
         /// </param>
+        /// <param name="excludeOption">
+        /// Used in conjunction with the <paramref name="excludeSubtreePredicate"/>.  Determines
+        /// if the entire subtree should be excluded or just its children.
+        /// </param>
         /// <param name="depth">
         /// The depth of the current node being evaluated for traversal.  This is the number of
         /// edges from the original node that the traversal began on to the current node being
@@ -35,6 +39,7 @@ namespace Treenumerable
             this ITreeWalker<T> walker,
             T node,
             Func<T, int, bool> excludeSubtreePredicate,
+            ExcludeOption excludeOption,
             int depth)
         {
             // Validate parameters.
@@ -48,29 +53,41 @@ namespace Treenumerable
                 throw new ArgumentNullException("node");
             }
 
-            // If the 'excludeSubtreePredicate' is not null and evaluates to true then
-            // terminiate the traversal of this node and all of its descendants by returning
-            // an empty enumerable.
+            // If the 'excludeSubtreePredicate' is not null and evaluates to true then exlucude
+            // this node and all of its descendants, depending on 'excludeOption', from the
+            // traversal result.
+            bool excludeChildren = false;
             if (excludeSubtreePredicate != null && excludeSubtreePredicate.Invoke(node, depth))
             {
-                yield break;
+                if (excludeOption == ExcludeOption.ExcludeTree)
+                {
+                    yield break;
+                }
+                else
+                {
+                    excludeChildren = true;
+                }
             }
 
-            // Construct an IEnumerable to traverse the remaining nodes.
-            IEnumerable<T> remainingNodes =
-                walker
-                .GetChildren(node)
-                .SelectMany(x =>
-                    walker
-                    .PostOrderTraversalImplementation(
-                        x,
-                        excludeSubtreePredicate,
-                        depth + 1));
-
-            // Recursively yield each descendant using the postorder traversal method.
-            foreach (T descendant in remainingNodes)
+            if (!excludeChildren)
             {
-                yield return descendant;
+                // Construct an IEnumerable to traverse the remaining nodes.
+                IEnumerable<T> remainingNodes =
+                    walker
+                    .GetChildren(node)
+                    .SelectMany(x =>
+                        walker
+                        .PostOrderTraversalImplementation(
+                            x,
+                            excludeSubtreePredicate,
+                            excludeOption,
+                            depth + 1));
+
+                // Recursively yield each descendant using the postorder traversal method.
+                foreach (T descendant in remainingNodes)
+                {
+                    yield return descendant;
+                }
             }
 
             // Yield the root node.
@@ -93,13 +110,21 @@ namespace Treenumerable
         /// evaluated and the second argument is the depth of the current node relative to the
         /// original node that the traversal began on.
         /// </param>
+        /// <param name="excludeOption">
+        /// Used in conjunction with the <paramref name="excludeSubtreePredicate"/>.  Determines
+        /// if the entire subtree should be excluded or just its children.
+        /// </param>
         /// <returns>
         /// An <see cref="System.Collections.Generic.IEnumerable&lt;T&gt;"/> that contains all the 
         /// nodes in the tree ordered based on a post-order traversal.
         /// </returns>
-        public static IEnumerable<T> PostOrderTraversal<T>(this ITreeWalker<T> walker, T node, Func<T, int, bool> excludeSubtreePredicate)
+        public static IEnumerable<T> PostOrderTraversal<T>(
+            this ITreeWalker<T> walker, 
+            T node, 
+            Func<T, int, bool> excludeSubtreePredicate,
+            ExcludeOption excludeOption)
         {
-            return walker.PostOrderTraversalImplementation(node, excludeSubtreePredicate, 0);
+            return walker.PostOrderTraversalImplementation(node, excludeSubtreePredicate, excludeOption, 0);
         }
 
         /// <summary>
@@ -118,7 +143,7 @@ namespace Treenumerable
         /// </returns>
         public static IEnumerable<T> PostOrderTraversal<T>(this ITreeWalker<T> walker, T node)
         {
-            return walker.PostOrderTraversalImplementation(node, null, 0);
+            return walker.PostOrderTraversalImplementation(node, null, ExcludeOption.ExcludeTree, 0);
         }
     }
 }
