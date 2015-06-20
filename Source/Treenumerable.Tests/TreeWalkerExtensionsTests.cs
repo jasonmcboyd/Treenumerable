@@ -1251,5 +1251,115 @@ namespace Treenumerable.Tests
         }
 
         #endregion
+
+        #region SelectDescendants By Key
+
+        [Fact]
+        public void SelectDescendants_ByKey_NullWalker_ArgumentNullExceptionThrown()
+        {
+            // Get a valid tree.
+            var tree = this.GetTree();
+
+            // Create a null ITreeWalker.
+            NodeWalker<int> walker = null;
+
+            // Assert that 'SelectDescendants' throws an 'ArgumentNullException' when the tree 
+            // walker is null.
+            Assert.Throws<ArgumentNullException>(
+                "walker",
+                () => walker.SelectDescendants(new Node<int>[] { tree }, default(Node<int>)));
+            Assert.Throws<ArgumentNullException>(
+                "walker",
+                () => walker.SelectDescendants(new Node<int>[] { tree }, default(Node<int>), EqualityComparer<Node<int>>.Default));
+            Assert.Throws<ArgumentNullException>(
+                "walker",
+                () => walker.SelectDescendants(tree, default(Node<int>)).ToArray());
+            Assert.Throws<ArgumentNullException>(
+                "walker",
+                () => walker.SelectDescendants(tree, default(Node<int>), EqualityComparer<Node<int>>.Default).ToArray());
+        }
+
+        [Fact]
+        public void SelectDescendants_ByKey_NullNode_ArgumentNullExceptionThrown()
+        {
+            // Create a valid ITreeWalker.
+            NodeWalker<int> walker = new NodeWalker<int>();
+            
+            // Assert that 'SelectDescendants' throws an 'ArgumentNullException' when the node is
+            // null.
+            Assert.Throws<ArgumentNullException>(
+                "nodes",
+                () => walker.SelectDescendants((IEnumerable<Node<int>>)null, default(Node<int>)));
+            Assert.Throws<ArgumentNullException>(
+                "nodes",
+                () => walker.SelectDescendants((IEnumerable<Node<int>>)null, default(Node<int>), EqualityComparer<Node<int>>.Default));
+            Assert.Throws<ArgumentNullException>(
+                "node",
+                () => walker.SelectDescendants((Node<int>)null, default(Node<int>)).ToArray());
+            Assert.Throws<ArgumentNullException>(
+                "node",
+                () => walker.SelectDescendants((Node<int>)null, default(Node<int>), EqualityComparer<Node<int>>.Default).ToArray());
+        }
+
+        [Fact]
+        public void SelectDescendants_ByKey_NullKey_ArgumentNullExceptionThrown()
+        {
+            // Get a valid tree.
+            var tree = this.GetTree();
+
+            // Create a valid ITreeWalker.
+            NodeWalker<int> walker = new NodeWalker<int>();
+
+            // Assert that 'SelectDescendants' throws an 'ArgumentNullException' when the predicate 
+            // is null.
+            Assert.Throws<ArgumentNullException>(
+                "key",
+                () => walker.SelectDescendants(new Node<int>[] { tree }, (Node<int>)null).ToArray());
+            Assert.Throws<ArgumentNullException>(
+                "key",
+                () => walker.SelectDescendants(new Node<int>[] { tree }, (Node<int>)null).ToArray());
+            Assert.Throws<ArgumentNullException>(
+                "key",
+                () => walker.SelectDescendants(tree, (Node<int>)null).ToArray());
+            Assert.Throws<ArgumentNullException>(
+                "key",
+                () => walker.SelectDescendants(tree, (Node<int>)null).ToArray());
+        }
+
+        [Fact]
+        public void SelectDescendants_ByKey_PredicateTests_NullComparer()
+        {
+            // Get a valid tree.
+            var tree = this.GetTree();
+
+            // Create a valid ITreeWalker.
+            NodeWalker<int> walker = new NodeWalker<int>();
+
+            foreach (Node<int> key in walker.PreOrderTraversal(tree))
+            {
+                IEnumerable<Node<int>> result = walker.SelectDescendants(tree, key);
+                Assert.Equal(1, result.Count());
+                Assert.Equal(key, result.First());
+            }
+        }
+
+        [Fact]
+        public void SelectDescendants_ByKey_PredicateTests_NonNullComparer()
+        {
+            // Get a valid tree.
+            var tree = this.GetTree();
+
+            // Create a valid ITreeWalker.
+            NodeWalker<int> walker = new NodeWalker<int>();
+
+            foreach (Node<int> key in walker.PreOrderTraversal(tree))
+            {
+                IEnumerable<Node<int>> result = walker.SelectDescendants(tree, key, new NodeComparer<int>());
+                Assert.Equal(1, result.Count());
+                Assert.Equal(key, result.First());
+            }
+        }
+
+        #endregion
     }
 }

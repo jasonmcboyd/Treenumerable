@@ -28,7 +28,7 @@ namespace Treenumerable
         /// </param>
         /// <returns>
         /// An <see cref="System.Collections.Generic.IEnumerable&lt;T&gt;"/> that contains all the
-        /// nodes in the tree ordered based on a pre-order traversal.
+        /// matching nodes in the tree ordered based on a pre-order traversal.
         /// </returns>
         private static IEnumerable<T> SelectDescendantsImplementation<T>(
             this ITreeWalker<T> walker,
@@ -97,7 +97,7 @@ namespace Treenumerable
         /// </param>
         /// <returns>
         /// An <see cref="System.Collections.Generic.IEnumerable&lt;T&gt;"/> that contains all the
-        /// nodes in the tree ordered based on a pre-order traversal.
+        /// matching nodes in the tree ordered based on a pre-order traversal.
         /// </returns>
         public static IEnumerable<T> SelectDescendants<T>(
             this ITreeWalker<T> walker,
@@ -130,7 +130,7 @@ namespace Treenumerable
         /// </param>
         /// <returns>
         /// An <see cref="System.Collections.Generic.IEnumerable&lt;T&gt;"/> that contains all the
-        /// nodes in the tree ordered based on a pre-order traversal.
+        /// matching nodes in the tree ordered based on a pre-order traversal.
         /// </returns>
         public static IEnumerable<T> SelectDescendants<T>(
             this ITreeWalker<T> walker,
@@ -169,7 +169,7 @@ namespace Treenumerable
         /// </param>
         /// <returns>
         /// An <see cref="System.Collections.Generic.IEnumerable&lt;T&gt;"/> that contains all the
-        /// nodes in the tree ordered based on a pre-order traversal.
+        /// matching nodes in the tree ordered based on a pre-order traversal.
         /// </returns>
         public static IEnumerable<T> SelectDescendants<T>(
             this ITreeWalker<T> walker,
@@ -208,7 +208,7 @@ namespace Treenumerable
         /// </param>
         /// <returns>
         /// An <see cref="System.Collections.Generic.IEnumerable&lt;T&gt;"/> that contains all the
-        /// nodes in the tree ordered based on a pre-order traversal.
+        /// matching nodes in the tree ordered based on a pre-order traversal.
         /// </returns>
         public static IEnumerable<T> SelectDescendants<T>(
             this ITreeWalker<T> walker,
@@ -232,6 +232,196 @@ namespace Treenumerable
                     new T[] { node },
                     (n, i) => predicate.Invoke(n),
                     0);
+        }
+
+        /// <summary>
+        /// Selects the nearest descendants that match the <paramref name="key"/>.
+        /// </summary>
+        /// <typeparam name="T">The type of elements in the tree.</typeparam>
+        /// <param name="walker">
+        /// The <see cref="ITreeWalker&lt;T&gt;"/> that knows how to find the parent and child
+        /// nodes.
+        /// </param>
+        /// <param name="nodes">
+        /// The root nodes to be queried.
+        /// </param>
+        /// <param name="key">
+        /// The key each node will be compared to.
+        /// </param>
+        /// <returns>
+        /// An <see cref="System.Collections.Generic.IEnumerable&lt;T&gt;"/> that contains all the
+        /// matching nodes in the tree ordered based on a pre-order traversal.
+        /// </returns>
+        public static IEnumerable<T> SelectDescendants<T>(
+            this ITreeWalker<T> walker,
+            IEnumerable<T> nodes,
+            T key)
+        {
+            // Validate parameters.
+            if (walker == null)
+            {
+                throw new ArgumentNullException("walker");
+            }
+
+            if (nodes == null)
+            {
+                throw new ArgumentNullException("nodes");
+            }
+
+            if (key == null)
+            {
+                throw new ArgumentNullException("key");
+            }
+
+            return walker.SelectDescendants(nodes, key, null);
+        }
+
+        /// <summary>
+        /// Selects the nearest descendants that match the <paramref name="key"/>.
+        /// </summary>
+        /// <typeparam name="T">The type of elements in the tree.</typeparam>
+        /// <param name="walker">
+        /// The <see cref="ITreeWalker&lt;T&gt;"/> that knows how to find the parent and child
+        /// nodes.
+        /// </param>
+        /// <param name="nodes">
+        /// The root nodes to be queried.
+        /// </param>
+        /// <param name="key">
+        /// The key each node will be compared to.
+        /// </param>
+        /// <param name="comparer">
+        /// The <see cref="IEqualityComparer&lt;T&gt;"/> used to compare the key and the node.  If
+        /// this is null then the default <see cref="EqualityComparer&lt;T&gt;.Default"/> will be
+        /// used.
+        /// </param>
+        /// <returns>
+        /// An <see cref="System.Collections.Generic.IEnumerable&lt;T&gt;"/> that contains all the
+        /// matching nodes in the tree ordered based on a pre-order traversal.
+        /// </returns>
+        public static IEnumerable<T> SelectDescendants<T>(
+            this ITreeWalker<T> walker,
+            IEnumerable<T> nodes,
+            T key,
+            IEqualityComparer<T> comparer)
+        {
+            // Validate parameters.
+            if (walker == null)
+            {
+                throw new ArgumentNullException("walker");
+            }
+
+            if (nodes == null)
+            {
+                throw new ArgumentNullException("nodes");
+            }
+
+            if (key == null)
+            {
+                throw new ArgumentNullException("key");
+            }
+
+            if (comparer == null)
+            {
+                comparer = EqualityComparer<T>.Default;
+            }
+
+            return walker.SelectDescendants(nodes, n => comparer.Equals(n, key));
+        }
+
+        /// <summary>
+        /// Selects the nearest descendants that match the <paramref name="key"/>.
+        /// </summary>
+        /// <typeparam name="T">The type of elements in the tree.</typeparam>
+        /// <param name="walker">
+        /// The <see cref="ITreeWalker&lt;T&gt;"/> that knows how to find the parent and child
+        /// nodes.
+        /// </param>
+        /// <param name="node">
+        /// The root node to be queried.
+        /// </param>
+        /// <param name="key">
+        /// The key each node will be compared to.
+        /// </param>
+        /// <returns>
+        /// An <see cref="System.Collections.Generic.IEnumerable&lt;T&gt;"/> that contains all the
+        /// matching nodes in the tree ordered based on a pre-order traversal.
+        /// </returns>
+        public static IEnumerable<T> SelectDescendants<T>(
+            this ITreeWalker<T> walker,
+            T node,
+            T key)
+        {
+            // Validate parameters.
+            if (walker == null)
+            {
+                throw new ArgumentNullException("walker");
+            }
+
+            if (node == null)
+            {
+                throw new ArgumentNullException("node");
+            }
+
+            if (key == null)
+            {
+                throw new ArgumentNullException("key");
+            }
+
+            return walker.SelectDescendants(node, key, null);
+        }
+
+        /// <summary>
+        /// Selects the nearest descendants that match the <paramref name="key"/>.
+        /// </summary>
+        /// <typeparam name="T">The type of elements in the tree.</typeparam>
+        /// <param name="walker">
+        /// The <see cref="ITreeWalker&lt;T&gt;"/> that knows how to find the parent and child
+        /// nodes.
+        /// </param>
+        /// <param name="node">
+        /// The root node to be queried.
+        /// </param>
+        /// <param name="key">
+        /// The key each node will be compared to.
+        /// </param>
+        /// <param name="comparer">
+        /// The <see cref="IEqualityComparer&lt;T&gt;"/> used to compare the key and the node.  If
+        /// this is null then the default <see cref="EqualityComparer&lt;T&gt;.Default"/> will be
+        /// used.
+        /// </param>
+        /// <returns>
+        /// An <see cref="System.Collections.Generic.IEnumerable&lt;T&gt;"/> that contains all the
+        /// matching nodes in the tree ordered based on a pre-order traversal.
+        /// </returns>
+        public static IEnumerable<T> SelectDescendants<T>(
+            this ITreeWalker<T> walker,
+            T node,
+            T key,
+            IEqualityComparer<T> comparer)
+        {
+            // Validate parameters.
+            if (walker == null)
+            {
+                throw new ArgumentNullException("walker");
+            }
+
+            if (node == null)
+            {
+                throw new ArgumentNullException("node");
+            }
+
+            if (key == null)
+            {
+                throw new ArgumentNullException("key");
+            }
+
+            if (comparer == null)
+            {
+                comparer = EqualityComparer<T>.Default;
+            }
+
+            return walker.SelectDescendants(node, n => comparer.Equals(n, key));
         }
     }
 }
