@@ -12,7 +12,7 @@ namespace Treenumerable
                 virtualTree
                 .TreeWalker
                 .GetAncestors(virtualTree.Root)
-                .Select(x => new VirtualTree<T>(virtualTree.TreeWalker, x));
+                .Select(x => virtualTree.CreateFromSelf(x));
         }
 
         public static int GetDegree<T>(this VirtualTree<T> virtualTree)
@@ -45,7 +45,7 @@ namespace Treenumerable
                 virtualTree
                 .TreeWalker
                 .GetLeaves(virtualTree.Root)
-                .Select(x => new VirtualTree<T>(virtualTree.TreeWalker, x));
+                .Select(x => virtualTree.CreateFromSelf(x));
         }
 
         public static IEnumerable<VirtualTree<T>> GetLevel<T>(this VirtualTree<T> virtualTree, int depth)
@@ -54,7 +54,7 @@ namespace Treenumerable
                 virtualTree
                 .TreeWalker
                 .GetLevel(virtualTree.Root, depth)
-                .Select(x => new VirtualTree<T>(virtualTree.TreeWalker, x));
+                .Select(x => virtualTree.CreateFromSelf(x));
         }
 
         public static T GetParentOrDefault<T>(this VirtualTree<T> virtualTree)
@@ -79,7 +79,7 @@ namespace Treenumerable
                 virtualTree
                 .TreeWalker
                 .GetSiblings(virtualTree.Root)
-                .Select(x => new VirtualTree<T>(virtualTree.TreeWalker, x));
+                .Select(x => virtualTree.CreateFromSelf(x));
         }
 
         public static bool HasChildren<T>(this VirtualTree<T> virtualTree)
@@ -104,7 +104,7 @@ namespace Treenumerable
                 virtualTree
                 .TreeWalker
                 .LevelOrderTraversal(virtualTree.Root)
-                .Select(x => new VirtualTree<T>(virtualTree.TreeWalker, x));
+                .Select(x => virtualTree.CreateFromSelf(x));
         }
 
         public static IEnumerable<VirtualTree<T>> LevelOrderTraversal<T>(
@@ -116,7 +116,7 @@ namespace Treenumerable
                 virtualTree
                 .TreeWalker
                 .LevelOrderTraversal(virtualTree.Root, predicate, excludeOption)
-                .Select(x => new VirtualTree<T>(virtualTree.TreeWalker, x));
+                .Select(x => virtualTree.CreateFromSelf(x));
         }
 
         public static IEnumerable<VirtualTree<T>> PreOrderTraversal<T>(this VirtualTree<T> virtualTree)
@@ -125,7 +125,7 @@ namespace Treenumerable
                 virtualTree
                 .TreeWalker
                 .PreOrderTraversal(virtualTree.Root)
-                .Select(x => new VirtualTree<T>(virtualTree.TreeWalker, x));
+                .Select(x => virtualTree.CreateFromSelf(x));
         }
 
         public static IEnumerable<VirtualTree<T>> PreOrderTraversal<T>(
@@ -137,7 +137,7 @@ namespace Treenumerable
                 virtualTree
                 .TreeWalker
                 .PreOrderTraversal(virtualTree.Root, excludeSubtreePredicate, excludeOption)
-                .Select(x => new VirtualTree<T>(virtualTree.TreeWalker, x));
+                .Select(x => virtualTree.CreateFromSelf(x));
         }
 
         public static IEnumerable<VirtualTree<T>> PostOrderTraversal<T>(this VirtualTree<T> virtualTree)
@@ -146,7 +146,7 @@ namespace Treenumerable
                 virtualTree
                 .TreeWalker
                 .PostOrderTraversal(virtualTree.Root)
-                .Select(x => new VirtualTree<T>(virtualTree.TreeWalker, x));
+                .Select(x => virtualTree.CreateFromSelf(x));
         }
 
         public static IEnumerable<VirtualTree<T>> PostOrderTraversal<T>(
@@ -158,25 +158,111 @@ namespace Treenumerable
                 virtualTree
                 .TreeWalker
                 .PostOrderTraversal(virtualTree.Root, excludeSubtreePredicate, excludeOption)
-                .Select(x => new VirtualTree<T>(virtualTree.TreeWalker, x));
+                .Select(x => virtualTree.CreateFromSelf(x));
         }
 
-        public static IEnumerable<VirtualTree<T>> SelectDescendants<T>(this VirtualTree<T> virtualTree, Func<T, bool> predicate)
+        public static IEnumerable<VirtualTree<T>> SelectDescendants<T>(
+            this VirtualTree<T> virtualTree, 
+            Func<T, bool> predicate)
         {
             return
                 virtualTree
                 .TreeWalker
                 .SelectDescendants(virtualTree.Root, predicate)
-                .Select(x => new VirtualTree<T>(virtualTree.TreeWalker, x));
+                .Select(x => virtualTree.CreateFromSelf(x));
         }
 
-        public static IEnumerable<VirtualTree<T>> SelectDescendants<T>(this VirtualTree<T> virtualTree, Func<T, int, bool> predicate)
+        public static IEnumerable<VirtualTree<T>> SelectDescendants<T>(
+            this VirtualTree<T> virtualTree, 
+            Func<T, int, bool> predicate)
         {
             return
                 virtualTree
                 .TreeWalker
                 .SelectDescendants(virtualTree.Root, predicate)
-                .Select(x => new VirtualTree<T>(virtualTree.TreeWalker, x));
+                .Select(x => virtualTree.CreateFromSelf(x));
+        }
+
+        public static IEnumerable<VirtualTree<T>> SelectDescendants<T>(
+            this VirtualTree<T> virtualTree, 
+            T key)
+        {
+            return
+                virtualTree
+                .TreeWalker
+                .SelectDescendants(virtualTree.Root, key)
+                .Select(x => virtualTree.CreateFromSelf(x));
+        }
+
+        public static IEnumerable<VirtualTree<T>> SelectDescendants<T>(
+            this VirtualTree<T> 
+            virtualTree, 
+            T key, 
+            IEqualityComparer<T> comparer)
+        {
+            return
+                virtualTree
+                .TreeWalker
+                .SelectDescendants(virtualTree.Root, key, comparer)
+                .Select(x => virtualTree.CreateFromSelf(x));
+        }
+
+        public static IEnumerable<VirtualTree<T>> SelectChildren<T>(
+            this VirtualTree<T> virtualTree,
+            Func<T, bool> predicate)
+        {
+            return
+                virtualTree
+                .TreeWalker
+                .SelectChildren(virtualTree.Root, predicate)
+                .Select(n => virtualTree.CreateFromSelf(n));
+        }
+
+        public static IEnumerable<VirtualTree<T>> SelectChildren<T>(
+            this VirtualTree<T> virtualTree,
+            T key)
+        {
+            return
+                virtualTree
+                .TreeWalker
+                .SelectChildren(virtualTree.Root, key)
+                .Select(n => virtualTree.CreateFromSelf(n));
+        }
+
+        public static IEnumerable<VirtualTree<T>> SelectChildren<T>(
+            this VirtualTree<T> virtualTree,
+            T key,
+            IEqualityComparer<T> comparer)
+        {
+            return
+                virtualTree
+                .TreeWalker
+                .SelectChildren(virtualTree.Root, key, comparer)
+                .Select(n => virtualTree.CreateFromSelf(n));
+        }
+
+        public static VirtualTree<T> GetChildAt<T>(
+            this VirtualTree<T> virtualTree,
+            int index)
+        {
+            return
+                virtualTree
+                .CreateFromSelf(
+                    virtualTree
+                    .TreeWalker
+                    .GetChildAt(virtualTree.Root, index));
+        }
+
+        public static VirtualTree<T> GetChildAtOrDefault<T>(
+            this VirtualTree<T> virtualTree,
+            int index)
+        {
+            return
+                virtualTree
+                .CreateFromSelf(
+                    virtualTree
+                    .TreeWalker
+                    .GetChildAtOrDefault(virtualTree.Root, index));
         }
     }
 }

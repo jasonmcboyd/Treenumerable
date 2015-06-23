@@ -39,6 +39,9 @@
     <Compile Include="ExcludeOption.cs" />
     <Compile Include="ITreeWalker.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="TreeWalkerExtensions\TreeWalkerExtensions.GetChildAtOrDefault.cs" />
+    <Compile Include="TreeWalkerExtensions\TreeWalkerExtensions.GetChildAt.cs" />
+    <Compile Include="TreeWalkerExtensions\TreeWalkerExtensions.SelectChildren.cs" />
     <Compile Include="TreeWalkerExtensions\TreeWalkerExtensions.GetDescendantsOfType.cs" />
     <Compile Include="TreeWalkerExtensions\TreeWalkerExtensions.GetAncestors.cs" />
     <Compile Include="TreeWalkerExtensions\TreeWalkerExtensions.GetDegree.cs" />

@@ -6,7 +6,7 @@ using Xunit;
 
 namespace Treenumerable.Tests
 {
-    public class TreeWalkerExtensionsTests
+    public partial class TreeWalkerExtensionsTests
     {
         private Node<int> GetTree()
         {
@@ -1137,6 +1137,187 @@ namespace Treenumerable.Tests
 
         #endregion
 
+        #region SelectChidlren Instantiation
+
+        [Fact]
+        public void SelectChildren_NullWalker_ArgumentNullExceptionThrown()
+        {
+            // Get a valid tree.
+            var tree = this.GetTree();
+
+            // Create a null ITreeWalker.
+            NodeWalker<int> walker = null;
+
+            // Assert that 'SelectChildren' throws an 'ArgumentNullException' when the tree 
+            // walker is null.
+            Assert.Throws<ArgumentNullException>(
+                "walker",
+                () => walker.SelectChildren(new Node<int>[] { tree }, (n) => true).ToArray());
+            Assert.Throws<ArgumentNullException>(
+                "walker",
+                () => walker.SelectChildren(tree, (n) => true).ToArray());
+            Assert.Throws<ArgumentNullException>(
+                "walker",
+                () => walker.SelectChildren(new Node<int>[] { tree }, default(Node<int>)).ToArray());
+            Assert.Throws<ArgumentNullException>(
+                "walker",
+                () => walker.SelectChildren(tree, default(Node<int>)).ToArray());
+            Assert.Throws<ArgumentNullException>(
+                "walker",
+                () => walker.SelectChildren(new Node<int>[] { tree }, default(Node<int>), EqualityComparer<Node<int>>.Default).ToArray());
+            Assert.Throws<ArgumentNullException>(
+                "walker",
+                () => walker.SelectChildren(tree, default(Node<int>), EqualityComparer<Node<int>>.Default).ToArray());
+        }
+
+        [Fact]
+        public void SelectChildren_NullNode_ArgumentNullExceptionThrown()
+        {
+            // Create a valid ITreeWalker.
+            NodeWalker<int> walker = new NodeWalker<int>();
+
+            // Assert that 'SelectChildren' throws an 'ArgumentNullException' when the node is
+            // null.
+            Assert.Throws<ArgumentNullException>(
+                "nodes",
+                () => walker.SelectChildren((IEnumerable<Node<int>>)null, (n) => true).ToArray());
+            Assert.Throws<ArgumentNullException>(
+                "node",
+                () => walker.SelectChildren((Node<int>)null, (n) => true).ToArray());
+            Assert.Throws<ArgumentNullException>(
+                "nodes",
+                () => walker.SelectChildren((IEnumerable<Node<int>>)null, default(Node<int>)).ToArray());
+            Assert.Throws<ArgumentNullException>(
+                "node",
+                () => walker.SelectChildren((Node<int>)null, default(Node<int>)).ToArray());
+            Assert.Throws<ArgumentNullException>(
+                "nodes",
+                () => walker.SelectChildren((IEnumerable<Node<int>>)null, default(Node<int>), EqualityComparer<Node<int>>.Default).ToArray());
+            Assert.Throws<ArgumentNullException>(
+                "node",
+                () => walker.SelectChildren((Node<int>)null, default(Node<int>), EqualityComparer<Node<int>>.Default).ToArray());
+        }
+
+        [Fact]
+        public void SelectChildren_NullPredicate_ArgumentNullExceptionThrown()
+        {
+            // Get a valid tree.
+            var tree = this.GetTree();
+
+            // Create a valid ITreeWalker.
+            NodeWalker<int> walker = new NodeWalker<int>();
+
+            // Assert that 'SelectChildren' throws an 'ArgumentNullException' when the predicate 
+            // is null.
+            Assert.Throws<ArgumentNullException>(
+                "predicate",
+                () => walker.SelectChildren(new Node<int>[] { tree }, (Func<Node<int>, bool>)null).ToArray());
+            Assert.Throws<ArgumentNullException>(
+                "predicate",
+                () => walker.SelectChildren(tree, (Func<Node<int>, bool>)null).ToArray());
+        }
+
+        [Fact]
+        public void SelectChildren_NullKey_ArgumentNullExceptionThrown()
+        {
+            // Get a valid tree.
+            var tree = this.GetTree();
+
+            // Create a valid ITreeWalker.
+            NodeWalker<int> walker = new NodeWalker<int>();
+
+            // Assert that 'SelectChildren' throws an 'ArgumentNullException' when the key 
+            // is null.
+            Assert.Throws<ArgumentNullException>(
+                "key",
+                () => walker.SelectChildren(new Node<int>[] { tree }, (Node<int>)null).ToArray());
+            Assert.Throws<ArgumentNullException>(
+                "key",
+                () => walker.SelectChildren(tree, (Node<int>)null).ToArray());
+            Assert.Throws<ArgumentNullException>(
+                "key",
+                () => walker.SelectChildren(new Node<int>[] { tree }, (Node<int>)null, EqualityComparer<Node<int>>.Default).ToArray());
+            Assert.Throws<ArgumentNullException>(
+                "key",
+                () => walker.SelectChildren(tree, (Node<int>)null, EqualityComparer<Node<int>>.Default).ToArray());
+        }
+
+        #endregion
+
+        #region SelectChildren Predicate Tests
+
+        [Fact]
+        public void SelectChildren_PredicateTests()
+        {
+            // Get a valid tree.
+            var tree = this.GetTree();
+
+            // Create a valid ITreeWalker.
+            NodeWalker<int> walker = new NodeWalker<int>();
+
+            // Create test predicates and the expected results.
+            var testCases = new[]
+            {
+                new {
+                    Predicate = new Func<Node<int>, bool>(i => i.Value % 2 == 0),
+                    ExpectedResults = new int[] { 4 } },
+                new {
+                    Predicate = new Func<Node<int>, bool>(i => i.Value % 2 == 1),
+                    ExpectedResults = new int[] { 1 } },
+                new {
+                    Predicate = new Func<Node<int>, bool>(i => i.Value >= 2),
+                    ExpectedResults = new int[] { 4 } },
+            };
+
+            // Assert that 'SelectChildren' returns the expected results for each predicate.
+            foreach (var testCase in testCases)
+            {
+                Assert.Equal(
+                    walker
+                        .SelectChildren(tree, testCase.Predicate)
+                        .Select(x => x.Value),
+                    testCase.ExpectedResults);
+                Assert.Equal(
+                    walker
+                        .SelectChildren(new Node<int>[] { tree }, testCase.Predicate)
+                        .Select(x => x.Value),
+                    testCase.ExpectedResults);
+            }
+        }
+
+        #endregion
+        
+        #region SelectChildren By Key Tests
+
+        [Fact]
+        public void SelectChildren_ByKeyTests()
+        {
+            // Get a valid tree.
+            var tree = this.GetTree();
+
+            // Create a valid ITreeWalker.
+            NodeWalker<int> walker = new NodeWalker<int>();
+
+            foreach (Node<int> node in walker.PreOrderTraversal(tree))
+            {
+                foreach (Node<int> key in walker.PreOrderTraversal(tree))
+                {
+                    IEnumerable<Node<int>> result = walker.SelectChildren(node, key).ToArray();
+                    if (walker.GetChildren(node).Contains(key))
+                    {
+                        Assert.Equal(result, new Node<int>[] { key });
+                    }
+                    else
+                    {
+                        Assert.Empty(result);
+                    }
+                }
+            }
+        }
+
+        #endregion
+
+
         #region SelectDescendants
 
         [Fact]
@@ -1327,7 +1508,7 @@ namespace Treenumerable.Tests
         }
 
         [Fact]
-        public void SelectDescendants_ByKey_PredicateTests_NullComparer()
+        public void SelectDescendants_ByKey_NullComparer()
         {
             // Get a valid tree.
             var tree = this.GetTree();
@@ -1344,7 +1525,7 @@ namespace Treenumerable.Tests
         }
 
         [Fact]
-        public void SelectDescendants_ByKey_PredicateTests_NonNullComparer()
+        public void SelectDescendants_ByKey_NonNullComparer()
         {
             // Get a valid tree.
             var tree = this.GetTree();

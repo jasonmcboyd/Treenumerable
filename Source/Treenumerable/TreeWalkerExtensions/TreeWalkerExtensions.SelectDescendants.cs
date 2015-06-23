@@ -321,10 +321,8 @@ namespace Treenumerable
                 throw new ArgumentNullException("key");
             }
 
-            if (comparer == null)
-            {
-                comparer = EqualityComparer<T>.Default;
-            }
+            // If the comparer is null then use the defautl comparer for that type.
+            comparer = comparer ?? EqualityComparer<T>.Default;
 
             return walker.SelectDescendants(nodes, n => comparer.Equals(n, key));
         }
@@ -405,7 +403,7 @@ namespace Treenumerable
             {
                 throw new ArgumentNullException("walker");
             }
-
+            
             if (node == null)
             {
                 throw new ArgumentNullException("node");
@@ -416,10 +414,8 @@ namespace Treenumerable
                 throw new ArgumentNullException("key");
             }
 
-            if (comparer == null)
-            {
-                comparer = EqualityComparer<T>.Default;
-            }
+            // If the comparer is null then use the defautl comparer for that type.
+            comparer = comparer ?? EqualityComparer<T>.Default;
 
             return walker.SelectDescendants(node, n => comparer.Equals(n, key));
         }

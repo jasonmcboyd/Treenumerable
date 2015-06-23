@@ -1,6 +1,5 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Linq;
 
 namespace Treenumerable
 {
@@ -31,11 +30,16 @@ namespace Treenumerable
             this.Comparer = comparer ?? EqualityComparer<T>.Default;
         }
 
+        public VirtualTree<T> CreateFromSelf(T root)
+        {
+            return new VirtualTree<T>(this.TreeWalker, root, this.Comparer);
+        }
+
         public ITreeWalker<T> TreeWalker { get; private set; }
 
         public T Root { get; private set; }
 
-        private IEqualityComparer<T> Comparer { get; set; }
+        public IEqualityComparer<T> Comparer { get; private set; }
 
         public bool TryGetParent(out VirtualTree<T> parent)
         {
@@ -43,7 +47,7 @@ namespace Treenumerable
             bool result = this.TreeWalker.TryGetParent(this.Root, out parentValue);
             parent = 
                 result ? 
-                new VirtualTree<T>(this.TreeWalker, parentValue) : 
+                this.CreateFromSelf(parentValue) : 
                 default(VirtualTree<T>);
             return result;
         }
@@ -52,7 +56,7 @@ namespace Treenumerable
         {
             foreach (T child in this.TreeWalker.GetChildren(this.Root))
             {
-                yield return new VirtualTree<T>(this.TreeWalker, child);
+                yield return this.CreateFromSelf(child);
             }
         }
 
@@ -60,13 +64,18 @@ namespace Treenumerable
         {
             get 
             {
-                foreach (T child in this.TreeWalker.GetChildren(this.Root))
+                foreach (T child in this.TreeWalker.SelectChildren(this.Root, key, this.Comparer))
                 {
-                    if (this.Comparer.Equals(child, key))
-                    {
-                        yield return new VirtualTree<T>(this.TreeWalker, child);
-                    }
+                    yield return this.CreateFromSelf(child);
                 }
+            }
+        }
+
+        public VirtualTree<T> this[int index]
+        {
+            get
+            {
+                return this.CreateFromSelf(this.TreeWalker.GetChildAt(this.Root, index));
             }
         }
     }
