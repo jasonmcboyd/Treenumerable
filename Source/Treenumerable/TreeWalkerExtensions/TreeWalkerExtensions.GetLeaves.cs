@@ -8,7 +8,7 @@ namespace Treenumerable
     {
         /// <summary>
         /// Gets a node's leaves, i.e. all descendants of that node that do not have children.  If
-        /// the node has no children then the node, itself, is returned.
+        /// the node has no children then the node itself is returned.
         /// </summary>
         /// <typeparam name="T">The type of elements in the tree.</typeparam>
         /// <param name="walker">

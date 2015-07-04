@@ -7,7 +7,7 @@ namespace Treenumerable
     public static partial class TreeWalkerExtensions
     {
         /// <summary>
-        /// Enumerates a tree using the level traversal method.  I.e. it returns all nodes in the
+        /// Enumerates a tree using the level-order traversal method.  I.e. it returns all nodes in the
         /// first level relative to the specified node, followed by all nodes in the second level,
         /// etc...
         /// </summary>
@@ -30,7 +30,7 @@ namespace Treenumerable
         /// </param>
         /// <returns>
         /// An <see cref="System.Collections.Generic.IEnumerable&lt;T&gt;"/> that contains all the nodes
-        /// in the tree ordered based on a level order traversal.
+        /// in the tree ordered based on a level-order traversal.
         /// </returns>
         public static IEnumerable<T> LevelOrderTraversal<T>(
             this ITreeWalker<T> walker,
@@ -98,7 +98,7 @@ namespace Treenumerable
         /// <param name="node">The root node of the tree that is to be traversed.</param>
         /// <returns>
         /// An <see cref="System.Collections.Generic.IEnumerable&lt;T&gt;"/> that contains all the nodes
-        /// in the tree ordered based on a level order traversal.
+        /// in the tree ordered based on a level-order traversal.
         /// </returns>
         public static IEnumerable<T> LevelOrderTraversal<T>(this ITreeWalker<T> walker, T node)
         {
