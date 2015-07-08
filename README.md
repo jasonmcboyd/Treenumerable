@@ -1,4 +1,4 @@
-# Treenumerable
+# Treenumerable [![Build status](https://ci.appveyor.com/api/projects/status/t2k5sprexxmiq0ey)](https://ci.appveyor.com/project/JasonBoyd/treenumerable)
 
 ## What Is It
 Treenumerable is a general purpose library for enumerating, traversing and querying just about any tree.  If, given any node in your tree, you can navigate to the node's parent and children then you can use Treenumerable.
