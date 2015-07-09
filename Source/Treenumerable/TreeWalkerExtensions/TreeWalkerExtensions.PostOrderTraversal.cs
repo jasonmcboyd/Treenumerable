@@ -14,7 +14,7 @@ namespace Treenumerable
         /// </param>
         /// <param name="node">The root node of the tree that is to be traversed.</param>
         /// <param name="excludeSubtreePredicate">
-        /// A <see cref="System.Func&lt;T, int, bool&gt;"/> that determines if the current node
+        /// A <see cref="System.Func&lt;T, Int32, Boolean&gt;"/> that determines if the current node
         /// that is being evaluated (and all of its descendants) should be included in the 
         /// traversal.  This allows for short-circuiting of the post-order traversal by excluding
         /// particular subtrees from the traversal.  The first argument is the current node being
@@ -40,7 +40,7 @@ namespace Treenumerable
             {
                 throw new ArgumentNullException("walker");
             }
-
+            
             if (node == null)
             {
                 throw new ArgumentNullException("node");
