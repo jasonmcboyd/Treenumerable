@@ -60,6 +60,7 @@
     <Otherwise />
   </Choose>
   <ItemGroup>
+    <Compile Include="EnumerableOfVirtualTreeExtensionsTests.cs" />
     <Compile Include="NodeComparer.cs" />
     <Compile Include="TreeBuilder\Node.cs" />
     <Compile Include="TreeBuilder\NodeExtensions.cs" />
