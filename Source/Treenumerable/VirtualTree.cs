@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Linq;
 
 namespace Treenumerable
 {
@@ -52,7 +53,7 @@ namespace Treenumerable
             return result;
         }
 
-        public IEnumerable<VirtualTree<T>> GetChildren()
+        private IEnumerable<VirtualTree<T>> GetChildrenImplementation()
         {
             foreach (T child in this.TreeWalker.GetChildren(this.Root))
             {
@@ -60,14 +61,22 @@ namespace Treenumerable
             }
         }
 
-        public IEnumerable<VirtualTree<T>> this[T key]
+        public VirtualTreeEnumerable<T> GetChildren()
+        {
+            return
+                this
+                .GetChildrenImplementation()
+                .AsVirtualTreeEnumerable();
+        }
+
+        public VirtualTreeEnumerable<T> this[T key]
         {
             get 
             {
-                foreach (T child in this.TreeWalker.SelectChildren(this.Root, key, this.Comparer))
-                {
-                    yield return this.CreateFromSelf(child);
-                }
+                return
+                    this
+                    .SelectChildren(key:key)
+                    .AsVirtualTreeEnumerable();
             }
         }
 
@@ -75,7 +84,9 @@ namespace Treenumerable
         {
             get
             {
-                return this.CreateFromSelf(this.TreeWalker.GetChildAt(this.Root, index));
+                return
+                    this
+                    .GetChildAt(index);
             }
         }
     }

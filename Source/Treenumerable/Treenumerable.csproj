@@ -59,6 +59,7 @@
     <Compile Include="TreeWalkerExtensions\TreeWalkerExtensions.PostOrderTraversal.cs" />
     <Compile Include="TreeWalkerExtensions\TreeWalkerExtensions.PreOrderTraversal.cs" />
     <Compile Include="VirtualTree.cs" />
+    <Compile Include="VirtualTreeEnumerable.cs" />
     <Compile Include="VirtualTreeExtensions\EnumerableOfVirtualTreeExtensions.cs" />
     <Compile Include="VirtualTreeExtensions\VirtualTreeExtensions.cs" />
     <Compile Include="VirtualTreeFactory.cs" />

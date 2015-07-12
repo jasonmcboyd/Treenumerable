@@ -6,13 +6,38 @@ namespace Treenumerable
 {
     public static class VirtualTreeExtensions
     {
-        public static IEnumerable<VirtualTree<T>> GetAncestors<T>(this VirtualTree<T> virtualTree)
+        public static VirtualTreeEnumerable<T> GetAncestors<T>(this VirtualTree<T> virtualTree)
         {
             return
                 virtualTree
                 .TreeWalker
                 .GetAncestors(virtualTree.Root)
-                .Select(x => virtualTree.CreateFromSelf(x));
+                .Select(x => virtualTree.CreateFromSelf(x))
+                .AsVirtualTreeEnumerable();
+        }
+
+        public static VirtualTree<T> GetChildAt<T>(
+            this VirtualTree<T> virtualTree,
+            int index)
+        {
+            return
+                virtualTree
+                .CreateFromSelf(
+                    virtualTree
+                    .TreeWalker
+                    .GetChildAt(virtualTree.Root, index));
+        }
+
+        public static VirtualTree<T> GetChildAtOrDefault<T>(
+            this VirtualTree<T> virtualTree,
+            int index)
+        {
+            return
+                virtualTree
+                .CreateFromSelf(
+                    virtualTree
+                    .TreeWalker
+                    .GetChildAtOrDefault(virtualTree.Root, index));
         }
 
         public static int GetDegree<T>(this VirtualTree<T> virtualTree)
@@ -48,13 +73,16 @@ namespace Treenumerable
                 .Select(x => virtualTree.CreateFromSelf(x));
         }
 
-        public static IEnumerable<VirtualTree<T>> GetLevel<T>(this VirtualTree<T> virtualTree, int depth)
+        public static VirtualTreeEnumerable<T> GetLevel<T>(
+            this VirtualTree<T> virtualTree, 
+            int depth)
         {
             return
                 virtualTree
                 .TreeWalker
                 .GetLevel(virtualTree.Root, depth)
-                .Select(x => virtualTree.CreateFromSelf(x));
+                .Select(x => virtualTree.CreateFromSelf(x))
+                .AsVirtualTreeEnumerable();
         }
 
         public static T GetParentOrDefault<T>(this VirtualTree<T> virtualTree)
@@ -73,13 +101,14 @@ namespace Treenumerable
                 .GetRoot(virtualTree.Root);
         }
 
-        public static IEnumerable<VirtualTree<T>> GetSiblings<T>(this VirtualTree<T> virtualTree)
+        public static VirtualTreeEnumerable<T> GetSiblings<T>(this VirtualTree<T> virtualTree)
         {
             return
                 virtualTree
                 .TreeWalker
                 .GetSiblings(virtualTree.Root)
-                .Select(x => virtualTree.CreateFromSelf(x));
+                .Select(x => virtualTree.CreateFromSelf(x))
+                .AsVirtualTreeEnumerable();
         }
 
         public static bool HasChildren<T>(this VirtualTree<T> virtualTree)
@@ -155,53 +184,7 @@ namespace Treenumerable
                 .PostOrderTraversal(virtualTree.Root, excludeSubtreePredicate, excludeOption);
         }
 
-        public static IEnumerable<VirtualTree<T>> SelectDescendants<T>(
-            this VirtualTree<T> virtualTree, 
-            Func<T, bool> predicate)
-        {
-            return
-                virtualTree
-                .TreeWalker
-                .SelectDescendants(virtualTree.Root, predicate)
-                .Select(x => virtualTree.CreateFromSelf(x));
-        }
-
-        public static IEnumerable<VirtualTree<T>> SelectDescendants<T>(
-            this VirtualTree<T> virtualTree, 
-            Func<T, int, bool> predicate)
-        {
-            return
-                virtualTree
-                .TreeWalker
-                .SelectDescendants(virtualTree.Root, predicate)
-                .Select(x => virtualTree.CreateFromSelf(x));
-        }
-
-        public static IEnumerable<VirtualTree<T>> SelectDescendants<T>(
-            this VirtualTree<T> virtualTree, 
-            T key)
-        {
-            return
-                virtualTree
-                .TreeWalker
-                .SelectDescendants(virtualTree.Root, key)
-                .Select(x => virtualTree.CreateFromSelf(x));
-        }
-
-        public static IEnumerable<VirtualTree<T>> SelectDescendants<T>(
-            this VirtualTree<T> 
-            virtualTree, 
-            T key, 
-            IEqualityComparer<T> comparer)
-        {
-            return
-                virtualTree
-                .TreeWalker
-                .SelectDescendants(virtualTree.Root, key, comparer)
-                .Select(x => virtualTree.CreateFromSelf(x));
-        }
-
-        public static IEnumerable<VirtualTree<T>> SelectChildren<T>(
+        public static VirtualTreeEnumerable<T> SelectChildren<T>(
             this VirtualTree<T> virtualTree,
             Func<T, bool> predicate)
         {
@@ -209,10 +192,11 @@ namespace Treenumerable
                 virtualTree
                 .TreeWalker
                 .SelectChildren(virtualTree.Root, predicate)
-                .Select(n => virtualTree.CreateFromSelf(n));
+                .Select(n => virtualTree.CreateFromSelf(n))
+                .AsVirtualTreeEnumerable();
         }
 
-        public static IEnumerable<VirtualTree<T>> SelectChildren<T>(
+        public static VirtualTreeEnumerable<T> SelectChildren<T>(
             this VirtualTree<T> virtualTree,
             T key)
         {
@@ -220,10 +204,11 @@ namespace Treenumerable
                 virtualTree
                 .TreeWalker
                 .SelectChildren(virtualTree.Root, key)
-                .Select(n => virtualTree.CreateFromSelf(n));
+                .Select(n => virtualTree.CreateFromSelf(n))
+                .AsVirtualTreeEnumerable();
         }
 
-        public static IEnumerable<VirtualTree<T>> SelectChildren<T>(
+        public static VirtualTreeEnumerable<T> SelectChildren<T>(
             this VirtualTree<T> virtualTree,
             T key,
             IEqualityComparer<T> comparer)
@@ -232,31 +217,58 @@ namespace Treenumerable
                 virtualTree
                 .TreeWalker
                 .SelectChildren(virtualTree.Root, key, comparer)
-                .Select(n => virtualTree.CreateFromSelf(n));
+                .Select(n => virtualTree.CreateFromSelf(n))
+                .AsVirtualTreeEnumerable();
         }
 
-        public static VirtualTree<T> GetChildAt<T>(
-            this VirtualTree<T> virtualTree,
-            int index)
+        public static VirtualTreeEnumerable<T> SelectDescendants<T>(
+            this VirtualTree<T> virtualTree, 
+            Func<T, bool> predicate)
         {
             return
                 virtualTree
-                .CreateFromSelf(
-                    virtualTree
-                    .TreeWalker
-                    .GetChildAt(virtualTree.Root, index));
+                .TreeWalker
+                .SelectDescendants(virtualTree.Root, predicate)
+                .Select(x => virtualTree.CreateFromSelf(x))
+                .AsVirtualTreeEnumerable();
         }
 
-        public static VirtualTree<T> GetChildAtOrDefault<T>(
-            this VirtualTree<T> virtualTree,
-            int index)
+        public static VirtualTreeEnumerable<T> SelectDescendants<T>(
+            this VirtualTree<T> virtualTree, 
+            Func<T, int, bool> predicate)
         {
             return
                 virtualTree
-                .CreateFromSelf(
-                    virtualTree
-                    .TreeWalker
-                    .GetChildAtOrDefault(virtualTree.Root, index));
+                .TreeWalker
+                .SelectDescendants(virtualTree.Root, predicate)
+                .Select(x => virtualTree.CreateFromSelf(x))
+                .AsVirtualTreeEnumerable();
         }
+
+        public static VirtualTreeEnumerable<T> SelectDescendants<T>(
+            this VirtualTree<T> virtualTree, 
+            T key)
+        {
+            return
+                virtualTree
+                .TreeWalker
+                .SelectDescendants(virtualTree.Root, key)
+                .Select(x => virtualTree.CreateFromSelf(x))
+                .AsVirtualTreeEnumerable();
+        }
+
+        public static VirtualTreeEnumerable<T> SelectDescendants<T>(
+            this VirtualTree<T> virtualTree, 
+            T key, 
+            IEqualityComparer<T> comparer)
+        {
+            return
+                virtualTree
+                .TreeWalker
+                .SelectDescendants(virtualTree.Root, key, comparer)
+                .Select(x => virtualTree.CreateFromSelf(x))
+                .AsVirtualTreeEnumerable();
+        }
+        
     }
 }
