@@ -21,6 +21,10 @@ After you implement the *ITreeWalker* interface the following extension methods 
 
   Gets a node's (or nodes') child at the specified index.  Returns a default value if the index is not valid.
   
+- **GetChildren**
+
+  Several overloads exist that allow getting a node's (or nodes') children based on a predicate or a key.
+  
 - **GetDegree**
 
    Gets the degree of a node (number of children).
@@ -28,6 +32,10 @@ After you implement the *ITreeWalker* interface the following extension methods 
 - **GetDepth**
 
   Gets the depth of the node.  The depth is measured by the number of edges between the node and the root of the tree.
+
+- **SelectDescendants**
+
+  Gets a node's (or nodes') nearest descendants based on a predicate or a key.  The nearest descendant means the first node in a branch that meets the criteria.  Once a branch yields a node no further nodes in that branch are evaluated.
   
 - **GetHeight**
 
@@ -72,11 +80,3 @@ After you implement the *ITreeWalker* interface the following extension methods 
 - **PreOrderTraversal**
 
   Enumerates a tree using the pre-order traversal method.
-  
-- **SelectChildren**
-
-  Selects a node's (or nodes') children based on a predicate or a key.
-  
-- **SelectDescendants**
-
-  Selects a node's (or nodes') nearest descendants based on a predicate or a key.  The nearest descendant means the first node in a branch that meets the criteria.  Once a node has been returned in a branch no further nodes in that branch are evaluated.

@@ -31,7 +31,7 @@ namespace Treenumerable
             this.Comparer = comparer ?? EqualityComparer<T>.Default;
         }
 
-        public VirtualTree<T> CreateFromSelf(T root)
+        public VirtualTree<T> ShallowCopy(T root)
         {
             return new VirtualTree<T>(this.TreeWalker, root, this.Comparer);
         }
@@ -48,7 +48,7 @@ namespace Treenumerable
             bool result = this.TreeWalker.TryGetParent(this.Root, out parentValue);
             parent = 
                 result ? 
-                this.CreateFromSelf(parentValue) : 
+                this.ShallowCopy(parentValue) : 
                 default(VirtualTree<T>);
             return result;
         }
@@ -57,7 +57,7 @@ namespace Treenumerable
         {
             foreach (T child in this.TreeWalker.GetChildren(this.Root))
             {
-                yield return this.CreateFromSelf(child);
+                yield return this.ShallowCopy(child);
             }
         }
 
@@ -75,7 +75,7 @@ namespace Treenumerable
             {
                 return
                     this
-                    .SelectChildren(key:key)
+                    .GetChildren(key:key)
                     .AsVirtualTreeEnumerable();
             }
         }

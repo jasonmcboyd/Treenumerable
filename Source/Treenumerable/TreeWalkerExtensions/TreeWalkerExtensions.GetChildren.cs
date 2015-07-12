@@ -24,7 +24,7 @@ namespace Treenumerable
         /// An <see cref="System.Collections.Generic.IEnumerable&lt;T&gt;"/> that contains all the
         /// matching children.
         /// </returns>
-        public static IEnumerable<T> SelectChildren<T>(
+        public static IEnumerable<T> GetChildren<T>(
             this ITreeWalker<T> walker,
             IEnumerable<T> nodes,
             Func<T, bool> predicate)
@@ -69,7 +69,7 @@ namespace Treenumerable
         /// An <see cref="System.Collections.Generic.IEnumerable&lt;T&gt;"/> that contains all the
         /// matching children.
         /// </returns>
-        public static IEnumerable<T> SelectChildren<T>(
+        public static IEnumerable<T> GetChildren<T>(
             this ITreeWalker<T> walker,
             T node,
             Func<T, bool> predicate)
@@ -114,7 +114,7 @@ namespace Treenumerable
         /// An <see cref="System.Collections.Generic.IEnumerable&lt;T&gt;"/> that contains all the
         /// matching children.
         /// </returns>
-        public static IEnumerable<T> SelectChildren<T>(
+        public static IEnumerable<T> GetChildren<T>(
             this ITreeWalker<T> walker,
             IEnumerable<T> nodes,
             T key)
@@ -135,7 +135,7 @@ namespace Treenumerable
                 throw new ArgumentNullException("key");
             }
 
-            return walker.SelectChildren(nodes, key, null);
+            return walker.GetChildren(nodes, key, null);
         }
 
         /// <summary>
@@ -161,7 +161,7 @@ namespace Treenumerable
         /// An <see cref="System.Collections.Generic.IEnumerable&lt;T&gt;"/> that contains all the
         /// matching children.
         /// </returns>
-        public static IEnumerable<T> SelectChildren<T>(
+        public static IEnumerable<T> GetChildren<T>(
             this ITreeWalker<T> walker,
             IEnumerable<T> nodes,
             T key,
@@ -210,7 +210,7 @@ namespace Treenumerable
         /// An <see cref="System.Collections.Generic.IEnumerable&lt;T&gt;"/> that contains all the
         /// matching children.
         /// </returns>
-        public static IEnumerable<T> SelectChildren<T>(
+        public static IEnumerable<T> GetChildren<T>(
             this ITreeWalker<T> walker,
             T node,
             T key)
@@ -231,7 +231,7 @@ namespace Treenumerable
                 throw new ArgumentNullException("key");
             }
 
-            return walker.SelectChildren(node, key, null);
+            return walker.GetChildren(node, key, null);
         }
 
         /// <summary>
@@ -257,7 +257,7 @@ namespace Treenumerable
         /// An <see cref="System.Collections.Generic.IEnumerable&lt;T&gt;"/> that contains all the
         /// matching children.
         /// </returns>
-        public static IEnumerable<T> SelectChildren<T>(
+        public static IEnumerable<T> GetChildren<T>(
             this ITreeWalker<T> walker,
             T node,
             T key,

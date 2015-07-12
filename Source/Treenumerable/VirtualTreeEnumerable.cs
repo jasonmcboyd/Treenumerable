@@ -26,7 +26,7 @@ namespace Treenumerable
         {
             get
             {
-                foreach (VirtualTree<T> tree in this._VirtualTrees.SelectChildren(key))
+                foreach (VirtualTree<T> tree in this._VirtualTrees.GetChildren(key))
                 {
                     yield return tree;
                 }

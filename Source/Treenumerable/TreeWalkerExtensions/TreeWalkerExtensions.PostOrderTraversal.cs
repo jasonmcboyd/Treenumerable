@@ -50,7 +50,7 @@ namespace Treenumerable
             // 'node' or return an empty collection, depending on 'excludeOption'.
             if (excludeSubtreePredicate != null && excludeSubtreePredicate.Invoke(node, 0))
             {
-                if (excludeOption == ExcludeOption.ExcludeChildren)
+                if (excludeOption == ExcludeOption.ExcludeDescendants)
                 {
                     yield return node;
                 }
@@ -83,7 +83,7 @@ namespace Treenumerable
                         if (excludeSubtreePredicate != null &&
                             excludeSubtreePredicate.Invoke(node, nodes.Count))
                         {
-                            if (excludeOption == ExcludeOption.ExcludeChildren)
+                            if (excludeOption == ExcludeOption.ExcludeDescendants)
                             {
                                 yield return node;
                             }

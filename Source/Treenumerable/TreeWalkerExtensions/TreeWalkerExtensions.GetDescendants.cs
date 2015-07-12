@@ -30,7 +30,7 @@ namespace Treenumerable
         /// An <see cref="System.Collections.Generic.IEnumerable&lt;T&gt;"/> that contains all the
         /// matching nodes in the tree ordered based on a pre-order traversal.
         /// </returns>
-        private static IEnumerable<T> SelectDescendantsImplementation<T>(
+        private static IEnumerable<T> GetDescendantsImplementation<T>(
             this ITreeWalker<T> walker,
             IEnumerable<T> nodes,
             Func<T, int, bool> predicate,
@@ -65,7 +65,7 @@ namespace Treenumerable
                     // Construct an IEnumerable to query the node's children.
                     IEnumerable<T> descendants =
                         walker
-                        .SelectDescendantsImplementation(
+                        .GetDescendantsImplementation(
                             walker.GetChildren(node),
                             predicate,
                             depth + 1);
@@ -99,14 +99,14 @@ namespace Treenumerable
         /// An <see cref="System.Collections.Generic.IEnumerable&lt;T&gt;"/> that contains all the
         /// matching nodes in the tree ordered based on a pre-order traversal.
         /// </returns>
-        public static IEnumerable<T> SelectDescendants<T>(
+        public static IEnumerable<T> GetDescendants<T>(
             this ITreeWalker<T> walker,
             IEnumerable<T> nodes,
             Func<T, int, bool> predicate)
         {
             return
                 walker
-                .SelectDescendantsImplementation(
+                .GetDescendantsImplementation(
                     nodes,
                     predicate,
                     0);
@@ -132,7 +132,7 @@ namespace Treenumerable
         /// An <see cref="System.Collections.Generic.IEnumerable&lt;T&gt;"/> that contains all the
         /// matching nodes in the tree ordered based on a pre-order traversal.
         /// </returns>
-        public static IEnumerable<T> SelectDescendants<T>(
+        public static IEnumerable<T> GetDescendants<T>(
             this ITreeWalker<T> walker,
             IEnumerable<T> nodes,
             Func<T, bool> predicate)
@@ -145,7 +145,7 @@ namespace Treenumerable
 
             return
                 walker
-                .SelectDescendantsImplementation(
+                .GetDescendantsImplementation(
                     nodes,
                     (n, i) => predicate.Invoke(n),
                     0);
@@ -171,7 +171,7 @@ namespace Treenumerable
         /// An <see cref="System.Collections.Generic.IEnumerable&lt;T&gt;"/> that contains all the
         /// matching nodes in the tree ordered based on a pre-order traversal.
         /// </returns>
-        public static IEnumerable<T> SelectDescendants<T>(
+        public static IEnumerable<T> GetDescendants<T>(
             this ITreeWalker<T> walker,
             T node,
             Func<T, int, bool> predicate)
@@ -184,7 +184,7 @@ namespace Treenumerable
 
             return
                 walker
-                .SelectDescendantsImplementation(
+                .GetDescendantsImplementation(
                     new T[] { node },
                     predicate,
                     0);
@@ -210,7 +210,7 @@ namespace Treenumerable
         /// An <see cref="System.Collections.Generic.IEnumerable&lt;T&gt;"/> that contains all the
         /// matching nodes in the tree ordered based on a pre-order traversal.
         /// </returns>
-        public static IEnumerable<T> SelectDescendants<T>(
+        public static IEnumerable<T> GetDescendants<T>(
             this ITreeWalker<T> walker,
             T node,
             Func<T, bool> predicate)
@@ -228,7 +228,7 @@ namespace Treenumerable
 
             return
                 walker
-                .SelectDescendantsImplementation(
+                .GetDescendantsImplementation(
                     new T[] { node },
                     (n, i) => predicate.Invoke(n),
                     0);
@@ -252,7 +252,7 @@ namespace Treenumerable
         /// An <see cref="System.Collections.Generic.IEnumerable&lt;T&gt;"/> that contains all the
         /// matching nodes in the tree ordered based on a pre-order traversal.
         /// </returns>
-        public static IEnumerable<T> SelectDescendants<T>(
+        public static IEnumerable<T> GetDescendants<T>(
             this ITreeWalker<T> walker,
             IEnumerable<T> nodes,
             T key)
@@ -273,7 +273,7 @@ namespace Treenumerable
                 throw new ArgumentNullException("key");
             }
 
-            return walker.SelectDescendants(nodes, key, null);
+            return walker.GetDescendants(nodes, key, null);
         }
 
         /// <summary>
@@ -299,7 +299,7 @@ namespace Treenumerable
         /// An <see cref="System.Collections.Generic.IEnumerable&lt;T&gt;"/> that contains all the
         /// matching nodes in the tree ordered based on a pre-order traversal.
         /// </returns>
-        public static IEnumerable<T> SelectDescendants<T>(
+        public static IEnumerable<T> GetDescendants<T>(
             this ITreeWalker<T> walker,
             IEnumerable<T> nodes,
             T key,
@@ -324,7 +324,7 @@ namespace Treenumerable
             // If the comparer is null then use the defautl comparer for that type.
             comparer = comparer ?? EqualityComparer<T>.Default;
 
-            return walker.SelectDescendants(nodes, n => comparer.Equals(n, key));
+            return walker.GetDescendants(nodes, n => comparer.Equals(n, key));
         }
 
         /// <summary>
@@ -345,7 +345,7 @@ namespace Treenumerable
         /// An <see cref="System.Collections.Generic.IEnumerable&lt;T&gt;"/> that contains all the
         /// matching nodes in the tree ordered based on a pre-order traversal.
         /// </returns>
-        public static IEnumerable<T> SelectDescendants<T>(
+        public static IEnumerable<T> GetDescendants<T>(
             this ITreeWalker<T> walker,
             T node,
             T key)
@@ -366,7 +366,7 @@ namespace Treenumerable
                 throw new ArgumentNullException("key");
             }
 
-            return walker.SelectDescendants(node, key, null);
+            return walker.GetDescendants(node, key, null);
         }
 
         /// <summary>
@@ -392,7 +392,7 @@ namespace Treenumerable
         /// An <see cref="System.Collections.Generic.IEnumerable&lt;T&gt;"/> that contains all the
         /// matching nodes in the tree ordered based on a pre-order traversal.
         /// </returns>
-        public static IEnumerable<T> SelectDescendants<T>(
+        public static IEnumerable<T> GetDescendants<T>(
             this ITreeWalker<T> walker,
             T node,
             T key,
@@ -417,7 +417,7 @@ namespace Treenumerable
             // If the comparer is null then use the defautl comparer for that type.
             comparer = comparer ?? EqualityComparer<T>.Default;
 
-            return walker.SelectDescendants(node, n => comparer.Equals(n, key));
+            return walker.GetDescendants(node, n => comparer.Equals(n, key));
         }
     }
 }

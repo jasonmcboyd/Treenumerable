@@ -23,7 +23,7 @@ namespace Treenumerable.Tests
                 .Range(0, 2)
                 .Select(x =>
                     VirtualTree
-                    .Create(
+                    .New(
                         new NodeWalker<int>(),
                         Node
                         .Create(x)

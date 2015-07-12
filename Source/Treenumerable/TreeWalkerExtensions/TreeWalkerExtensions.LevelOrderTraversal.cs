@@ -68,7 +68,7 @@ namespace Treenumerable
                     // from the traversal result.
                     if (excludeSubtreePredicate != null && excludeSubtreePredicate.Invoke(currentNode, depth))
                     {
-                        if (excludeOption == ExcludeOption.ExcludeChildren)
+                        if (excludeOption == ExcludeOption.ExcludeDescendants)
                         {
                             yield return currentNode;
                         }
