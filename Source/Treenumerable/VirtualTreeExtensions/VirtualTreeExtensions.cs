@@ -98,16 +98,15 @@ namespace Treenumerable
                 .HasParent(virtualTree.Root);
         }
 
-        public static IEnumerable<VirtualTree<T>> LevelOrderTraversal<T>(this VirtualTree<T> virtualTree)
+        public static IEnumerable<T> LevelOrderTraversal<T>(this VirtualTree<T> virtualTree)
         {
             return
                 virtualTree
                 .TreeWalker
-                .LevelOrderTraversal(virtualTree.Root)
-                .Select(x => virtualTree.CreateFromSelf(x));
+                .LevelOrderTraversal(virtualTree.Root);
         }
 
-        public static IEnumerable<VirtualTree<T>> LevelOrderTraversal<T>(
+        public static IEnumerable<T> LevelOrderTraversal<T>(
             this VirtualTree<T> virtualTree, 
             Func<T, int, bool> predicate,
             ExcludeOption excludeOption)
@@ -115,20 +114,18 @@ namespace Treenumerable
             return
                 virtualTree
                 .TreeWalker
-                .LevelOrderTraversal(virtualTree.Root, predicate, excludeOption)
-                .Select(x => virtualTree.CreateFromSelf(x));
+                .LevelOrderTraversal(virtualTree.Root, predicate, excludeOption);
         }
 
-        public static IEnumerable<VirtualTree<T>> PreOrderTraversal<T>(this VirtualTree<T> virtualTree)
+        public static IEnumerable<T> PreOrderTraversal<T>(this VirtualTree<T> virtualTree)
         {
             return
                 virtualTree
                 .TreeWalker
-                .PreOrderTraversal(virtualTree.Root)
-                .Select(x => virtualTree.CreateFromSelf(x));
+                .PreOrderTraversal(virtualTree.Root);
         }
 
-        public static IEnumerable<VirtualTree<T>> PreOrderTraversal<T>(
+        public static IEnumerable<T> PreOrderTraversal<T>(
             this VirtualTree<T> virtualTree, 
             Func<T, int, bool> excludeSubtreePredicate,
             ExcludeOption excludeOption)
@@ -136,20 +133,18 @@ namespace Treenumerable
             return
                 virtualTree
                 .TreeWalker
-                .PreOrderTraversal(virtualTree.Root, excludeSubtreePredicate, excludeOption)
-                .Select(x => virtualTree.CreateFromSelf(x));
+                .PreOrderTraversal(virtualTree.Root, excludeSubtreePredicate, excludeOption);
         }
 
-        public static IEnumerable<VirtualTree<T>> PostOrderTraversal<T>(this VirtualTree<T> virtualTree)
+        public static IEnumerable<T> PostOrderTraversal<T>(this VirtualTree<T> virtualTree)
         {
             return
                 virtualTree
                 .TreeWalker
-                .PostOrderTraversal(virtualTree.Root)
-                .Select(x => virtualTree.CreateFromSelf(x));
+                .PostOrderTraversal(virtualTree.Root);
         }
 
-        public static IEnumerable<VirtualTree<T>> PostOrderTraversal<T>(
+        public static IEnumerable<T> PostOrderTraversal<T>(
             this VirtualTree<T> virtualTree,
             Func<T, int, bool> excludeSubtreePredicate,
             ExcludeOption excludeOption)
@@ -157,8 +152,7 @@ namespace Treenumerable
             return
                 virtualTree
                 .TreeWalker
-                .PostOrderTraversal(virtualTree.Root, excludeSubtreePredicate, excludeOption)
-                .Select(x => virtualTree.CreateFromSelf(x));
+                .PostOrderTraversal(virtualTree.Root, excludeSubtreePredicate, excludeOption);
         }
 
         public static IEnumerable<VirtualTree<T>> SelectDescendants<T>(
