@@ -1,24 +1,27 @@
 ﻿using System;
-using System.Linq;
 
 namespace Treenumerable
 {
     public static partial class TreeWalkerExtensions
     {
         /// <summary>
-        /// Returns a node's parent or a default node if no parent exists.
+        /// Gets a node's parent node.
         /// </summary>
         /// <typeparam name="T">The type of elements in the tree.</typeparam>
         /// <param name="walker">
-        /// The <see cref="ITreeWalker&lt;T&gt;"/> that knows how to find the parent and child nodes.
+        /// The <see cref="ITreeWalker&lt;T&gt;"/> that knows how to find the parent and child
+        /// nodes.
         /// </param>
         /// <param name="node">
         /// The node whose parent is to be returned.
         /// </param>
         /// <returns>
-        /// Returns a node's parent or a default node if no parent exists.
+        /// The node's parent.
         /// </returns>
-        public static T GetParentOrDefault<T>(this ITreeWalker<T> walker, T node)
+        /// <exception cref="InvalidOperationException">
+        /// When the node does not have a parent.
+        /// </exception>
+        public static T GetParent<T>(this ITreeWalker<T> walker, T node)
         {
             // Validate parameters.
             if (walker == null)
@@ -32,7 +35,15 @@ namespace Treenumerable
             }
 
             // Return the node's parent or a default node if the parent does not exist.
-            return walker.GetAncestors(node).FirstOrDefault();
+            T parent;
+            if (walker.TryGetParent(node, out parent))
+            {
+                return parent;
+            }
+            else
+            {
+                throw new InvalidOperationException("The node does not have a parent.");
+            }
         }
     }
 }

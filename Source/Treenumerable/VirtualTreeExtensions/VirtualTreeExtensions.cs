@@ -6,16 +6,6 @@ namespace Treenumerable
 {
     public static class VirtualTreeExtensions
     {
-        public static VirtualTreeEnumerable<T> GetAncestors<T>(this VirtualTree<T> virtualTree)
-        {
-            return
-                virtualTree
-                .TreeWalker
-                .GetAncestors(virtualTree.Root)
-                .Select(x => virtualTree.ShallowCopy(x))
-                .AsVirtualTreeEnumerable();
-        }
-
         public static VirtualTree<T> GetChildAt<T>(
             this VirtualTree<T> virtualTree,
             int index)

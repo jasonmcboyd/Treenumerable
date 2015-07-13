@@ -30,8 +30,8 @@ namespace Treenumerable
             {
                 throw new ArgumentNullException("node");
             }
-
-            return walker.TryGetParent(node, out node);
+                        
+            return walker.GetAncestors(node).Any();
         }
     }
 }

@@ -42,17 +42,22 @@ namespace Treenumerable
 
         public IEqualityComparer<T> Comparer { get; private set; }
 
-        public bool TryGetParent(out VirtualTree<T> parent)
+        private IEnumerable<VirtualTree<T>> GetAncestorsImplementation()
         {
-            T parentValue;
-            bool result = this.TreeWalker.TryGetParent(this.Root, out parentValue);
-            parent = 
-                result ? 
-                this.ShallowCopy(parentValue) : 
-                default(VirtualTree<T>);
-            return result;
+            foreach (T ancestor in this.TreeWalker.GetAncestors(this.Root))
+            {
+                yield return this.ShallowCopy(ancestor);
+            }
         }
 
+        public VirtualTreeEnumerable<T> GetAncestors()
+        {
+            return 
+                this
+                .GetAncestorsImplementation()
+                .AsVirtualTreeEnumerable();
+        }
+        
         private IEnumerable<VirtualTree<T>> GetChildrenImplementation()
         {
             foreach (T child in this.TreeWalker.GetChildren(this.Root))

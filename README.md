@@ -33,9 +33,9 @@ After you implement the *ITreeWalker* interface the following extension methods 
 
   Gets the depth of the node.  The depth is measured by the number of edges between the node and the root of the tree.
 
-- **SelectDescendants**
+- **GetDescendants**
 
-  Gets a node's (or nodes') nearest descendants based on a predicate or a key.  The nearest descendant means the first node in a branch that meets the criteria.  Once a branch yields a node no further nodes in that branch are evaluated.
+  Gets a node's (or nodes') nearest descendants based on a predicate or a key.  The nearest descendant means the first node in a subtree that meets the criteria.  Once a subtree yields a node no further nodes in that branch are evaluated.
   
 - **GetHeight**
 

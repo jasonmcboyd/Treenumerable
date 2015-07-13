@@ -20,67 +20,6 @@ namespace Treenumerable.Tests
                             Node.Create(6))));
         }
 
-        #region GetAncestors
-
-        [Fact]
-        public void GetAncestors_NullWalker_ArgumentNullExceptionThrown()
-        {
-            // Get a valid tree.
-            var tree = this.GetTree();
-
-            // Create a null ITreeWalker.
-            NodeWalker<int> walker = null;
-
-            // Assert that 'GetAncestors' throws an 'ArgumentNullException' when the tree walker
-            // is null.
-            Assert.Throws<ArgumentNullException>("walker", () => walker.GetAncestors(tree).ToArray());
-        }
-
-        [Fact]
-        public void GetAncestors_NullNode_ArgumentNullExceptionThrown()
-        {
-            // Create a valid ITreeWalker.
-            NodeWalker<int> walker = new NodeWalker<int>();
-
-            // Assert that 'GetAncestors' throws an 'ArgumentNullException' when the node is null.
-            Assert.Throws<ArgumentNullException>("node", () => walker.GetAncestors(null).ToArray());
-        }
-
-        [Fact]
-        public void GetAncestors()
-        {
-            // Get a valid tree.
-            var tree = this.GetTree();
-
-            // Get a valid ITreeWalker.
-            NodeWalker<int> walker = new NodeWalker<int>();
-
-            // For each node in the tree assert that 'GetAncestors' returns the correct elements.
-            Assert.Equal(
-                Enumerable.Empty<int>(),
-                walker.GetAncestors(tree).Select(x => x.Value));
-            Assert.Equal(
-                new int[] { 0 },
-                walker.GetAncestors(tree[0]).Select(x => x.Value));
-            Assert.Equal(
-                new int[] { 1, 0 },
-                walker.GetAncestors(tree[0][0]).Select(x => x.Value));
-            Assert.Equal(
-                new int[] { 1, 0 },
-                walker.GetAncestors(tree[0][1]).Select(x => x.Value));
-            Assert.Equal(
-                new int[] { 0 },
-                walker.GetAncestors(tree[1]).Select(x => x.Value));
-            Assert.Equal(
-                new int[] { 4, 0 },
-                walker.GetAncestors(tree[1][0]).Select(x => x.Value));
-            Assert.Equal(
-                new int[] { 5, 4, 0 },
-                walker.GetAncestors(tree[1][0][0]).Select(x => x.Value));
-        }
-
-        #endregion
-
         #region GetDegree
 
         [Fact]

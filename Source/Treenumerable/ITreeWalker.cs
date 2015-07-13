@@ -10,16 +10,16 @@ namespace Treenumerable
     public interface ITreeWalker<T>
     {
         /// <summary>
-        /// Returns a <see cref="System.Boolean"/> that indicates if a parent node exists.
+        /// Gets a node's ancestors, starting with its parent node and ending with the root node.
         /// </summary>
-        /// <param name="node">The node whose parent is to be returned.</param>
-        /// <param name="parent">The parent node, if one exists.</param>
+        /// <param name="node">
+        /// The node whose ancestors are to be returned.
+        /// </param>
         /// <returns>
-        /// When this method returns true this parameter will contain the <see cref="ParentNode"/>
-        /// that represents the parent of the <paramref name="node"/> parameter.  When this method
-        /// returns false the behavior of this parameter is undefined.
+        /// An <see cref="System.Collections.Generic.IEnumerable&lt;T&gt;"/> that contains all of
+        /// the node's ancestors, up to and including the root.
         /// </returns>
-        bool TryGetParent(T node, out T parent);
+        IEnumerable<T> GetAncestors(T node);
 
         /// <summary>
         /// Returns the children of a node.
