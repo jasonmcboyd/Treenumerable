@@ -1,6 +1,5 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Linq;
 
 namespace Treenumerable
 {
@@ -24,18 +23,28 @@ namespace Treenumerable
         /// </exception>
         public static IEnumerable<T> GetChildAt<T>(this ITreeWalker<T> walker, IEnumerable<T> nodes, int index)
         {
-            try
+            if (walker == null)
             {
-                return
-                    nodes
-                    .Select(n => 
-                        walker
-                        .GetChildren(n)
-                        .ElementAt(index));
+                throw new ArgumentNullException("walker");
             }
-            catch (ArgumentOutOfRangeException)
+
+            if (nodes == null)
+            {
+                throw new ArgumentNullException("nodes");
+            }
+
+            if (index < 0)
             {
                 throw new ArgumentOutOfRangeException("index");
+            }
+
+            foreach (T node in nodes)
+            {
+                T child;
+                if (walker.TryGetChildAt(node, index, out child))
+                {
+                    yield return child;
+                }
             }
         }
 
@@ -55,14 +64,27 @@ namespace Treenumerable
         /// </exception>
         public static T GetChildAt<T>(this ITreeWalker<T> walker, T node, int index)
         {
-            try
+            if (walker == null)
             {
-                return
-                    walker
-                    .GetChildren(node)
-                    .ElementAt(index);
+                throw new ArgumentNullException("walker");
             }
-            catch (ArgumentOutOfRangeException)
+
+            if (node == null)
+            {
+                throw new ArgumentNullException("node");
+            }
+
+            if (index < 0)
+            {
+                throw new ArgumentOutOfRangeException("index");
+            }
+
+            T child;
+            if (walker.TryGetChildAt(node, index, out child))
+            {
+                return child;
+            }
+            else
             {
                 throw new ArgumentOutOfRangeException("index");
             }

@@ -39,6 +39,7 @@
     <Compile Include="ExcludeOption.cs" />
     <Compile Include="ITreeWalker.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="TreeWalkerExtensions\TreeWalkerExtensions.TryGetChildAt.cs" />
     <Compile Include="TreeWalkerExtensions\TreeWalkerExtensions.TryGetParent.cs" />
     <Compile Include="TreeWalkerExtensions\TreeWalkerExtensions.GetParent.cs" />
     <Compile Include="TreeWalkerExtensions\TreeWalkerExtensions.GetChildAtOrDefault.cs" />

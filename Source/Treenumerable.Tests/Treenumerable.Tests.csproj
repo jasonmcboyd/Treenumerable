@@ -65,12 +65,18 @@
     <Compile Include="TreeBuilder\Node.cs" />
     <Compile Include="TreeBuilder\NodeExtensions.cs" />
     <Compile Include="TreeBuilder\NodeWalker.cs" />
-    <Compile Include="TreeWalkerExtensionsTests.cs" />
+    <Compile Include="TreeWalkerExtensionsTests\TreeWalkerExtensionsTests.GetDescendantsByKey.cs" />
+    <Compile Include="TreeWalkerExtensionsTests\TreeWalkerExtensionsTests.GetDescendantsByPredicate.cs" />
+    <Compile Include="TreeWalkerExtensionsTests\TreeWalkerExtensionsTests.HasChildren.cs" />
     <Compile Include="TreeWalkerExtensionsTests\TreeWalkerExtensionsTests.GetParentOrDefault.cs" />
     <Compile Include="TreeWalkerExtensionsTests\TreeWalkerExtensionsTests.GetParent.cs" />
     <Compile Include="TreeWalkerExtensionsTests\TreeWalkerExtensionsTests.HasParent.cs" />
+    <Compile Include="TreeWalkerExtensionsTests\TreeWalkerExtensionsTests.GetChildAt.cs" />
     <Compile Include="TreeWalkerExtensionsTests\TreeWalkerExtensionsTests.TryGetParent.cs" />
+    <Compile Include="TreeWalkerExtensionsTests\TreeWalkerExtensionsTests.GetChildAtOrDefault.cs" />
+    <Compile Include="TreeWalkerExtensionsTests\TreeWalkerExtensionsTests.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="TreeWalkerExtensionsTests\TreeWalkerExtensionsTests.TryGetChildAt.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="packages.config" />
