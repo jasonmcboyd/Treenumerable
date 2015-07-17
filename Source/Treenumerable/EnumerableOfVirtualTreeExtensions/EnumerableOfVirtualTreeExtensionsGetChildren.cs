@@ -22,7 +22,7 @@ namespace Treenumerable
         {
             return
                 virtualTrees
-                .SelectMany(x => x.GetChildren(key))
+                .SelectMany(x => x.GetChildren(key, x.Comparer))
                 .AsVirtualTreeEnumerable();
         }
 
