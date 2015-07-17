@@ -7,7 +7,15 @@ namespace Treenumerable
         public static VirtualTreeEnumerable<T> AsVirtualTreeEnumerable<T>(
             this IEnumerable<VirtualTree<T>> virtualTrees)
         {
-            return new VirtualTreeEnumerable<T>(virtualTrees);
+            VirtualTreeEnumerable<T> vte = virtualTrees as VirtualTreeEnumerable<T>;
+            if (vte != null)
+            {
+                return vte;
+            }
+            else
+            {
+                return new VirtualTreeEnumerable<T>(virtualTrees);
+            }
         }
     }
 }
