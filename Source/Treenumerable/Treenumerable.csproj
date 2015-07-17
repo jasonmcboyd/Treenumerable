@@ -36,6 +36,12 @@
     <!-- A reference to the entire .NET Framework is automatically included -->
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="EnumerableExtensions\EnumerableExtensions.ToVirtualTrees.cs" />
+    <Compile Include="EnumerableOfVirtualTreeExtensions\EnumerableOfVirtualTreeExtensions.GetChildAtOrDefault.cs" />
+    <Compile Include="EnumerableOfVirtualTreeExtensions\EnumerableOfVirtualTreeExtensions.GetDescendants.cs" />
+    <Compile Include="EnumerableOfVirtualTreeExtensions\EnumerableOfVirtualTreeExtensions.Unwrap.cs" />
+    <Compile Include="EnumerableOfVirtualTreeExtensions\EnumerableOfVirtualTreeExtensions.GetChildAt.cs" />
+    <Compile Include="EnumerableOfVirtualTreeExtensions\EnumerableOfVirtualTreeExtensions.AsVirtualTreeEnumerable.cs" />
     <Compile Include="ExcludeOption.cs" />
     <Compile Include="ITreeWalker.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
@@ -60,10 +66,28 @@
     <Compile Include="TreeWalkerExtensions\TreeWalkerExtensions.LevelOrderTraversal.cs" />
     <Compile Include="TreeWalkerExtensions\TreeWalkerExtensions.PostOrderTraversal.cs" />
     <Compile Include="TreeWalkerExtensions\TreeWalkerExtensions.PreOrderTraversal.cs" />
-    <Compile Include="VirtualTree.cs" />
+    <Compile Include="VirtualTree\VirtualTree.GetChildren.cs" />
+    <Compile Include="VirtualTree\VirtualTree.GetDescendants.cs" />
+    <Compile Include="VirtualTree\VirtualTree.GetChildAtOrDefault.cs" />
+    <Compile Include="VirtualTree\VirtualTree.GetChildAt.cs" />
+    <Compile Include="VirtualTree\VirtualTree.GetSiblings.cs" />
+    <Compile Include="VirtualTree\VirtualTree.PostOrderTraversal.cs" />
+    <Compile Include="VirtualTree\VirtualTree.PreOrderTraversal.cs" />
+    <Compile Include="VirtualTree\VirtualTree.LevelOrderTraversals.cs" />
+    <Compile Include="VirtualTree\VirtualTree.GetParentOrDefault.cs" />
+    <Compile Include="VirtualTree\VirtualTree.GetRoot.cs" />
+    <Compile Include="VirtualTree\VirtualTree.HasParent.cs" />
+    <Compile Include="VirtualTree\VirtualTree.HasChildren.cs" />
+    <Compile Include="VirtualTree\VirtualTree.GetLevel.cs" />
+    <Compile Include="VirtualTree\VirtualTree.ShallowCopy.cs" />
+    <Compile Include="VirtualTree\VirtualTree.GetLeaves.cs" />
+    <Compile Include="VirtualTree\VirtualTree.GetHeight.cs" />
+    <Compile Include="VirtualTree\VirtualTree.GetDepth.cs" />
+    <Compile Include="VirtualTree\VirtualTree.GetDegree.cs" />
+    <Compile Include="VirtualTree\VirtualTree.GetAncestors.cs" />
+    <Compile Include="VirtualTree\VirtualTree.cs" />
     <Compile Include="VirtualTreeEnumerable.cs" />
-    <Compile Include="VirtualTreeExtensions\EnumerableOfVirtualTreeExtensions.cs" />
-    <Compile Include="VirtualTreeExtensions\VirtualTreeExtensions.cs" />
+    <Compile Include="EnumerableOfVirtualTreeExtensions\EnumerableOfVirtualTreeExtensionsGetChildren.cs" />
     <Compile Include="VirtualTreeFactory.cs" />
   </ItemGroup>
   <Import Project="$(MSBuildExtensionsPath32)\Microsoft\Portable\$(TargetFrameworkVersion)\Microsoft.Portable.CSharp.targets" />
