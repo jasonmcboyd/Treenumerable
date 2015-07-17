@@ -10,7 +10,7 @@ namespace Treenumerable.Tests
         public void HasChildren_NullWalker_ArgumentNullExceptionThrown()
         {
             // Get a valid tree.
-            var tree = this.GetTree();
+            var tree = TestTreeFactory.GetSimpleTree();
 
             // Create a null ITreeWalker.
             NodeWalker<int> walker = null;
@@ -34,7 +34,7 @@ namespace Treenumerable.Tests
         public void HasChildren()
         {
             // Get a valid tree.
-            var tree = this.GetTree();
+            var tree = TestTreeFactory.GetSimpleTree();
 
             // Get a valid ITreeWalker.
             NodeWalker<int> walker = new NodeWalker<int>();

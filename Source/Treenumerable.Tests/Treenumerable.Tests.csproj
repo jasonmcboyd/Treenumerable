@@ -62,11 +62,24 @@
   <ItemGroup>
     <Compile Include="EnumerableOfVirtualTreeExtensionsTests.cs" />
     <Compile Include="NodeComparer.cs" />
+    <Compile Include="TestTreeFactory.cs" />
     <Compile Include="TreeBuilder\Node.cs" />
     <Compile Include="TreeBuilder\NodeExtensions.cs" />
     <Compile Include="TreeBuilder\NodeWalker.cs" />
+    <Compile Include="TreeWalkerExtensionsTests\TreeWalkerExtensionsTests.GetChildrenByKey.cs" />
+    <Compile Include="TreeWalkerExtensionsTests\TreeWalkerExtensionsTests.GetChildrenByPredicate.cs" />
     <Compile Include="TreeWalkerExtensionsTests\TreeWalkerExtensionsTests.GetDescendantsByKey.cs" />
     <Compile Include="TreeWalkerExtensionsTests\TreeWalkerExtensionsTests.GetDescendantsByPredicate.cs" />
+    <Compile Include="TreeWalkerExtensionsTests\TreeWalkerExtensionsTests.PreOrderTraversal.cs" />
+    <Compile Include="TreeWalkerExtensionsTests\TreeWalkerExtensionsTests.PostOrderTraversal.cs" />
+    <Compile Include="TreeWalkerExtensionsTests\TreeWalkerExtensionsTests.LevelOrderTraversal.cs" />
+    <Compile Include="TreeWalkerExtensionsTests\TreeWalkerExtensionsTests.GetSiblings.cs" />
+    <Compile Include="TreeWalkerExtensionsTests\TreeWalkerExtensionsTests.GetRoot.cs" />
+    <Compile Include="TreeWalkerExtensionsTests\TreeWalkerExtensionsTests.GetDegree.cs" />
+    <Compile Include="TreeWalkerExtensionsTests\TreeWalkerExtensionsTests.GetLevel.cs" />
+    <Compile Include="TreeWalkerExtensionsTests\TreeWalkerExtensionsTests.GetLeaves.cs" />
+    <Compile Include="TreeWalkerExtensionsTests\TreeWalkerExtensionsTests.GetHeight.cs" />
+    <Compile Include="TreeWalkerExtensionsTests\TreeWalkerExtensionsTests.GetDepth.cs" />
     <Compile Include="TreeWalkerExtensionsTests\TreeWalkerExtensionsTests.HasChildren.cs" />
     <Compile Include="TreeWalkerExtensionsTests\TreeWalkerExtensionsTests.GetParentOrDefault.cs" />
     <Compile Include="TreeWalkerExtensionsTests\TreeWalkerExtensionsTests.GetParent.cs" />
@@ -74,7 +87,6 @@
     <Compile Include="TreeWalkerExtensionsTests\TreeWalkerExtensionsTests.GetChildAt.cs" />
     <Compile Include="TreeWalkerExtensionsTests\TreeWalkerExtensionsTests.TryGetParent.cs" />
     <Compile Include="TreeWalkerExtensionsTests\TreeWalkerExtensionsTests.GetChildAtOrDefault.cs" />
-    <Compile Include="TreeWalkerExtensionsTests\TreeWalkerExtensionsTests.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="TreeWalkerExtensionsTests\TreeWalkerExtensionsTests.TryGetChildAt.cs" />
   </ItemGroup>

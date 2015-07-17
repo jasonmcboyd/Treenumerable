@@ -12,7 +12,7 @@ namespace Treenumerable.Tests
         public void GetDescendants_ByKey_NullWalker_ArgumentNullExceptionThrown()
         {
             // Get a valid tree.
-            var tree = this.GetTree();
+            var tree = TestTreeFactory.GetSimpleTree();
 
             // Create a null ITreeWalker.
             NodeWalker<int> walker = null;
@@ -59,7 +59,7 @@ namespace Treenumerable.Tests
         public void GetDescendants_ByKey_NullKey_ArgumentNullExceptionThrown()
         {
             // Get a valid tree.
-            var tree = this.GetTree();
+            var tree = TestTreeFactory.GetSimpleTree();
 
             // Create a valid ITreeWalker.
             NodeWalker<int> walker = new NodeWalker<int>();
@@ -84,7 +84,7 @@ namespace Treenumerable.Tests
         public void GetDescendants_ByKey_NullComparer()
         {
             // Get a valid tree.
-            var tree = this.GetTree();
+            var tree = TestTreeFactory.GetSimpleTree();
 
             // Create a valid ITreeWalker.
             NodeWalker<int> walker = new NodeWalker<int>();
@@ -101,7 +101,7 @@ namespace Treenumerable.Tests
         public void GetDescendants_ByKey_NonNullComparer()
         {
             // Get a valid tree.
-            var tree = this.GetTree();
+            var tree = TestTreeFactory.GetSimpleTree();
 
             // Create a valid ITreeWalker.
             NodeWalker<int> walker = new NodeWalker<int>();
