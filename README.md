@@ -4,7 +4,7 @@
 Treenumerable is a general purpose library for enumerating, traversing and querying just about any tree.  If, given any node in your tree, you can navigate to the node's parent and children then you can use Treenumerable.
 
 ## How Does It Work
-To get started with Treenumerable all you have to do is implement the *ITreeWalker* interface and its two methods: *TryGetParent* and *GetChildren*; once you have done that you get access to dozens of extension methods that allow you to enumerate, traverse and query your tree.
+To get started with Treenumerable all you have to do is implement the *ITreeWalker* interface and its two methods: *GetAncestors* and *GetChildren*; once you have done that you get access to dozens of extension methods that allow you to enumerate, traverse and query your tree.
 
 ## What Can It Do
 After you implement the *ITreeWalker* interface the following extension methods are available:
@@ -49,6 +49,10 @@ After you implement the *ITreeWalker* interface the following extension methods 
 
   Returns all nodes at a depth relative to the specified node.
   
+- **GetParent**
+
+  Returns a node's parent or throws an InvalidOperationException if the node does not have a parent.
+  
 - **GetParentOrDefault**
 
   Returns a node's parent or a default node if no parent exists.
@@ -80,3 +84,7 @@ After you implement the *ITreeWalker* interface the following extension methods 
 - **PreOrderTraversal**
 
   Enumerates a tree using the pre-order traversal method.
+  
+- **TryGetParent**
+
+  Uses the try pattern (returns a bool and takes the parent node as an out parameter) to try and get a node's parent.
