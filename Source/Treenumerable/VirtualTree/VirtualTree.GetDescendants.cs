@@ -30,7 +30,7 @@ namespace Treenumerable
             return
                 this
                 .TreeWalker
-                .GetDescendants(this.Root, key)
+                .GetDescendants(this.Root, key, this.Comparer)
                 .ToVirtualTrees(this)
                 .AsVirtualTreeEnumerable();
         }
