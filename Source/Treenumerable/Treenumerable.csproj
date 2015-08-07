@@ -66,6 +66,7 @@
     <Compile Include="TreeWalkerExtensions\TreeWalkerExtensions.LevelOrderTraversal.cs" />
     <Compile Include="TreeWalkerExtensions\TreeWalkerExtensions.PostOrderTraversal.cs" />
     <Compile Include="TreeWalkerExtensions\TreeWalkerExtensions.PreOrderTraversal.cs" />
+    <Compile Include="VirtualTree\VirtualTree.TryGetParent.cs" />
     <Compile Include="VirtualTree\VirtualTree.GetChildren.cs" />
     <Compile Include="VirtualTree\VirtualTree.GetDescendants.cs" />
     <Compile Include="VirtualTree\VirtualTree.GetChildAtOrDefault.cs" />
