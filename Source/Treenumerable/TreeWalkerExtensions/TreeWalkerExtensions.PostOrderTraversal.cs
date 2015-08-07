@@ -101,7 +101,7 @@ namespace Treenumerable
                         // the 'nodes' stack and pop its children enumerator off the 'enumerators'
                         // stack.
                         // Yield the node that was popped off the stack.
-                        enumerators.Pop();
+                        enumerators.Pop().Dispose();
                         yield return nodes.Pop();
                     }
                 }

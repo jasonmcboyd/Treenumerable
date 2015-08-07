@@ -66,7 +66,7 @@ namespace Treenumerable
                 yield return node;
                 nodes.Push(node);
                 enumerators.Push(walker.GetChildren(node).GetEnumerator());
-
+                
                 // Loop as long as we have a node on the stack.  When we have popped the last node
                 // off the stack the traversal is complete.
                 while (nodes.Count > 0)
@@ -103,7 +103,7 @@ namespace Treenumerable
                         // If the current node does not have any more children then pop it off of
                         // the 'nodes' stack and pop its children enumerator off the 'enumerators'
                         // stack.
-                        enumerators.Pop();
+                        enumerators.Pop().Dispose();
                         nodes.Pop();
                     }
                 }
