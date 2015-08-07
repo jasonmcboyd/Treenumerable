@@ -1,13 +1,12 @@
-﻿namespace Treenumerable
+﻿using System.Linq;
+
+namespace Treenumerable
 {
     public partial struct VirtualTree<T>
     {
-        public T GetParentOrDefault()
+        public VirtualTree<T> GetParentOrDefault()
         {
-            return
-                this
-                .TreeWalker
-                .GetParentOrDefault(this.Root);
+            return this.GetAncestors().FirstOrDefault();
         }
     }
 }

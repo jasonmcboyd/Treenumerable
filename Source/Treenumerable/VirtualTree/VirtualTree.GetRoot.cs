@@ -2,12 +2,14 @@
 {
     public partial struct VirtualTree<T>
     {
-        public T GetRoot()
+        public VirtualTree<T> GetRoot()
         {
             return
                 this
-                .TreeWalker
-                .GetRoot(this.Root);
+                .ShallowCopy(
+                    this
+                    .TreeWalker
+                    .GetRoot(this.Root));
         }
     }
 }
