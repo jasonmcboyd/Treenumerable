@@ -1,11 +1,8 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using Xunit;
-using Treenumerable;
 using Treenumerable.Tests.TreeBuilder;
+using Xunit;
 
 namespace Treenumerable.Tests
 {

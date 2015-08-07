@@ -67,7 +67,7 @@ After you implement the *ITreeWalker* interface the following extension methods 
   
 - **GetRoot**
 
-  Gets the root node of a tree given a node in that tree.
+  Gets the root node of a tree given a node in that tree.  If the node does not have any ancestors then the node itself is returned.
   
 - **GetSiblings**
 
