@@ -66,6 +66,8 @@
     <Compile Include="TreeBuilder\Node.cs" />
     <Compile Include="TreeBuilder\NodeExtensions.cs" />
     <Compile Include="TreeBuilder\NodeWalker.cs" />
+    <Compile Include="TreeWalkerExtensionsTests\TreeWalkerExtensionsTests.GetFollowingSiblings.cs" />
+    <Compile Include="TreeWalkerExtensionsTests\TreeWalkerExtensionsTests.GetPrecedingSiblings.cs" />
     <Compile Include="TreeWalkerExtensionsTests\TreeWalkerExtensionsTests.GetChildrenByKey.cs" />
     <Compile Include="TreeWalkerExtensionsTests\TreeWalkerExtensionsTests.GetChildrenByPredicate.cs" />
     <Compile Include="TreeWalkerExtensionsTests\TreeWalkerExtensionsTests.GetDescendantsByKey.cs" />

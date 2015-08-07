@@ -37,6 +37,10 @@ After you implement the *ITreeWalker* interface the following extension methods 
 
   Gets a node's (or nodes') nearest descendants based on a predicate or a key.  The nearest descendant means the first node in a subtree that meets the criteria.  Once a subtree yields a node no further nodes in that branch are evaluated.
   
+- **GetFollowingSiblings**
+
+  Gets a node's following siblings, i.e. all nodes that share the same parent and follow the node in the parent's list of children.
+  
 - **GetHeight**
 
   Gets the height of the node.  The height is measured by the number of edges between node and its deepest leaf.
@@ -56,6 +60,10 @@ After you implement the *ITreeWalker* interface the following extension methods 
 - **GetParentOrDefault**
 
   Returns a node's parent or a default node if no parent exists.
+  
+- **GetPrecedingSiblings**
+
+  Gets a node's preceding siblings, i.e. all nodes that share the same parent and precede the node in the parent's list of children.
   
 - **GetRoot**
 

@@ -45,6 +45,8 @@
     <Compile Include="ExcludeOption.cs" />
     <Compile Include="ITreeWalker.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="TreeWalkerExtensions\TreeWalkerExtensions.GetFollowingSiblings.cs" />
+    <Compile Include="TreeWalkerExtensions\TreeWalkerExtensions.GetPrecedingSiblings.cs" />
     <Compile Include="TreeWalkerExtensions\TreeWalkerExtensions.TryGetChildAt.cs" />
     <Compile Include="TreeWalkerExtensions\TreeWalkerExtensions.TryGetParent.cs" />
     <Compile Include="TreeWalkerExtensions\TreeWalkerExtensions.GetParent.cs" />
@@ -66,6 +68,8 @@
     <Compile Include="TreeWalkerExtensions\TreeWalkerExtensions.LevelOrderTraversal.cs" />
     <Compile Include="TreeWalkerExtensions\TreeWalkerExtensions.PostOrderTraversal.cs" />
     <Compile Include="TreeWalkerExtensions\TreeWalkerExtensions.PreOrderTraversal.cs" />
+    <Compile Include="VirtualTree\VirtualTree.GetFollowingSiblings.cs" />
+    <Compile Include="VirtualTree\VirtualTree.GetPrecedingSiblings.cs" />
     <Compile Include="VirtualTree\VirtualTree.GetParent.cs" />
     <Compile Include="VirtualTree\VirtualTree.TryGetParent.cs" />
     <Compile Include="VirtualTree\VirtualTree.GetChildren.cs" />
