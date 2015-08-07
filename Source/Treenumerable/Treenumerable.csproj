@@ -88,7 +88,7 @@
     <Compile Include="VirtualTree\VirtualTree.GetAncestors.cs" />
     <Compile Include="VirtualTree\VirtualTree.cs" />
     <Compile Include="VirtualTreeEnumerable.cs" />
-    <Compile Include="EnumerableOfVirtualTreeExtensions\EnumerableOfVirtualTreeExtensionsGetChildren.cs" />
+    <Compile Include="EnumerableOfVirtualTreeExtensions\EnumerableOfVirtualTreeExtensions.GetChildren.cs" />
     <Compile Include="VirtualTreeFactory.cs" />
   </ItemGroup>
   <Import Project="$(MSBuildExtensionsPath32)\Microsoft\Portable\$(TargetFrameworkVersion)\Microsoft.Portable.CSharp.targets" />
