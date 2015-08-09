@@ -7,7 +7,7 @@ namespace Treenumerable
     public static partial class TreeWalkerExtensions
     {
         /// <summary>
-        /// Selects children based on a predicate.
+        /// Gets children based on a predicate.
         /// </summary>
         /// <typeparam name="T">The type of elements in the tree.</typeparam>
         /// <param name="walker">
@@ -52,7 +52,7 @@ namespace Treenumerable
         }
 
         /// <summary>
-        /// Selects children based on a predicate.
+        /// Gets children based on a predicate.
         /// </summary>
         /// <typeparam name="T">The type of elements in the tree.</typeparam>
         /// <param name="walker">
@@ -97,7 +97,7 @@ namespace Treenumerable
         }
         
         /// <summary>
-        /// Selects the children that match the <paramref name="key"/>.
+        /// Gets the children that match the <paramref name="key"/>.
         /// </summary>
         /// <typeparam name="T">The type of elements in the tree.</typeparam>
         /// <param name="walker">
@@ -139,7 +139,7 @@ namespace Treenumerable
         }
 
         /// <summary>
-        /// Selects the children that match the <paramref name="key"/>.
+        /// Gets the children that match the <paramref name="key"/>.
         /// </summary>
         /// <typeparam name="T">The type of elements in the tree.</typeparam>
         /// <param name="walker">
@@ -193,7 +193,7 @@ namespace Treenumerable
         }
 
         /// <summary>
-        /// Selects the children that match the <paramref name="key"/>.
+        /// Gets the children that match the <paramref name="key"/>.
         /// </summary>
         /// <typeparam name="T">The type of elements in the tree.</typeparam>
         /// <param name="walker">
@@ -235,7 +235,7 @@ namespace Treenumerable
         }
 
         /// <summary>
-        /// Selects the children that match the <paramref name="key"/>.
+        /// Gets the children that match the <paramref name="key"/>.
         /// </summary>
         /// <typeparam name="T">The type of elements in the tree.</typeparam>
         /// <param name="walker">

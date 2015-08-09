@@ -6,7 +6,7 @@ namespace Treenumerable
     public static partial class TreeWalkerExtensions
     {
         /// <summary>
-        /// Selects the nearest descendants based on a predicate.
+        /// Gets the nearest descendants based on a predicate.
         /// </summary>
         /// <typeparam name="T">The type of elements in the tree.</typeparam>
         /// <param name="walker">
@@ -80,7 +80,7 @@ namespace Treenumerable
         }
 
         /// <summary>
-        /// Selects the nearest descendants based on a predicate.
+        /// Gets the nearest descendants based on a predicate.
         /// </summary>
         /// <typeparam name="T">The type of elements in the tree.</typeparam>
         /// <param name="walker">
@@ -113,7 +113,7 @@ namespace Treenumerable
         }
 
         /// <summary>
-        /// Selects the nearest descendants based on a predicate.
+        /// Gets the nearest descendants based on a predicate.
         /// </summary>
         /// <typeparam name="T">The type of elements in the tree.</typeparam>
         /// <param name="walker">
@@ -124,9 +124,8 @@ namespace Treenumerable
         /// The root nodes to be queried.
         /// </param>
         /// <param name="predicate">
-        /// A predicate to test each node for selection.  The first argument is the current node
-        /// being evaluated and the second argument is the depth of the current node relative to
-        /// the original node that the query began on.
+        /// A predicate to test each node for selection.  The argument is the current node being
+        /// evaluated.
         /// </param>
         /// <returns>
         /// An <see cref="System.Collections.Generic.IEnumerable&lt;T&gt;"/> that contains all the
@@ -152,7 +151,7 @@ namespace Treenumerable
         }
 
         /// <summary>
-        /// Selects the nearest descendants based on a predicate.
+        /// Gets the nearest descendants based on a predicate.
         /// </summary>
         /// <typeparam name="T">The type of elements in the tree.</typeparam>
         /// <param name="walker">
@@ -191,7 +190,7 @@ namespace Treenumerable
         }
 
         /// <summary>
-        /// Selects the nearest descendants based on a predicate.
+        /// Gets the nearest descendants based on a predicate.
         /// </summary>
         /// <typeparam name="T">The type of elements in the tree.</typeparam>
         /// <param name="walker">
@@ -202,9 +201,8 @@ namespace Treenumerable
         /// The root node to be queried.
         /// </param>
         /// <param name="predicate">
-        /// A predicate to test each node for selection.  The first argument is the current node
-        /// being evaluated and the second argument is the depth of the current node relative to
-        /// the original node that the query began on.
+        /// A predicate to test each node for selection.  The argument is the current node being
+        /// evaluated.
         /// </param>
         /// <returns>
         /// An <see cref="System.Collections.Generic.IEnumerable&lt;T&gt;"/> that contains all the
@@ -235,7 +233,7 @@ namespace Treenumerable
         }
 
         /// <summary>
-        /// Selects the nearest descendants that match the <paramref name="key"/>.
+        /// Gets the nearest descendants that match the <paramref name="key"/>.
         /// </summary>
         /// <typeparam name="T">The type of elements in the tree.</typeparam>
         /// <param name="walker">
@@ -277,7 +275,7 @@ namespace Treenumerable
         }
 
         /// <summary>
-        /// Selects the nearest descendants that match the <paramref name="key"/>.
+        /// Gets the nearest descendants that match the <paramref name="key"/>.
         /// </summary>
         /// <typeparam name="T">The type of elements in the tree.</typeparam>
         /// <param name="walker">
@@ -328,7 +326,7 @@ namespace Treenumerable
         }
 
         /// <summary>
-        /// Selects the nearest descendants that match the <paramref name="key"/>.
+        /// Gets the nearest descendants that match the <paramref name="key"/>.
         /// </summary>
         /// <typeparam name="T">The type of elements in the tree.</typeparam>
         /// <param name="walker">
@@ -370,7 +368,7 @@ namespace Treenumerable
         }
 
         /// <summary>
-        /// Selects the nearest descendants that match the <paramref name="key"/>.
+        /// Gets the nearest descendants that match the <paramref name="key"/>.
         /// </summary>
         /// <typeparam name="T">The type of elements in the tree.</typeparam>
         /// <param name="walker">

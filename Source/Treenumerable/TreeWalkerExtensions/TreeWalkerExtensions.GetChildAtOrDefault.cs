@@ -7,7 +7,8 @@ namespace Treenumerable
     public static partial class TreeWalkerExtensions
     {
         /// <summary>
-        /// Gets the child at the specified index or the default value of the specified type.
+        /// Gets the child at the specified index or the default value if the index is out of 
+        /// range.
         /// </summary>
         /// <typeparam name="T">The type of elements in the tree.</typeparam>
         /// <param name="walker">
