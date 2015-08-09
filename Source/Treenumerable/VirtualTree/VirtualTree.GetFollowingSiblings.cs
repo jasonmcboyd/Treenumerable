@@ -7,7 +7,7 @@
             return
                 this
                 .TreeWalker
-                .GetFollowingSiblings(this.Root)
+                .GetFollowingSiblings(this.Root, this.Comparer)
                 .ToVirtualTrees(this)
                 .AsVirtualTreeEnumerable();
         }
