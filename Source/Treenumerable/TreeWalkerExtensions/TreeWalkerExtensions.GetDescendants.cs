@@ -21,20 +21,14 @@ namespace Treenumerable
         /// being evaluated and the second argument is the depth of the current node relative to
         /// the original node that the query began on.
         /// </param>
-        /// <param name="depth">
-        /// The depth of the current node being evaluated for selection.  This is the number of
-        /// edges from the original node that the query began on to the current node being
-        /// evaluated.
-        /// </param>
         /// <returns>
         /// An <see cref="System.Collections.Generic.IEnumerable&lt;T&gt;"/> that contains all the
         /// matching nodes in the tree ordered based on a pre-order traversal.
         /// </returns>
-        private static IEnumerable<T> GetDescendantsImplementation<T>(
+        public static IEnumerable<T> GetDescendants<T>(
             this ITreeWalker<T> walker,
             IEnumerable<T> nodes,
-            Func<T, int, bool> predicate,
-            int depth)
+            Func<T, int, bool> predicate)
         {
             // Validate parameters.
             if (walker == null)
@@ -52,28 +46,46 @@ namespace Treenumerable
                 throw new ArgumentNullException("predicate");
             }
 
-            // Loop over each node and yield the node if it satisfies the predicate, otherwise,
-            // query the node's children.
-            foreach (T node in nodes)
-            {
-                if (predicate.Invoke(node, depth))
-                {
-                    yield return node;
-                }
-                else
-                {
-                    // Construct an IEnumerable to query the node's children.
-                    IEnumerable<T> descendants =
-                        walker
-                        .GetDescendantsImplementation(
-                            walker.GetChildren(node),
-                            predicate,
-                            depth + 1);
+            // Create stacks to keep track of the branches being traversed.
+            Stack<IEnumerator<T>> enumerators = new Stack<IEnumerator<T>>();
+            Stack<T> stack = new Stack<T>();
+            T node;
 
-                    // Recursively yield each selected descendant.
-                    foreach (T descendant in descendants)
+            foreach (T root in nodes)
+            {
+                // Add the node and the node's enumerator to the stacks.
+                stack.Push(root);
+                enumerators.Push(walker.GetChildren(root).GetEnumerator());
+
+                // Loop while the stack is not empty.
+                while (stack.Count > 0)
+                {
+                    // Try and move to the current node's next child.
+                    if (enumerators.Peek().MoveNext())
                     {
-                        yield return descendant;
+                        // If we successfully moved to the next child then set the current node
+                        // to that child.
+                        node = enumerators.Peek().Current;
+
+                        // If the predicate evaluates to true then yield the current node.
+                        // Otherwise, push the node and its enumerator to the stacks.
+                        if (predicate(node, stack.Count))
+                        {
+                            yield return node;
+                        }
+                        else
+                        {
+                            stack.Push(node);
+                            enumerators.Push(walker.GetChildren(node).GetEnumerator());
+                        }
+                    }
+                    else
+                    {
+                        // If the current node does not have any more children then pop it off of
+                        // the 'nodes' stack and pop its children enumerator off the 'enumerators'
+                        // stack.
+                        stack.Pop();
+                        enumerators.Pop().Dispose();
                     }
                 }
             }
@@ -91,39 +103,6 @@ namespace Treenumerable
         /// The root nodes to be queried.
         /// </param>
         /// <param name="predicate">
-        /// A predicate to test each node for selection.  The first argument is the current node
-        /// being evaluated and the second argument is the depth of the current node relative to
-        /// the original node that the query began on.
-        /// </param>
-        /// <returns>
-        /// An <see cref="System.Collections.Generic.IEnumerable&lt;T&gt;"/> that contains all the
-        /// matching nodes in the tree ordered based on a pre-order traversal.
-        /// </returns>
-        public static IEnumerable<T> GetDescendants<T>(
-            this ITreeWalker<T> walker,
-            IEnumerable<T> nodes,
-            Func<T, int, bool> predicate)
-        {
-            return
-                walker
-                .GetDescendantsImplementation(
-                    nodes,
-                    predicate,
-                    0);
-        }
-
-        /// <summary>
-        /// Gets the nearest descendants based on a predicate.
-        /// </summary>
-        /// <typeparam name="T">The type of elements in the tree.</typeparam>
-        /// <param name="walker">
-        /// The <see cref="ITreeWalker&lt;T&gt;"/> that knows how to find the parent and child
-        /// nodes.
-        /// </param>
-        /// <param name="nodes">
-        /// The root nodes to be queried.
-        /// </param>
-        /// <param name="predicate">
         /// A predicate to test each node for selection.  The argument is the current node being
         /// evaluated.
         /// </param>
@@ -144,10 +123,9 @@ namespace Treenumerable
 
             return
                 walker
-                .GetDescendantsImplementation(
+                .GetDescendants(
                     nodes,
-                    (n, i) => predicate.Invoke(n),
-                    0);
+                    (n, i) => predicate.Invoke(n));
         }
 
         /// <summary>
@@ -183,10 +161,9 @@ namespace Treenumerable
 
             return
                 walker
-                .GetDescendantsImplementation(
+                .GetDescendants(
                     new T[] { node },
-                    predicate,
-                    0);
+                    predicate);
         }
 
         /// <summary>
@@ -226,10 +203,9 @@ namespace Treenumerable
 
             return
                 walker
-                .GetDescendantsImplementation(
+                .GetDescendants(
                     new T[] { node },
-                    (n, i) => predicate.Invoke(n),
-                    0);
+                    (n, i) => predicate.Invoke(n));
         }
 
         /// <summary>
