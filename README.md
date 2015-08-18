@@ -13,6 +13,10 @@ After you implement the *ITreeWalker* interface the following extension methods 
   
   Gets a node's ancestors, starting with its parent node and ending with the root node.
 
+- **GetBranches**
+
+  Gets a node's branches; a branch being a path from the node to a leaf node.
+  
 - **GetChildAt**
 
   Gets a node's (or nodes') child at the specified index.  Throws an *ArgumentOutOfRangeException* if the index is not valid.
