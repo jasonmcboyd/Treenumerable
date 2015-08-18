@@ -53,8 +53,7 @@ namespace Treenumerable
             {
                 return
                     walker
-                    .GetChildren(node)
-                    .SelectMany(x => walker.GetLevel(x, depth - 1));
+                    .GetDescendants(node, (x, i) => i == depth);
             }
         }
     }
