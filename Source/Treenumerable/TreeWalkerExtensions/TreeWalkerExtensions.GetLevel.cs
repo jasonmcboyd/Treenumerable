@@ -44,7 +44,7 @@ namespace Treenumerable
             }
 
             // If 'depth' is zero then return the node.
-            // Otherwise, return all levels of 'depth' - 1 of the child nodes.
+            // Otherwise, use GetDescendants to return all nodes at 'depth'.
             if (depth == 0)
             {
                 return Enumerable.Repeat(node, 1);
