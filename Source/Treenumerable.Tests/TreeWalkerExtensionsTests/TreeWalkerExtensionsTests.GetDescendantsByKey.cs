@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Moq;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using Treenumerable.Tests.TreeBuilder;
@@ -89,7 +90,7 @@ namespace Treenumerable.Tests
             // Create a valid ITreeWalker.
             NodeWalker<int> walker = new NodeWalker<int>();
 
-            foreach (Node<int> key in walker.PreOrderTraversal(tree))
+            foreach (Node<int> key in walker.PreOrderTraversal(tree).Skip(1))
             {
                 IEnumerable<Node<int>> result = walker.GetDescendants(tree, key);
                 Assert.Equal(1, result.Count());
@@ -106,12 +107,38 @@ namespace Treenumerable.Tests
             // Create a valid ITreeWalker.
             NodeWalker<int> walker = new NodeWalker<int>();
 
-            foreach (Node<int> key in walker.PreOrderTraversal(tree))
+            foreach (Node<int> key in walker.PreOrderTraversal(tree).Skip(1))
             {
                 IEnumerable<Node<int>> result = walker.GetDescendants(tree, key, new NodeComparer<int>());
                 Assert.Equal(1, result.Count());
                 Assert.Equal(key, result.First());
             }
+        }
+
+        [Fact]
+        public void GetDescendants_ByKey_ComparerIsInvoked()
+        {
+            // Get a valid tree.
+            var tree = TestTreeFactory.GetSimpleTree();
+
+            // Create a valid ITreeWalker.
+            NodeWalker<int> walker = new NodeWalker<int>();
+
+            // Create a mock IComparer.
+            Mock<IEqualityComparer<Node<int>>> mockComparer = new Mock<IEqualityComparer<Node<int>>>();
+            mockComparer
+                .Setup(mock => mock.Equals(It.IsAny<Node<int>>(), It.IsAny<Node<int>>()))
+                .Returns(true);
+
+            // Create a key to use for comparison.  Any key is fine.
+            Node<int> key = new Node<int>(0);
+
+            // Execute GetDescendants.
+            walker.GetDescendants(tree, key, mockComparer.Object).ToArray();
+
+            // Verify that the VirtualTree's comparer was used.
+            // It should be called the same number of times as children of the node being evaluated.
+            mockComparer.Verify(x => x.Equals(It.IsAny<Node<int>>(), It.IsAny<Node<int>>()), Times.Exactly(walker.GetDegree(tree)));
         }
     }
 }

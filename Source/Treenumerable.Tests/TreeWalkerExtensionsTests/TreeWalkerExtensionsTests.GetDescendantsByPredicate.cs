@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using Treenumerable.Tests.TreeBuilder;
 using Xunit;
+using Xunit.Extensions;
 
 namespace Treenumerable.Tests
 {
@@ -16,7 +17,7 @@ namespace Treenumerable.Tests
 
             // Create a null ITreeWalker.
             NodeWalker<int> walker = null;
-
+            
             // Assert that 'GetDescendants' throws an 'ArgumentNullException' when the tree 
             // walker is null.
             Assert.Throws<ArgumentNullException>(
@@ -80,8 +81,55 @@ namespace Treenumerable.Tests
                 () => walker.GetDescendants(tree, (Func<Node<int>, bool>)null).ToArray());
         }
 
-        [Fact]
-        public void GetDescendants_PredicateTests()
+        [Theory]
+        [MemberData("ValuePredicateTestData")]
+        public void GetDescendants_ValuePredicateTests(
+            Func<Node<int>, bool> predicate, 
+            int[] expectedResult)
+        {
+            // Get a valid tree.
+            var tree = TestTreeFactory.GetSimpleTree();
+
+            // Create a valid ITreeWalker.
+            NodeWalker<int> walker = new NodeWalker<int>();
+            
+            // Assert that 'GetDescendants' returns the expected results for each predicate.
+            Assert.Equal(
+                expectedResult,
+                walker
+                    .GetDescendants(tree, predicate)
+                    .Select(x => x.Value));
+            Assert.Equal(
+                expectedResult,
+                walker
+                    .GetDescendants(new Node<int>[] { tree }, predicate)
+                    .Select(x => x.Value));
+        }
+
+        public static IEnumerable<object[]> ValuePredicateTestData
+        {
+            get
+            {
+                return new []
+                {
+                    new object[] {
+                        new Func<Node<int>, bool>(i => i.Value % 2 == 0),
+                        new int[] { 2, 4 }},
+                    new object[] {
+                        new Func<Node<int>, bool>(i => i.Value % 2 == 1),
+                        new int[] { 1, 5 }},
+                    new object[] {
+                        new Func<Node<int>, bool>(i => i.Value >= 2 && i.Value != 4),
+                        new int[] { 2, 3, 5 }}
+                };
+            }
+        }
+
+        [Theory]
+        [MemberData("DepthPredicateTestData")]
+        public void GetDescendants_DepthPredicateTests(
+            Func<Node<int>, int, bool> predicate,
+            int[] expectedResult)
         {
             // Get a valid tree.
             var tree = TestTreeFactory.GetSimpleTree();
@@ -89,34 +137,46 @@ namespace Treenumerable.Tests
             // Create a valid ITreeWalker.
             NodeWalker<int> walker = new NodeWalker<int>();
 
-            // Create test predicates and the expected results.
-            var testCases = new[]
-            {
-                new {
-                    Predicate = new Func<Node<int>, bool>(i => i.Value % 2 == 0),
-                    ExpectedResults = new int[] { 0 } },
-                new {
-                    Predicate = new Func<Node<int>, bool>(i => i.Value % 2 == 1),
-                    ExpectedResults = new int[] { 1, 5 } },
-                new {
-                    Predicate = new Func<Node<int>, bool>(i => i.Value >= 2),
-                    ExpectedResults = new int[] { 2, 3, 4 } },
-            };
-
             // Assert that 'GetDescendants' returns the expected results for each predicate.
-            foreach (var testCase in testCases)
+            Assert.Equal(
+                expectedResult,
+                walker
+                    .GetDescendants(tree, predicate)
+                    .Select(x => x.Value));
+            Assert.Equal(
+                expectedResult,
+                walker
+                    .GetDescendants(new Node<int>[] { tree }, predicate)
+                    .Select(x => x.Value));
+        }
+
+        public static IEnumerable<object[]> DepthPredicateTestData
+        {
+            get
             {
-                Assert.Equal(
-                    walker
-                        .GetDescendants(tree, testCase.Predicate)
-                        .Select(x => x.Value),
-                    testCase.ExpectedResults);
-                Assert.Equal(
-                    walker
-                        .GetDescendants(new Node<int>[] { tree }, testCase.Predicate)
-                        .Select(x => x.Value),
-                    testCase.ExpectedResults);
+                return new[]
+                {
+                    new object[] {
+                        new Func<Node<int>, int, bool>((i, d) => i.Value % 2 == 0),
+                        new int[] { 2, 4 }},
+                    new object[] {
+                        new Func<Node<int>, int, bool>((i, d) => i.Value % 2 == 1),
+                        new int[] { 1, 5 }},
+                    new object[] {
+                        new Func<Node<int>, int, bool>((i, d) => i.Value >= 2 && i.Value != 4),
+                        new int[] { 2, 3, 5 }},
+                    new object[] {
+                        new Func<Node<int>, int, bool>((i, d) => d == 1),
+                        new int[] { 1, 4 }},
+                    new object[] {
+                        new Func<Node<int>, int, bool>((i, d) => d == 2),
+                        new int[] { 2, 3, 5 }},
+                    new object[] {
+                        new Func<Node<int>, int, bool>((i, d) => d == 3),
+                        new int[] { 6 }}
+                };
             }
         }
+        
     }
 }
