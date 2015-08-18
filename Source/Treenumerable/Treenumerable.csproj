@@ -34,6 +34,7 @@
   </PropertyGroup>
   <ItemGroup>
     <!-- A reference to the entire .NET Framework is automatically included -->
+    <Compile Include="StackExtensions\StackExtensions.ToReverseArray.cs" />
   </ItemGroup>
   <ItemGroup>
     <Compile Include="EnumerableExtensions\EnumerableExtensions.ToVirtualTrees.cs" />
@@ -45,6 +46,7 @@
     <Compile Include="ExcludeOption.cs" />
     <Compile Include="ITreeWalker.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="TreeWalkerExtensions\TreeWalkerExtensions.GetBranches.cs" />
     <Compile Include="TreeWalkerExtensions\TreeWalkerExtensions.GetFollowingSiblings.cs" />
     <Compile Include="TreeWalkerExtensions\TreeWalkerExtensions.GetPrecedingSiblings.cs" />
     <Compile Include="TreeWalkerExtensions\TreeWalkerExtensions.TryGetChildAt.cs" />
@@ -68,6 +70,7 @@
     <Compile Include="TreeWalkerExtensions\TreeWalkerExtensions.LevelOrderTraversal.cs" />
     <Compile Include="TreeWalkerExtensions\TreeWalkerExtensions.PostOrderTraversal.cs" />
     <Compile Include="TreeWalkerExtensions\TreeWalkerExtensions.PreOrderTraversal.cs" />
+    <Compile Include="VirtualTree\VirtualTree.GetBranches.cs" />
     <Compile Include="VirtualTree\VirtualTree.GetFollowingSiblings.cs" />
     <Compile Include="VirtualTree\VirtualTree.GetPrecedingSiblings.cs" />
     <Compile Include="VirtualTree\VirtualTree.GetParent.cs" />
