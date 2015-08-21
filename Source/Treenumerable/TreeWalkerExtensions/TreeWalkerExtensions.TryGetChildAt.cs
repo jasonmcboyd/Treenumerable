@@ -47,11 +47,11 @@ namespace Treenumerable
                 // Get the child and return true.
                 using (IEnumerator<T> enumerator = walker.GetChildren(node).GetEnumerator())
                 {
-                    while (index > 0 && enumerator.MoveNext())
+                    while (index >= 0 && enumerator.MoveNext())
                     {
                         index--;
                     }
-                    if (index == 0)
+                    if (index == -1)
                     {
                         child = enumerator.Current;
                         return true;

@@ -1,4 +1,6 @@
-﻿using Treenumerable.Tests.TreeBuilder;
+﻿using Moq;
+using System.Collections.Generic;
+using Treenumerable.Tests.TreeBuilder;
 using Xunit;
 
 namespace Treenumerable.Tests
@@ -43,6 +45,71 @@ namespace Treenumerable.Tests
             // Assert.
             Assert.Null(node);
             Assert.False(result);
+        }
+
+        [Fact]
+        public void TryGetChildAt_NoChildren_ReturnsFalse()
+        {
+            // Get a valid tree.
+            var tree = Node.Create(0);
+
+            // Get a valid ITreeWalker.
+            NodeWalker<int> walker = new NodeWalker<int>();
+
+            // Try and get a child at an invalid index.
+            Node<int> node;
+            bool result = walker.TryGetChildAt(tree, 0, out node);
+
+            // Assert.
+            Assert.Null(node);
+            Assert.False(result);
+        }
+
+        [Fact]
+        public void TryGetChildAt_IList_GetEnumeratorNotCalled()
+        {
+            Mock<IList<Node<int>>> mockList = new Mock<IList<Node<int>>>();
+            Mock<ITreeWalker<Node<int>>> mockWalker = new Mock<ITreeWalker<Node<int>>>();
+
+            mockWalker
+            .Setup(x => x.GetChildren(It.IsAny<Node<int>>()))
+            .Returns(mockList.Object);
+
+            Node<int> blah;
+            TreeWalkerExtensions
+            .TryGetChildAt(
+                mockWalker.Object,
+                default(Node<int>),
+                0,
+                out blah);
+
+            mockList.Verify(x => x.GetEnumerator(), Times.Never);
+            mockList.VerifyGet(x => x.Count, Times.Once);
+        }
+
+        [Fact]
+        public void TryGetChildAt_NotIList_GetEnumeratorCalled()
+        {
+            Mock<IEnumerable<Node<int>>> mockEnumerable = new Mock<IEnumerable<Node<int>>>();
+            Mock<ITreeWalker<Node<int>>> mockWalker = new Mock<ITreeWalker<Node<int>>>();
+
+            mockEnumerable
+            .Setup(x => x.GetEnumerator())
+            .Returns(Mock.Of<IEnumerator<Node<int>>>());
+
+            mockWalker
+            .Setup(x => x.GetChildren(It.IsAny<Node<int>>()))
+            .Returns(mockEnumerable.Object);
+
+            Node<int> blah;
+            TreeWalkerExtensions
+            .TryGetChildAt(
+                mockWalker.Object,
+                default(Node<int>),
+                0,
+                out blah);
+
+            mockEnumerable.Verify(x => x.GetEnumerator(), Times.Once);
         }
     }
 }

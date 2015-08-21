@@ -16,7 +16,10 @@ namespace Treenumerable.Tests.TreeBuilder
 
         public IEnumerable<Node<T>> GetChildren(Node<T> node)
         {
-            return node.Children;
+            foreach (Node<T> child in node.Children)
+            {
+                yield return child;
+            }
         }
     }
 }
