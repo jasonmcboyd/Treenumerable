@@ -31,8 +31,15 @@ namespace Treenumerable.Tests
             Assert.Throws<ArgumentNullException>("node", () => walker.GetLeaves(null).ToArray());
         }
 
-        [Fact]
-        public void GetLeaves()
+        [Theory]
+        [InlineData(new int[] { }, new int[] { 2, 3, 6 })]
+        [InlineData(new int[] { 0 }, new int[] { 2, 3 })]
+        [InlineData(new int[] { 0, 0 }, new int[] { 2 })]
+        [InlineData(new int[] { 0, 1 }, new int[] { 3 })]
+        [InlineData(new int[] { 1 }, new int[] { 6 })]
+        [InlineData(new int[] { 1, 0 }, new int[] { 6 })]
+        [InlineData(new int[] { 1, 0, 0 }, new int[] { 6 })]
+        public void GetLeaves(int[] testPath, int[] expected)
         {
             // Get a valid tree.
             var tree = TestTreeFactory.GetSimpleTree();
@@ -40,37 +47,15 @@ namespace Treenumerable.Tests
             // Get a valid ITreeWalker.
             NodeWalker<int> walker = new NodeWalker<int>();
 
-            // Create arrays of the results expected from each node.
-            int[] node0ExpectedResult = new int[] { 2, 3, 6 };
-            int[] node1ExpectedResult = new int[] { 2, 3 };
-            int[] node2ExpectedResult = new int[] { 2 };
-            int[] node3ExpectedResult = new int[] { 3 };
-            int[] node4ExpectedResult = new int[] { 6 };
-            int[] node5ExpectedResult = new int[] { 6 };
-            int[] node6ExpectedResult = new int[] { 6 };
-
-            // For each node in the tree assert that 'GetLeaves' returns the correct elements.
+            var node = tree;
+            foreach (int i in testPath)
+            {
+                node = walker.GetChildAt(node, i);
+            }
+            
             Assert.Equal(
-                node0ExpectedResult,
-                walker.GetLeaves(tree).Select(x => x.Value));
-            Assert.Equal(
-                node1ExpectedResult,
-                walker.GetLeaves(tree[0]).Select(x => x.Value));
-            Assert.Equal(
-                node2ExpectedResult,
-                walker.GetLeaves(tree[0][0]).Select(x => x.Value));
-            Assert.Equal(
-                node3ExpectedResult,
-                walker.GetLeaves(tree[0][1]).Select(x => x.Value));
-            Assert.Equal(
-                node4ExpectedResult,
-                walker.GetLeaves(tree[1]).Select(x => x.Value));
-            Assert.Equal(
-                node5ExpectedResult,
-                walker.GetLeaves(tree[1][0]).Select(x => x.Value));
-            Assert.Equal(
-                node6ExpectedResult,
-                walker.GetLeaves(tree[1][0][0]).Select(x => x.Value));
+                expected,
+                walker.GetLeaves(node).Select(x => x.Value));
         }
     }
 }

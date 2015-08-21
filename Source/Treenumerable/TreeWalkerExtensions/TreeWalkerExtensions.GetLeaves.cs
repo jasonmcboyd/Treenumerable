@@ -34,18 +34,49 @@ namespace Treenumerable
                 throw new ArgumentNullException("node");
             }
 
-            // If a node has children then return the leaves of each child.
-            // Otherwise, return the node.
-            if (walker.HasChildren(node))
+            // Create a stack to hold enumerators and push the child enumerator of 'node'.
+            Stack<IEnumerator<T>> stack = new Stack<IEnumerator<T>>();
+            stack.Push(walker.GetChildren(node).GetEnumerator());
+
+            if (!stack.Peek().MoveNext())
             {
-                return
-                    walker
-                    .GetChildren(node)
-                    .SelectMany(x => walker.GetLeaves(x));
+                // If the enumerator on the stack has no items then 'node' is a leaf node.
+                // Dispose of the enumerator and yield 'node' and we are done.
+                stack.Pop().Dispose();
+                yield return node;
             }
             else
             {
-                return new T[] { node };
+                // The current node is now the first child of the 'node' parameter.
+                // Continue looping as long as the stack has enumerators on it.
+                while (stack.Count > 0)
+                {
+                    // Push the current node's enumerator on the stack.
+                    stack.Push(walker.GetChildren(stack.Peek().Current).GetEnumerator());
+
+                    // Continue pushing enumerators on the stack as long the enumerator on the top
+                    // of the stack has items.
+                    while (stack.Peek().MoveNext())
+                    {
+                        stack.Push(walker.GetChildren(stack.Peek().Current).GetEnumerator());
+                    }
+
+                    // Once we reach an enumerator that has no items pop that enumerator and
+                    // dispose of it.
+                    stack.Pop().Dispose();
+
+                    // The 'Current' property of the enumerator on the top of the stack is a leaf
+                    // node.  Return it.
+                    yield return stack.Peek().Current;
+
+                    // Continue popping enumerators off of the stack and disposing of them until
+                    // we reach an enumerator with another item.  That item become the current
+                    // node.
+                    while (stack.Count > 0 && !stack.Peek().MoveNext())
+                    {
+                        stack.Pop().Dispose();
+                    }
+                }
             }
         }
     }
