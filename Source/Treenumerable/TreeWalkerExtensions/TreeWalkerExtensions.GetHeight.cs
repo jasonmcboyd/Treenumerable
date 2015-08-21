@@ -1,4 +1,6 @@
 ﻿using System;
+using System.Collections;
+using System.Collections.Generic;
 using System.Linq;
 
 namespace Treenumerable
@@ -32,16 +34,35 @@ namespace Treenumerable
                 throw new ArgumentNullException("node");
             }
 
-            // If a node has children then return max height of the children plus 1.
-            // Otherwise, return 0.
-            if (walker.HasChildren(node))
+            // Create a stack to hold enumerators and push the child enumerator of 'node'.
+            Stack<IEnumerator<T>> stack = new Stack<IEnumerator<T>>();
+            stack.Push(walker.GetChildren(node).GetEnumerator());
+
+            // Keep track of the max height.
+            int height = 0;
+
+            // Continue looping as long as the stack has enumerators on it.
+            // If an enumerator has an item push that item's child enumerator on the stack and
+            // update 'height'.  Otherwise, pop the enumerator off the stack and dispose of it.
+            while (stack.Count > 0)
             {
-                return 1 + walker.GetChildren(node).Select(x => walker.GetHeight(x)).Max();
+                if (stack.Peek().MoveNext())
+                {
+                    stack.Push(walker.GetChildren(stack.Peek().Current).GetEnumerator());
+                    // If the stack height (minus one because height is zero based) is greater
+                    // than the current height then update the current height.
+                    if (stack.Count - 1 > height)
+                    {
+                        height = stack.Count - 1;
+                    }
+                }
+                else
+                {
+                    stack.Pop().Dispose();
+                }
             }
-            else
-            {
-                return 0;
-            }
+
+            return height;
         }
     }
 }
