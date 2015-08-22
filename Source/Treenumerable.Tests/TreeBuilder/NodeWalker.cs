@@ -1,4 +1,5 @@
 ﻿using System.Collections.Generic;
+using System.Linq;
 
 namespace Treenumerable.Tests.TreeBuilder
 {
@@ -14,12 +15,14 @@ namespace Treenumerable.Tests.TreeBuilder
             }
         }
 
+        public bool ReturnChildrenAsList { get; set; }
+
         public IEnumerable<Node<T>> GetChildren(Node<T> node)
         {
-            foreach (Node<T> child in node.Children)
-            {
-                yield return child;
-            }
+            return
+                this.ReturnChildrenAsList ?
+                node.Children.ToList() :
+                node.Children.Hide();
         }
     }
 }
