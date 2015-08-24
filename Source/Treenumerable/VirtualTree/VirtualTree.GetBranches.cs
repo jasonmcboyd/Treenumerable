@@ -12,7 +12,7 @@ namespace Treenumerable
         /// An <see cref="System.Collections.Generic.IEnumerable&lt;Treenumerable.VirtualTreeEnumerable&lt;T&gt;&gt;"/>
         /// that contains all the branches.
         /// </returns>
-        public IEnumerable<VirtualTreeEnumerable<T>> GetBranches()
+        public IEnumerable<IList<T>> GetBranches()
         {
             var branches =
                 this
@@ -21,7 +21,7 @@ namespace Treenumerable
 
             foreach (var branch in branches)
             {
-                yield return branch.ToVirtualTrees(this).AsVirtualTreeEnumerable();
+                yield return branch;
             }
         }
     }

@@ -22,7 +22,7 @@ namespace Treenumerable
         /// An <see cref="System.Collections.Generic.IEnumerable&lt;System.Collections.Generic.IEnumerable&lt;T&gt;&gt;"/>
         /// that contains all the branches.
         /// </returns>
-        public static IEnumerable<IEnumerable<T>> GetBranches<T>(
+        public static IEnumerable<IList<T>> GetBranches<T>(
             this ITreeWalker<T> walker, 
             T node)
         {
