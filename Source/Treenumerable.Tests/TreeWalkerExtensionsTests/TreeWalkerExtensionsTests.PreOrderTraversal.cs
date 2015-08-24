@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.Linq;
 using Treenumerable.Tests.TreeBuilder;
 using Xunit;
@@ -168,6 +169,44 @@ namespace Treenumerable.Tests
             Assert.Equal(
                 expectedResults,
                 walker.PreOrderTraversal(startNode, (n, i) => n.Value % 2 == 1, excludeOption).Select(x => x.Value));
+        }
+
+        [Theory]
+        [InlineData(ExcludeOption.ExcludeDescendants, new int[] { 0 })]
+        [InlineData(ExcludeOption.ExcludeTree, new int[] { })]
+        public void PreOrderTraversal_ShortCircuitRootNode(
+            ExcludeOption excludeOption,
+            int[] expectedResults)
+        {
+            // Get a valid tree.
+            var tree = TestTreeFactory.GetSimpleTree();
+
+            // Get a valid ITreeWalker.
+            NodeWalker<int> walker = new NodeWalker<int>();
+
+            // Assert that the correct sequence is returned.
+            Assert.Equal(
+                expectedResults,
+                walker.PreOrderTraversal(tree, (n, i) => n.Value == 0, excludeOption).Select(x => x.Value));
+        }
+
+        [Theory]
+        [InlineData(ExcludeOption.ExcludeDescendants, new int[] { 0 })]
+        [InlineData(ExcludeOption.ExcludeTree, new int[] { })]
+        public void PreOrderTraversal_SingleNode(
+            ExcludeOption excludeOption,
+            int[] expectedResults)
+        {
+            // Get a valid tree.
+            var tree = Node.Create(0);
+
+            // Get a valid ITreeWalker.
+            NodeWalker<int> walker = new NodeWalker<int>();
+
+            // Assert that the correct sequence is returned.
+            Assert.Equal(
+                expectedResults,
+                walker.PreOrderTraversal(tree, (n, i) => n.Value == 0, excludeOption).Select(x => x.Value));
         }
     }
 }
