@@ -46,37 +46,39 @@ namespace Treenumerable
                 throw new ArgumentNullException("predicate");
             }
 
-            // Create stacks to keep track of the branches being traversed.
+            // Create a stack to keep track of the branches being traversed.
             Stack<IEnumerator<T>> enumerators = new Stack<IEnumerator<T>>();
-            Stack<T> stack = new Stack<T>();
-            T node;
 
-            foreach (T root in nodes)
+            foreach (T node in nodes)
             {
-                // Add the node and the node's enumerator to the stacks.
-                stack.Push(root);
-                enumerators.Push(walker.GetChildren(root).GetEnumerator());
+                enumerators
+                .Push(
+                    walker
+                    .GetChildren(node)
+                    .GetEnumerator());
 
-                // Loop while the stack is not empty.
-                while (stack.Count > 0)
+                while (enumerators.Count > 0)
                 {
                     // Try and move to the current node's next child.
                     if (enumerators.Peek().MoveNext())
                     {
                         // If we successfully moved to the next child then set the current node
                         // to that child.
-                        node = enumerators.Peek().Current;
+                        T currentNode = enumerators.Peek().Current;
 
                         // If the predicate evaluates to true then yield the current node.
                         // Otherwise, push the node and its enumerator to the stacks.
-                        if (predicate(node, stack.Count))
+                        if (predicate(currentNode, enumerators.Count))
                         {
-                            yield return node;
+                            yield return currentNode;
                         }
                         else
                         {
-                            stack.Push(node);
-                            enumerators.Push(walker.GetChildren(node).GetEnumerator());
+                            enumerators
+                            .Push(
+                                walker
+                                .GetChildren(currentNode)
+                                .GetEnumerator());
                         }
                     }
                     else
@@ -84,7 +86,6 @@ namespace Treenumerable
                         // If the current node does not have any more children then pop it off of
                         // the 'nodes' stack and pop its children enumerator off the 'enumerators'
                         // stack.
-                        stack.Pop();
                         enumerators.Pop().Dispose();
                     }
                 }
