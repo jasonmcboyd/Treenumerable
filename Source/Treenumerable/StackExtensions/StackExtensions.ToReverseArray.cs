@@ -1,16 +1,19 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 
 namespace Treenumerable
 {
     internal static class StackExtensions
     {
-        internal static T[] ToReverseArray<T>(this Stack<T> source)
+        internal static TResult[] ToReverseArray<TSource, TResult>(
+            this Stack<TSource> source,
+            Func<TSource, TResult> selector)
         {
-            T[] result = new T[source.Count];
+            TResult[] result = new TResult[source.Count];
             int count = source.Count - 1;
-            foreach (T item in source)
+            foreach (TSource item in source)
             {
-                result[count--] = item;
+                result[count--] = selector(item);
             }
             return result;
         }

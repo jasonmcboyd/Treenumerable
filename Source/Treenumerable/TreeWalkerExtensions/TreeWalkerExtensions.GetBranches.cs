@@ -19,7 +19,7 @@ namespace Treenumerable
         /// The node that all branches will start from.
         /// </param>
         /// <returns>
-        /// An <see cref="System.Collections.Generic.IEnumerable&lt;System.Collections.Generic.IEnumerable&lt;T&gt;&gt;"/>
+        /// An <see cref="System.Collections.Generic.IEnumerable&lt;System.Collections.Generic.IList&lt;T&gt;&gt;"/>
         /// that contains all the branches.
         /// </returns>
         public static IEnumerable<IList<T>> GetBranches<T>(
@@ -36,39 +36,51 @@ namespace Treenumerable
                 throw new ArgumentNullException("node");
             }
 
-            Stack<T> nodes = new Stack<T>();
+            // Create a stack to keep track of the branches being traversed.
             Stack<IEnumerator<T>> enumerators = new Stack<IEnumerator<T>>();
-
-            nodes.Push(node);
-            enumerators.Push(walker.GetChildren(node).GetEnumerator());
-
-            do
+            enumerators.Push(Enumerable.Repeat(node, 1).GetEnumerator());
+            
+            // Loop as long as there are enumerators on the stack.
+            while (enumerators.Count > 0)
             {
-                if (enumerators.Peek().MoveNext())
+                while (enumerators.Peek().MoveNext())
                 {
-                    nodes.Push(enumerators.Peek().Current);
-                    enumerators.Push(walker.GetChildren(enumerators.Peek().Current).GetEnumerator());
+                    enumerators
+                    .Push(
+                        walker
+                        .GetChildren(
+                            enumerators
+                            .Peek()
+                            .Current)
+                        .GetEnumerator());
                 }
-                else
-                {
-                    yield return nodes.ToReverseArray();
-                    
-                    nodes.Pop();
-                    enumerators.Pop().Dispose();
 
-                    while (enumerators.Count > 0 && !enumerators.Peek().MoveNext())
-                    {
-                        nodes.Pop();
-                        enumerators.Pop().Dispose();
-                    }
-                    if (enumerators.Count > 0)
-                    {
-                        nodes.Push(enumerators.Peek().Current);
-                        enumerators.Push(walker.GetChildren(enumerators.Peek().Current).GetEnumerator());
-                    }
+                // The current enumerator does have items pop it off the stack and yield the
+                // reverse stack.
+                enumerators.Pop().Dispose();
+                yield return enumerators.ToReverseArray(x => x.Current);
+
+                // Pop enumerators off the stack until we get to an enumerator that has a next
+                // item or the stack is empty.
+                while (enumerators.Count > 0 && !enumerators.Peek().MoveNext())
+                {
+                    enumerators.Pop().Dispose();
+                }
+
+                // If there is an enumerator on the stack the children of its current item onto
+                // the stack.
+                if (enumerators.Count > 0)
+                {
+                    enumerators
+                    .Push(
+                        walker
+                        .GetChildren(
+                            enumerators
+                            .Peek()
+                            .Current)
+                        .GetEnumerator());
                 }
             }
-            while (enumerators.Count > 0);
         }
     }
 }
