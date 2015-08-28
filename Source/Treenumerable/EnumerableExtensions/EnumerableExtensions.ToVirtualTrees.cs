@@ -2,7 +2,7 @@
 
 namespace Treenumerable
 {
-    internal static class EnumerableExtensions
+    internal static partial class EnumerableExtensions
     {
         internal static IEnumerable<VirtualTree<T>> ToVirtualTrees<T>(
             this IEnumerable<T> source,
