@@ -12,6 +12,10 @@ After you implement the *ITreeWalker* interface the following extension methods 
 - **GetAncestors**
   
   Gets a node's ancestors, starting with its parent node and ending with the root node.
+  
+- **GetAncestorsAndSelf**
+  
+  Gets a node and a node's ancestors, starting with its parent node and ending with the root node.
 
 - **GetBranches**
 

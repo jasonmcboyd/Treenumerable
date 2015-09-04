@@ -30,15 +30,12 @@ namespace Treenumerable
             {
                 throw new ArgumentNullException("node");
             }
-
-            // Get the node's ancestors and return the last one, or the node, if it has no 
-            // ancestors.
+            
+            // Get the node's ancestors and return the last one, or the node itself , if the node
+            // has no ancestors.
             return
-                Enumerable
-                .Repeat(node, 1)
-                .Concat(
-                    walker
-                    .GetAncestors(node))
+                walker
+                .GetAncestorsAndSelf(node)
                 .Last();
         }
     }
