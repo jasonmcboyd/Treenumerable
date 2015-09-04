@@ -1,5 +1,12 @@
 # Treenumerable [![Build status](https://ci.appveyor.com/api/projects/status/t2k5sprexxmiq0ey)](https://ci.appveyor.com/project/JasonBoyd/treenumerable)
 
+## Available on NuGet
+
+To install the [Treenumerable](https://www.nuget.org/packages/Treenumerable/) package
+run the following command in the [Package Manager Console](http://docs.nuget.org/docs/start-here/using-the-package-manager-console):
+
+    PM> Install-Package Treenumerable
+
 ## What Is It
 Treenumerable is a general purpose library for enumerating, traversing and querying just about any tree.  If, given any node in your tree, you can navigate to the node's parent and children then you can use Treenumerable.
 
