@@ -43,6 +43,8 @@ namespace Treenumerable
             // Loop as long as there are enumerators on the stack.
             while (enumerators.Count > 0)
             {
+                // Push enumerators onto the stack until we push an empty enumerator onto the
+                // stack.  This is how we construct a branch.
                 while (enumerators.Peek().MoveNext())
                 {
                     enumerators
@@ -55,20 +57,21 @@ namespace Treenumerable
                         .GetEnumerator());
                 }
 
-                // The current enumerator does have items pop it off the stack and yield the
-                // reverse stack.
+                // The top enumerator does not have any items; pop it off the stack and yield the
+                // current item from each enumerator on the stack in reverse.  This is a branch.
                 enumerators.Pop().Dispose();
                 yield return enumerators.ToReverseArray(x => x.Current);
 
-                // Pop enumerators off the stack until we get to an enumerator that has a next
-                // item or the stack is empty.
+                // Pop enumerators off the stack until the stack is empty or we get to an
+                // enumerator that has a next item.
                 while (enumerators.Count > 0 && !enumerators.Peek().MoveNext())
                 {
                     enumerators.Pop().Dispose();
                 }
 
-                // If there is an enumerator on the stack the children of its current item onto
-                // the stack.
+                // If there is an enumerator on the stack then get the children of the enumerators
+                // current item and push the enumerator of the children onto the stack.  We are
+                // ready to start building the next branch.
                 if (enumerators.Count > 0)
                 {
                     enumerators
