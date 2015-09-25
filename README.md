@@ -1,4 +1,4 @@
-# Treenumerable [![Build status](https://ci.appveyor.com/api/projects/status/t2k5sprexxmiq0ey)](https://ci.appveyor.com/project/JasonBoyd/treenumerable) [![License](http://img.shields.io/badge/license-MIT-blue.svg)](#license)
+# Treenumerable [![Build status](https://ci.appveyor.com/api/projects/status/t2k5sprexxmiq0ey)](https://ci.appveyor.com/project/JasonBoyd/treenumerable) [![License](http://img.shields.io/badge/license-MIT-blue.svg?style=flat-square)](#license)
 
 ## Available on NuGet
 
