@@ -8,10 +8,7 @@ run the following command in the [Package Manager Console](http://docs.nuget.org
     PM> Install-Package Treenumerable
 
 ## What Is It
-Treenumerable is a general purpose library for enumerating, traversing and querying just about any tree.  If, given any node in your tree, you can navigate to the node's parent and children then you can use Treenumerable.
-
-## How Does It Work
-To get started with Treenumerable all you have to do is implement the *ITreeWalker* interface and its two methods: *GetAncestors* and *GetChildren*; once you have done that you get access to dozens of extension methods that allow you to enumerate, traverse and query your tree.
+*Treenumerable* is a general purpose library for enumerating, traversing and querying just about any tree.  If, given any node in your tree, you can navigate to the node's parent and children then you can use *Treenumerable*.
 
 ## What Can It Do
 After you implement the *ITreeWalker* interface the following extension methods are available:
@@ -111,3 +108,109 @@ After you implement the *ITreeWalker* interface the following extension methods 
 - **TryGetParent**
 
   Uses the try pattern (returns a bool and takes the parent node as an out parameter) to try and get a node's parent.
+
+## How Does It Work
+To get started with *Treenumerable* all you have to do is implement the *ITreeWalker* interface and its two methods: *GetAncestors* and *GetChildren*; once you have done that you get access to dozens of extension methods that allow you to enumerate, traverse and query your tree.
+
+##### Example Implementation
+How you implement *ITreeWalker* will depend on your specific scenario but let's assume your tree follows the common pattern where each node stores a value, a reference to its parent node, and references to its child nodes.  For example:
+
+    public class Node<T>
+    {
+    	public Node(T value, Node<T> parent, IEnumerable<Node<T>> children)
+    	{
+    		this.Value = value;
+    		this.Parent = parent;
+    		this.Children = children;
+    	}
+    	
+    	public T Value { get; private set;}
+    	public Node<T> Parent { get; private set;}
+    	public IEnumerable<Node<T>> Children { get; private set;}
+    }
+
+An  *ITreeWalker* implementation for this tree would simply look like this:
+
+    public class MyTreeWalker<T> : ITreeWalker<Node<T>>
+    {
+    	public IEnumerable<Node<T>> GetAncestors(Node<T> node)
+    	{
+    		Node<T> parent = node.Parent;
+    		while (parent != null)
+    		{
+    			yield return parent;
+    			parent = parent.Parent;
+    		}
+    	}
+    
+    	public IEnumerable<Node<T>> GetChildren(Node<T> node)
+    	{
+    		// Note the null coalescing operator in this example.
+    		// Treenumerable does not play nicely with null IEnumerables.  If your node 
+    		// returns a null IEnumerable you should ensure that your ITreeWalker returns
+    		// an empty IEnumerable instead.
+    		return node.Children ?? Enumerable.Empty<Node<T>>();
+    	}
+    }
+    
+##### Calculated Tree Example
+
+*Treenumerable* is particularly well suited for calculated trees (the children and ancestors are calculated from the current node).  The following *ITreeWalker* implementation operates on the the Collatz tree ([Collatz conjecture](https://en.wikipedia.org/wiki/Collatz_conjecture)) by calculating each value on the fly:
+
+    public class CollatzTreeWalker : ITreeWalker<long>
+    {
+    	public IEnumerable<long> GetAncestors(long node)
+    	{
+    		if (node <= 0)
+    		{
+    			yield break;
+    		}
+    
+    		while (node > 1)
+    		{
+    			if ((node & 1) == 0)
+    			{
+    				node = node >> 1;
+    			}
+    			else
+    			{
+    				node = (node * 3) + 1;
+    			}
+    			yield return node;
+    		}
+    	}
+    
+    	public IEnumerable<long> GetChildren(long node)
+    	{
+    		if (node <= 0)
+    		{
+    			yield break;
+    		}
+    		
+    		if (node << 1 > 0)
+    		{
+    			yield return node << 1;
+    		}
+    
+    		if (node > 4 && (node - 1) % 3 == 0)
+    		{
+    			yield return (node - 1) / 3;
+    		}
+    	}
+    
+    	private static readonly CollatzTreeWalker _Instance = new CollatzTreeWalker();
+    	public static CollatzTreeWalker Instance
+    	{
+    		get { return CollatzTreeWalker._Instance; }
+    	}
+    }
+    
+Then, using the *CollatzTreeWalker*, the following code:
+
+    CollatzTreeWalker
+    .Instance
+    .GetAncestorsAndSelf(3);
+    
+Yields this:
+
+> 3 10 5 16 8 4 2 1
