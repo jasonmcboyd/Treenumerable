@@ -11,7 +11,6 @@ run the following command in the [Package Manager Console](http://docs.nuget.org
 *Treenumerable* is a general purpose library for enumerating, traversing and querying just about any tree.  If, given any node in your tree, you can navigate to the node's parent and children then you can use *Treenumerable*.
 
 ## What Can It Do
-After you implement the *ITreeWalker* interface the following extension methods are available:
 
 - **GetAncestors**
   
