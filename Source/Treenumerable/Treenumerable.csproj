@@ -46,6 +46,7 @@
     <Compile Include="ExcludeOption.cs" />
     <Compile Include="ITreeWalker.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="TreeWalkerExtensions\TreeWalkerExtensions.GetChildrenByKey.cs" />
     <Compile Include="TreeWalkerExtensions\TreeWalkerExtensions.GetAncestorsAndSelf.cs" />
     <Compile Include="TreeWalkerExtensions\TreeWalkerExtensions.GetBranches.cs" />
     <Compile Include="TreeWalkerExtensions\TreeWalkerExtensions.GetFollowingSiblings.cs" />
