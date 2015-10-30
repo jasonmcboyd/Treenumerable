@@ -21,13 +21,12 @@ namespace Treenumerable
         /// <param name="comparer">
         /// An <see cref="System.Collections.Generic.IEqualityComparer&lt;T&gt;"/> that knows how
         /// to compare two nodes for equality.  This is used to make sure that 
-        /// <paramref name="node"/>.
-        /// is not returned in the resulting 
+        /// <paramref name="node"/> is not returned in the resulting 
         /// <see cref="System.Collections.Generic.IEnumerable&lt;T&gt;"/>.
         /// </param>
         /// <returns>
-        /// An <see cref="System.Collections.Generic.IEnumerable&lt;T&gt;"/> that contains all of
-        /// the node's preceding siblings.
+        /// An <see cref="System.Collections.Generic.IEnumerable&lt;T&gt;"/> that contains the
+        /// siblings.
         /// </returns>
         public static IEnumerable<T> GetFollowingSiblings<T>(this ITreeWalker<T> walker, T node, IEqualityComparer<T> comparer)
         {
@@ -52,7 +51,7 @@ namespace Treenumerable
             T parent;
             if (walker.TryGetParent(node, out parent))
             {
-                // Return all of the parent's after the original node.
+                // Return all of the parent's children after the original node.
                 using (IEnumerator<T> enumerator = walker.GetChildren(parent).GetEnumerator())
                 {
                     while (enumerator.MoveNext() && !comparer.Equals(enumerator.Current, node))

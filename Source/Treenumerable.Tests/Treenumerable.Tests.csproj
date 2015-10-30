@@ -70,6 +70,9 @@
     <Compile Include="TreeBuilder\Node.cs" />
     <Compile Include="TreeBuilder\NodeExtensions.cs" />
     <Compile Include="TreeBuilder\NodeWalker.cs" />
+    <Compile Include="TreeWalkerExtensionsTests\TreeWalkerExtensionsTests.GetSiblingsAndSelf.cs" />
+    <Compile Include="TreeWalkerExtensionsTests\TreeWalkerExtensionsTests.GetPrecedingSiblingsAndSelf.cs" />
+    <Compile Include="TreeWalkerExtensionsTests\TreeWalkerExtensionsTests.GetFollowingSiblingsAndSelf.cs" />
     <Compile Include="TreeWalkerExtensionsTests\TreeWalkerExtensionsTests.GetAncestorsAndSelf.cs" />
     <Compile Include="TreeWalkerExtensionsTests\TreeWalkerExtensionsTests.GetBranches.cs" />
     <Compile Include="TreeWalkerExtensionsTests\TreeWalkerExtensionsTests.GetChildAt.cs" />

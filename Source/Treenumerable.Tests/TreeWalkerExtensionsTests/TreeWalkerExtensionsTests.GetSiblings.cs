@@ -31,8 +31,15 @@ namespace Treenumerable.Tests
             Assert.Throws<ArgumentNullException>("node", () => walker.GetSiblings(null).ToArray());
         }
 
-        [Fact]
-        public void GetSiblings()
+        [Theory]
+        [InlineData(new int[] { }, new int[] { })]
+        [InlineData(new int[] { 0 }, new int[] { 4 })]
+        [InlineData(new int[] { 0, 0 }, new int[] { 3 })]
+        [InlineData(new int[] { 0, 1 }, new int[] { 2 })]
+        [InlineData(new int[] { 1 }, new int[] { 1 })]
+        [InlineData(new int[] { 1, 0 }, new int[] { })]
+        [InlineData(new int[] { 1, 0, 0 }, new int[] { })]
+        public void GetSiblings(int[] path, int[] expectedResult)
         {
             // Get a valid tree.
             var tree = TestTreeFactory.GetSimpleTree();
@@ -40,29 +47,16 @@ namespace Treenumerable.Tests
             // Get a valid ITreeWalker.
             NodeWalker<int> walker = new NodeWalker<int>();
 
+            foreach (int i in path)
+            {
+                tree = tree[i];
+            }
+
             // For each node in the tree assert that 'GetSiblings' returns the correct 
             // elements.
             Assert.Equal(
-                Enumerable.Empty<int>(),
+                expectedResult,
                 walker.GetSiblings(tree).Select(x => x.Value));
-            Assert.Equal(
-                new int[] { 4 },
-                walker.GetSiblings(tree[0]).Select(x => x.Value));
-            Assert.Equal(
-                new int[] { 3 },
-                walker.GetSiblings(tree[0][0]).Select(x => x.Value));
-            Assert.Equal(
-                new int[] { 2 },
-                walker.GetSiblings(tree[0][1]).Select(x => x.Value));
-            Assert.Equal(
-                new int[] { 1 },
-                walker.GetSiblings(tree[1]).Select(x => x.Value));
-            Assert.Equal(
-                Enumerable.Empty<int>(),
-                walker.GetSiblings(tree[1][0]).Select(x => x.Value));
-            Assert.Equal(
-                Enumerable.Empty<int>(),
-                walker.GetSiblings(tree[1][0][0]).Select(x => x.Value));
         }
     }
 }
