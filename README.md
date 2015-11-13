@@ -39,7 +39,7 @@ run the following command in the [Package Manager Console](http://docs.nuget.org
 
   Gets the root node of a tree given a node in that tree.  If the node does not have any ancestors then the node itself is returned.
 
-##### Children And Descendants
+#### Children And Descendants
 
 - **GetChildAt**
 
@@ -65,7 +65,7 @@ run the following command in the [Package Manager Console](http://docs.nuget.org
 
   Gets a node's leaves, i.e. all descendants of that node that do not have children.  If the node has no children then the node itself is returned.
 
-##### Node Properties
+#### Node Properties
 
 - **GetDegree**
 
@@ -87,7 +87,7 @@ run the following command in the [Package Manager Console](http://docs.nuget.org
 
   Determines if a node has a parent.
   
-##### Siblings
+#### Siblings
 
 - **GetSiblings**
 
@@ -113,7 +113,7 @@ run the following command in the [Package Manager Console](http://docs.nuget.org
 
   Gets a node's preceding siblings, i.e. all nodes that share the same parent and precede the node in the parent's list of children, and the node.
   
-##### Traversals
+#### Traversals
   
 - **LevelOrderTraversal**
 
@@ -127,7 +127,7 @@ run the following command in the [Package Manager Console](http://docs.nuget.org
 
   Enumerates a tree using the pre-order traversal method.
   
-##### Miscellaneous
+#### Miscellaneous
 
 - **GetBranches**
 
