@@ -20,7 +20,8 @@
 *.[Pp][Dd][Bb]
 
 # Publish directory
-/[Pp][Uu][Bb][Ll][Ii][Ss][Hh]
+[Pp][Uu][Bb][Ll][Ii][Ss][Hh]/*
+![Pp][Uu][Bb][Ll][Ii][Ss][Hh]/*.ps1
 
 # Config files
 [Ww][Ee][Bb].[Cc][Oo][Nn][Ff][Ii][Gg]
@@ -36,7 +37,6 @@
 ![Rr][Ee][Pp][Oo][Ss][Ii][Tt][Oo][Rr][Ii][Ee][Ss].[Cc][Oo][Nn][Ff][Ii][Gg]
 
 #Nuget Packaging
-*.[Nn][Uu][Ss][Pp][Ee][Cc]
 *.[Nn][Uu][Pp][Kk][Gg]
 
 # StyleCop

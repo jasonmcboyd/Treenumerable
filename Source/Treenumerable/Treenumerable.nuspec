@@ -1,0 +1,15 @@
+<?xml version="1.0"?>
+<package >
+  <metadata>
+    <id>Treenumerable</id>
+    <version>2.1.0</version>
+    <title>Treenumerable</title>
+    <authors>Jason Boyd</authors>
+    <owners>Jason Boyd</owners>
+    <licenseUrl>https://github.com/jasonmcboyd/Treenumerable/blob/master/LICENSE</licenseUrl>
+    <projectUrl>https://github.com/jasonmcboyd/Treenumerable</projectUrl>
+    <requireLicenseAcceptance>false</requireLicenseAcceptance>
+    <description>Treenumerable is a general purpose library for enumerating, traversing and querying just about any tree.</description>
+    <tags>LINQ tree enumerate traverse hierarchy</tags>
+  </metadata>
+</package>
