@@ -46,7 +46,7 @@ run the following command in the [Package Manager Console](http://docs.nuget.org
 
 - **GetDescendants**
 
-  Gets a node's (or nodes') nearest descendants based on a predicate or a key.  The nearest descendant means the first node in a subtree that meets the criteria.  Once a subtree yields a node no further nodes in that branch are evaluated.
+  Gets a node's (or nodes') nearest descendants based on a predicate or a key.  'Nearest descendants' means the first node in each branch that satisfies the predicate or matches the key.  Once a branch yields a node no further nodes in that branch are evaluated.
   
 - **GetFollowingSiblings**
 
