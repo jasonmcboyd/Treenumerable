@@ -56,11 +56,19 @@ namespace Treenumerable
             IEnumerable<T> currentLevel = new T[] { node };
             IEnumerable<T> nextLevel = Enumerable.Empty<T>();
 
+            // Track whether the current level has any nodes.
+            // This is true initially since the current level is simply the node that was
+            // passed to this function.
+            bool currentLevelHasNodes = true;
+
             // Enumerate 'currentLevel' and yield each node while adding that node's children to 
-            // 'nextLevel'.  When complete: set 'currentLevel' equal to 'nextLevel', increment count
-            // and repeat the process.
-            while (currentLevel.Any())
+            // 'nextLevel'.  When complete: set 'currentLevel' equal to 'nextLevel', increment 
+            // 'depth' and repeat the process.
+            while (currentLevelHasNodes)
             {
+                // Set current level has nodes to false when we enter the loop.
+                // This will be set to true again if any nodes are concatenated to 'nextLevel'.
+                currentLevelHasNodes = false;
                 foreach (T currentNode in currentLevel)
                 {
                     // If the 'excludeSubtreePredicate' is not null and evaluates to true then
@@ -77,6 +85,7 @@ namespace Treenumerable
                     {
                         yield return currentNode;
                         nextLevel = nextLevel.Concat(walker.GetChildren(currentNode));
+                        currentLevelHasNodes = true;
                     }
                 }
 
@@ -104,7 +113,5 @@ namespace Treenumerable
         {
             return walker.LevelOrderTraversal(node, null, ExcludeOption.ExcludeTree);
         }
-
-        
     }
 }
